@@ -21,7 +21,7 @@ class App extends Component {
     //получаем products и gategories в этом компоненте
     this.state = {
       categories: '',
-      products: JSONproducts,
+      products: '',
       catalogueParams: '', //это параметр для <Catalogue/>
     };
     // функция листенер для Link подкатегори в <Header/> - вешаем на <ul>:
@@ -34,10 +34,14 @@ class App extends Component {
     services.fetchCategories((data)=>{
       this.setState({categories: data.data});
     });
+    services.fetchProducts((data)=>{
+      this.setState({products: data.data});
+    });
   }//END constructor
 
   render() {
     console.log('<App render() catalogueParams===', this.state.catalogueParams);
+    console.log('<App render() products===', this.state.products);
     console.log('<App render() createHistory()===', createHistory());
     console.log('<App render() window.history===', window.history);
 
@@ -54,7 +58,7 @@ class App extends Component {
             <Favorite />
           </Route>
           <Route exact path='/product-card/:id' render={(props) => (
-<ProductCard {...props} products={this.state.products} />
+<ProductCard {...props}/>
 )}/>
           <Route exact path='/order' render={(props) => (
 <Order {...props} products={this.state.products}/>

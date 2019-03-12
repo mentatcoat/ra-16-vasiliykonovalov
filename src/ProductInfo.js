@@ -19,9 +19,10 @@ class ProductInfo extends Component {
     };
     // функция берет chosenSize и возвращает true or false
     this.isAvailable = ()=> {
-      let foundSize = this.product.sizes.find(el=>parseInt(el.size,10)===this.state.chosenSize);
+      let foundSize;
+      if(this.product.sizes) foundSize = this.product.sizes.find(el=>parseInt(el.size,10)===this.state.chosenSize);
       if(!foundSize) return false;
-      return foundSize.avalible;
+      return foundSize.available;
     };
     this.clickSize = (e)=>{
       e.preventDefault();

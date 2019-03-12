@@ -9,15 +9,19 @@ import './css/style-order.css';
 import OverlookedSlider from './OverlookedSlider';
 import ProductSlider from './ProductSlider';
 import ProductInfo from './ProductInfo';
+import services from './services';
 
 class ProductCard extends Component {
   // компонент принимает this.props.match.params.id и this.props.products массив всех товаров
   constructor(props) {
     super(props);
     console.log(`ProductCard this.props===`, this.props);
-    this.product = this.props.products.find(product=>product.id === +this.props.match.params.id);
+    // this.product = '';
+
+     // this.props.products.find(product=>product.id === +this.props.match.params.id);
     this.state= {
-      mainpic: this.product.images[0]
+      mainpic: '',
+      product: null
     };
     this.mainpicElement; //это ДОМ элемент главной картинки
     // mainpic - src большого фото товара
@@ -29,7 +33,14 @@ class ProductCard extends Component {
     this.zoommer = (e)=>{
       e.preventDefault();
       this.mainpicElement.classList.toggle('zoom-out')};
-  }
+
+    services.fetchProduct(+this.props.match.params.id, (data)=>{
+      this.setState({product: data.data});
+      this.setState({mainpic: data.data.images[0]});
+    });
+
+
+  }//END constructor
   render() {
     console.log('ProductCard props===', this.props);
 
@@ -50,7 +61,7 @@ class ProductCard extends Component {
                   <section className="product-card-content__main-screen">
 
                       {/*<!-- Слайдер выбранного товара -->*/}
-                      <ProductSlider onclick={this.pushMainpic} product={this.product}  />
+                      {this.state.product && <ProductSlider onclick={this.pushMainpic} product={this.state.product}  />}
 
                       {/*<!-- Изображение выбранного товара -->*/}
                       {/*class .main-screen__favourite-product-pic img*/}
@@ -60,7 +71,7 @@ class ProductCard extends Component {
                       <a href="#" onClick={this.zoommer} className="main-screen__favourite-product-pic__zoom"></a>
                     </div>
 
-                    <ProductInfo product={this.product} />
+                    {this.state.product && <ProductInfo product={this.state.product} />}
 
                     {/*тут будут два слайдера */}
 

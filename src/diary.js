@@ -3,11 +3,11 @@
 
 !!! вся херня запускается в <App/>
 
+=======12/03/19
+
+
+38. правки в <ProductCard <ProductInfo <ProductInfoSizes , <ProductCard получает продуктв самостоятельно
 =======05/03/19
-
-
-
-
 37. <Catalogue getSortedProducts.
 36. Сдела вместо Link подкатегори - history lib createHistory=> browserHistory.push()
 !!!??? можно ли использовать window.location.pathname - если не вижу смысла <a переделывать в Link?

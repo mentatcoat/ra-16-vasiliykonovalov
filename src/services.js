@@ -107,7 +107,7 @@ function fetchProducts(params, callback) {
 }//END fetchProducts
 
 // GET /products/${id}
-function fetchProduct(id) {
+function fetchProduct(id, callback) {
   // params= {page: 10, discounted: true ...}
   console.log('services.fetchProduct() ==============');
   console.log('fetchProduct id===', id);
@@ -128,6 +128,7 @@ function fetchProduct(id) {
         return res.json();
       })
       .then(data=> {
+        callback(data);
         console.log('fetchProduct got data===', data);
       })
       .catch((err) => {
