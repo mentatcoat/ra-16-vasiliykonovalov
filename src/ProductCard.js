@@ -10,39 +10,44 @@ import OverlookedSlider from './OverlookedSlider';
 import ProductSlider from './ProductSlider';
 import ProductInfo from './ProductInfo';
 import services from './services';
+import PropTypes from 'prop-types';
 
 class ProductCard extends Component {
-  // компонент принимает this.props.match.params.id и this.props.products массив всех товаров
   constructor(props) {
     super(props);
-    console.log(`ProductCard this.props===`, this.props);
-    // this.product = '';
-
-     // this.props.products.find(product=>product.id === +this.props.match.params.id);
     this.state= {
-      mainpic: '',
+      mainpic: null,
       product: null
     };
-    this.mainpicElement; //это ДОМ элемент главной картинки
-    // mainpic - src большого фото товара
-    // pushMainpic функция для задания большой фотки
+    services.fetchProduct(+this.props.match.params.id)
+      .then(productInfo=>{
+        this.setState({product:productInfo});
+        this.setState({mainpic: productInfo.images[0]});
+      });
+    this.makeProductOverlooked = ()=>{
+      if (!sessionStorage.overlooked) {
+        let array = [this.props.match.params.id];
+        sessionStorage.overlooked = JSON.stringify(array);
+      } else {
+        let array = JSON.parse(sessionStorage.overlooked);
+        if (array.includes(this.props.match.params.id)) {
+          return;
+        } else {
+          array.push(this.props.match.params.id);
+          sessionStorage.overlooked = JSON.stringify(array);
+        }
+      }
+    };
+    this.makeProductOverlooked();
+    this.mainpicElement;
     this.pushMainpic = (event)=> {
       this.setState({mainpic: event.target.src});
-    }//нажимаешь на мелкое фото=>выставляеся большое
-    // функция онклик Лупа - снимает класс уменьшающий размеры .zoom-out
+    }
     this.zoommer = (e)=>{
       e.preventDefault();
       this.mainpicElement.classList.toggle('zoom-out')};
-
-    services.fetchProduct(+this.props.match.params.id, (data)=>{
-      this.setState({product: data.data});
-      this.setState({mainpic: data.data.images[0]});
-    });
-
-
   }
   render() {
-    console.log('ProductCard props===', this.props);
 
     return (
       <div>
@@ -82,5 +87,9 @@ class ProductCard extends Component {
     );
   }
 }
+
+ProductCard.propTypes = {
+  match: PropTypes.object.isRequired
+};
 
 export default ProductCard;

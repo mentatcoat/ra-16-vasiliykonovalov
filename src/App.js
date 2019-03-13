@@ -59,7 +59,7 @@ class App extends Component {
 <ProductCard {...props}/>
 )}/>
           <Route exact path='/order' render={(props) => (
-<Order {...props} products={this.state.products}/>
+<Order {...props} />
 )}/>
         </Switch>
         <Footer />

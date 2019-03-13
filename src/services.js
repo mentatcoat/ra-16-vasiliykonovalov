@@ -116,26 +116,44 @@ function fetchProduct(id, callback) {
   //проверка: services.fetchProducts({color: 'черный', discounted: true});
   // Если передан id товара то вызываем fetch
   if(id) {
-    url = url + id;
-    console.log('fetchProduct url with ID===', url);
-    fetch(url)
-      .then((res) => {
-      // обрабатываем ответ
-        console.log('res.status===', res.status);
-        return res;
-      })
-      .then(res => {
-        return res.json();
-      })
-      .then(data=> {
-        callback(data);
-        console.log('fetchProduct got data===', data);
-      })
-      .catch((err) => {
-        console.log('fetchProduct catch===', err);
-      });
-  }
-}
+    return new Promise((resolve, reject)=>{
+
+      url = url + id;
+      console.log('fetchProduct url with ID===', url);
+      fetch(url)
+        .then((res) => {
+        // обрабатываем ответ
+          console.log('res.status===', res.status);
+          return res;
+        })
+        .then(res => {
+          return res.json();
+        })
+        .then(data=> {
+          console.log('fetchProduct got data===', data);
+          // callback(data);
+          resolve(data.data);
+        })
+        .catch((err) => {
+          console.log('fetchProduct catch===', err);
+        });
+
+
+
+
+
+    });//END Promise
+
+
+
+  }//END if
+
+
+
+}//END fetchProduct
+
+
+
 
 function fetchCreateCart(cartObj) {
   // cartObj json {"id": 42, "size": 14, "amount": 12}

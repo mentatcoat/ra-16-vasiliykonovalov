@@ -8,48 +8,40 @@ import './css/style-order.css';
 import OrderCart from './OrderCart';
 import services from './services';
 import JSONproducts from './data/products.json';
-
+import PropTypes from 'prop-types';
 
 class Order extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartProducts: null,
+      cartProductsInfo: null,
       isDone: false,
       total: '',
       cart: null
     };
     this.cart;
 
-    this.getCartProducts = ()=>{
+    this.getCartProductsInfo = ()=>{
       const array = [];
-
-
-
-
-
       this.state.cart.products.forEach(
         product=>{
-          services.fetchProduct(
-            product.id,
-            (data)=>array.push(data.data)
-          );
+          array.push(services.fetchProduct(
+            product.id
+          ));
         }
       );
-      console.log('getCartProducts() array===', array);
-      this.setState({cartProducts: array});
-    };
+      Promise.all(array)
+        .then(results=>{
+          this.setState({cartProductsInfo: results});
+        });
+    };//END getCartProductsInfo
 
     services.fetchGetCart(localStorage.cartId, (data)=> {
-      this.setState({cart : data.data}, this.getCartProducts);
+      this.setState({cart : data.data}, this.getCartProductsInfo);
     });
-  // ??? делаю fetchProduct отправляю массви продуктов далее в OrderCart, но туда массив не доходит, почему?
   }
 
   render() {
-    console.log('Order render() state===', this.state);
-    // console.log('Order render() state.cartProducts===', this.state.cartProducts[0]);
-    console.log('Order render() this.cart===', this.cart);
 
     return (
         <div className="wrapper order-wrapper">
@@ -64,7 +56,7 @@ class Order extends Component {
           <section className="order-process">
             <h2 className="order-process__title">Оформление заказа</h2>
 
-            {this.state.cartProducts && <OrderCart products={this.state.cartProducts} items={this.state.cart.products} />}
+            {this.state.cartProductsInfo && <OrderCart products={this.state.cartProductsInfo} items={this.state.cart.products} />}
 
             <div className="order-process__confirmed">
               <form action="#">
@@ -112,5 +104,8 @@ class Order extends Component {
     );
   }
 }
+
+Order.propTypes = {
+};
 
 export default Order;

@@ -4,58 +4,60 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
-import products from './data/products.json';
-// ??? можно брать данные о просмотренных товарах из App.this.state или из localStorage или sessionStorage
+import services from './services';
+import JSONproducts from './data/products.json';
+import PropTypes from 'prop-types';
 
-//!!! закинули в sessionStorage просмотренные id (это временный код)
-let massiv = [20, 21, 22,23,24,25];
+//!!! закинули в sessionStorage просмотренные id (это временный код для разработки)
+let massiv = [20, 21, 22,23,24,25,26,27,28,29,30,31,32,33,34,35];
 sessionStorage.overlooked = JSON.stringify(massiv);
 
 class OverlookedSlider extends Component {
   constructor(props) {
     super(props);
-    // !!! тут должно быть:
-    // this.products = props.products;
-    this.products = products;
     this.state = {
       overlooked: sessionStorage.overlooked ?
-      JSON.parse(sessionStorage.overlooked) : [],
-      first: 0
+      JSON.parse(sessionStorage.overlooked).slice(-10) : [],
+      first: 0,
+      filtered: null
     }
-    this.filtered = this.products.filter(product=>
-      this.state.overlooked.some(id => id === product.id)
-    );
+    this.getProductsInfo = ()=>{
+      const array = [];
+      this.state.overlooked.forEach(
+        id=>array.push(services.fetchProduct(id))
+      );
+      Promise.all(array)
+        .then(results=>{
+          this.setState({filtered: results});
+        });
+    };
+    this.getProductsInfo();
+
     this.counter;
-    // функция для кликов по стрелкам:
     this.clickArrow = (step)=>{
-      console.log('clickArrow() before state.first===', this.state.first);
       let delta = this.state.first + step;
-      if(delta > this.filtered.length - 1) delta = 0;
-      if(delta < 0) delta = this.filtered.length - 1;
+      if(delta > this.state.filtered.length - 1) delta = 0;
+      if(delta < 0) delta = this.state.filtered.length - 1;
       this.setState({first: delta});
     }
     this.clickNext = this.clickArrow.bind(this,1);
     this.clickPrev = this.clickArrow.bind(this,-1);
-    // функция для прокрутки индекса массива по кругу, первое значение приходит от стрелки, задается в render()
     this.routIndex = ()=> {
-      if (this.counter > this.filtered.length - 1) this.counter = 0;
+      if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
   }
 
   render() {
     if(this.state.overlooked.length === 0) return null;
-    console.log('OverlookedSlider this.state.overlooked===', this.state.overlooked);
+    if(!this.state.filtered) return null;
     let show = [];
-    let amount = this.filtered.length;
+    let amount = this.state.filtered.length;
     if(amount>5) amount = 5;
-    // тут должна быть функция для определния следующего индекса
     this.counter = this.state.first;
     for(let i = 0; i<amount; i++) {
-      show.push(this.filtered[this.routIndex()]);
+      show.push(this.state.filtered[this.routIndex()]);
     }
-    console.log('filtered===', this.filtered);
-    console.log('show===', show);
 
     return (
         <section className="product-catalogue__overlooked-slider">
@@ -63,7 +65,7 @@ class OverlookedSlider extends Component {
           <div className="overlooked-slider" style={{
             justifyContent: 'center'}}>
 
-            {this.filtered.length > 5 && <div className="overlooked-slider__arrow overlooked-slider__arrow_left arrow" onClick={this.clickPrev}></div>}
+            {this.state.filtered.length > 5 && <div className="overlooked-slider__arrow overlooked-slider__arrow_left arrow" onClick={this.clickPrev}></div>}
 
             {show.map(
               product=>(
@@ -74,11 +76,14 @@ class OverlookedSlider extends Component {
             )
             }
 
-            {this.filtered.length > 5 && <div onClick={this.clickNext} className="overlooked-slider__arrow overlooked-slider__arrow_right arrow"></div>}
+            {this.state.filtered.length > 5 && <div onClick={this.clickNext} className="overlooked-slider__arrow overlooked-slider__arrow_right arrow"></div>}
           </div>
         </section>
     );
   }
 }
+
+OverlookedSlider.propTypes = {
+};
 
 export default OverlookedSlider;

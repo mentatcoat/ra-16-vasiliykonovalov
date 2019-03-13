@@ -5,11 +5,10 @@
 
 =======13/03/19
 
-
-
-
+41. remake <ProductCard
+40. remake <OverlookedSlider
+39. fixed problem fetchProduct in Order by using Promise.all
 =======12/03/19
-!!! проблема OrderCart не передает product в OrderCartItem
 38. правки в <ProductCard <ProductInfo <ProductInfoSizes , <ProductCard получает продуктв самостоятельно
 =======05/03/19
 37. <Catalogue getSortedProducts.
