@@ -22,12 +22,10 @@ class Header extends Component {
         [event.currentTarget.dataset.subcategory]: event.target.textContent,
         categoryId: this.state.chosenCategory
       };
-      console.log('clickSubcategory() params===', params);
       this.props.setCatalogueParams(params);
     }
 
     this.clickCategory = (event)=>{
-      console.log('Header clickCategory() ===', event.target.dataset.category);
       if(!this.state.isCategoriesOpen) this.setState({
         isCategoriesOpen: true,
         chosenCategory: event.target.dataset.category
@@ -50,8 +48,6 @@ class Header extends Component {
 
   render() {
     if(!this.props.categories) return null;
-
-    console.log('render chosenCategory===',this.state.chosenCategory);
 
     return (
       <header className="header">

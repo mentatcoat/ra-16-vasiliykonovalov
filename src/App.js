@@ -25,9 +25,7 @@ class App extends Component {
     };
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
-      //!!! ??? почему эта штука позволяет заменить Link? то есть без перезагрузки страницы/
       createHistory().push('/catalogue');
-      //??? это ведь тоже самое что и window.history.pushState()
     }
     services.fetchCategories((data)=>{
       this.setState({categories: data.data});
@@ -38,11 +36,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('<App render() catalogueParams===', this.state.catalogueParams);
-    console.log('<App render() products===', this.state.products);
-    console.log('<App render() createHistory()===', createHistory());
-    console.log('<App render() window.history===', window.history);
-
     return (
       <div className="App">
         <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />

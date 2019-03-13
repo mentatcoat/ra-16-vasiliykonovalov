@@ -5,6 +5,8 @@
 
 =======13/03/19
 
+
+42. clean services.js
 41. remake <ProductCard
 40. remake <OverlookedSlider
 39. fixed problem fetchProduct in Order by using Promise.all

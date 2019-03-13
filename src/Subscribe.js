@@ -18,14 +18,11 @@ class Subscribe extends Component {
         this.setState({email: 'заполните email'})
       } else {
         let formData = new FormData(this.form);
-        console.log('<Subscribe/> created formData===', formData);
-        // КОД с функционалом: высылаем данные формы
         this.setState({isSubscribed: true});
       }
     };
     this.onchange = (e)=> {
       this.setState({email: e.target.value});
-      console.log('<Subscribe/> email onChange()');
     };
   }
 

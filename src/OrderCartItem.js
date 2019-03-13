@@ -25,7 +25,6 @@ class OrderCartItem extends Component {
   }
 
   render() {
-    console.log('OrderCartItem render() props===', this.props);
 
     return (
               <div className="order-basket__item-list">

@@ -4,6 +4,7 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import services from './services';
+import PropTypes from 'prop-types';
 
 class NewDeals extends Component {
   constructor(props) {
@@ -18,12 +19,10 @@ class NewDeals extends Component {
     this.activeProduct;
     services.fetchFeatured((data)=>{
       this.setState({featured: data.data},this.categoriseFeatured);
-      console.log('NewDeals fetch data===', data.data);
     });
     services.fetchCategories((data)=>{
       this.setState({categories: data.data});
       this.setState({chosenCategory: data.data[1].id}, this.categoriseFeatured);
-      console.log('NewDeals fetch data===', data.data);
     });
     this.clickCategory = (event)=> {
       event.preventDefault();
@@ -37,11 +36,9 @@ class NewDeals extends Component {
     this.categoriseFeatured = ()=>{
       if(!this.state.featured) return;
       this.setState({filtered: this.state.featured.filter(el=> el.categoryId == this.state.chosenCategory)});
-      console.log('categorise() filtered===', this.state.filtered);
     };
     this.counter;
     this.clickArrow = (step)=>{
-      console.log('clickArrow() before state.first===', this.state.first);
       let delta = this.state.first + step;
       if(delta > this.state.filtered.length - 1) delta = 0;
       if(delta < 0) delta = this.state.filtered.length - 1;
@@ -56,10 +53,7 @@ class NewDeals extends Component {
   }
 
   render() {
-    console.log('NewDeals render() state.chosenCategory===', this.state.chosenCategory);
-    console.log('NewDeals render() state.featured===', this.state.featured);
     let favorites = JSON.parse(localStorage.favorites);
-    console.log('NewDeals render() favorites===',favorites);
 
     this.activeProduct = '';
 
@@ -70,7 +64,6 @@ class NewDeals extends Component {
     for(let i = 0; i<amount; i++) {
       show.push(this.state.filtered[this.routIndex()]);
     }
-    console.log('this.state.filtered===', this.state.filtered);
 
     return (
       <section className="new-deals wave-bottom">
@@ -97,7 +90,6 @@ class NewDeals extends Component {
           {show.map(
             (elem, i, array)=>{
               if(i===1 || (i===0 && array.lengh===1)){
-                console.log('elem1');
                 this.activeProduct = elem;
                 return (<div key={elem.id} style={{backgroundImage: `url(${elem.images[0]})`}} className="new-deals__product new-deals__product_active">
                     <Link to={`/product-card/${elem.id}`}/>
@@ -129,5 +121,7 @@ class NewDeals extends Component {
     )
   }
 }
+
+NewDeals.propTypes = {};
 
 export default NewDeals;

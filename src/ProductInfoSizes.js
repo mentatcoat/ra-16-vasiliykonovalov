@@ -5,18 +5,16 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
 import './css/style-product-card.css';
+import PropTypes from 'prop-types';
 
 class ProductInfoSizes extends Component {
-  // компонент принимает this.props.product
   constructor(props) {
-    // props.sizes массив из product.sizes ; listener clickSize из родителя, чтобы прописать size в state.chosenSize ; props.chosenSize чтобы присловить <li> класс active
     super(props);
     this.state= {
     };
 
   }
   render() {
-    console.log(`ProductInfoSizes this.props===`, this.props);
     return (
       <div>
         <p className="size">Размер</p>
@@ -34,5 +32,11 @@ class ProductInfoSizes extends Component {
     );
   }
 }
+
+ProductInfoSizes.propTypes = {
+  chosenSize: PropTypes.number,
+  sizes: PropTypes.array.isRequired,
+  onclick: PropTypes.func.isRequired
+};
 
 export default ProductInfoSizes;

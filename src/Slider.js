@@ -7,7 +7,6 @@ import sliderimg180 from './img/slider180deg.jpeg';
 import sliderFunction from './js/slider';
 
 class Slider extends Component {
-  // запускаем код из файла slider.js необходимый
   componentDidMount() {
     sliderFunction();
   }

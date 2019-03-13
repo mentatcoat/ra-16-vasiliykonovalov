@@ -6,18 +6,16 @@ import './css/style.css';
 import './css/style-order.css';
 import './css/style-product-card.css';
 import ProductInfoSizes from './ProductInfoSizes';
+import PropTypes from 'prop-types';
 
 class ProductInfo extends Component {
-  // компонент принимает this.props.product
   constructor(props) {
     super(props);
-    console.log(`ProductInfo this.props===`, this.props);
     this.product = this.props.product;
     this.state= {
       chosenSize: '',
       chosenAmount: 1
     };
-    // функция берет chosenSize и возвращает true or false
     this.isAvailable = ()=> {
       let foundSize;
       if(this.product.sizes) foundSize = this.product.sizes.find(el=>parseInt(el.size,10)===this.state.chosenSize);
@@ -26,7 +24,6 @@ class ProductInfo extends Component {
     };
     this.clickSize = (e)=>{
       e.preventDefault();
-      console.log('clickSize() e.t.textContent===', e.target.textContent);
       this.setState({chosenSize: +e.target.textContent});
 
     }
@@ -40,8 +37,6 @@ class ProductInfo extends Component {
 
   }
   render() {
-    console.log('ProductInfo render() state.chosenSize===', this.state.chosenSize);
-    console.log('ProductInfo render() isAvailable()===', this.isAvailable());
     return (
       <div>ProductInfo Component here
 
@@ -101,5 +96,9 @@ class ProductInfo extends Component {
     );
   }
 }
+
+ProductInfo.propTypes = {
+  product: PropTypes.object.isRequired
+};
 
 export default ProductInfo;

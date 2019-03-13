@@ -13,17 +13,12 @@ import PropTypes from 'prop-types';
 class Catalogue extends Component {
   constructor(props) {
     super(props);
-    console.log('<Catalogue got props===', props);
     this.state = {
       sortedProducts: ''
-      //!!! сюда в стейт нужно кидать обновленный фильтрованный массив продуктов, чтобы он далее перерисовывался
     };
-
-    // THIS LISTENER функция собирает с фильта в Каталоге данные, создает catalogueParams, сравнивает его с this.props.catalogueParams => если отличается то высызвает getSortedProducts
 
     this.getSortedProducts = (params)=>{
       services.fetchProducts(params, (data)=>{
-        console.log('<Catalogue fetch got json->data===', data);
         this.setState({sortedProducts: data.data});
       })
     };
@@ -31,8 +26,6 @@ class Catalogue extends Component {
   }
 
   render() {
-    console.log('<Catalogue/> render() state.catalogueParams===', this.state.catalogueParams);
-    console.log('<Catalogue/> render() props.catalogueParams===', this.props.catalogueParams);
 
     return (
       <div className="Just wrapper">
