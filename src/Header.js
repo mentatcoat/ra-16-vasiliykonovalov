@@ -6,9 +6,9 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import logotype from './img/header-logo.png';
+import PropTypes from 'prop-types';
 
 class Header extends Component {
-  // props.categories  ; props.setCatalogueParams
   constructor(props) {
     super(props);
     this.state = {
@@ -16,16 +16,13 @@ class Header extends Component {
       chosenCategory: '',
       isCategoriesOpen: false
     };
-    // функция берет с <a значение подкатегории , с <ul имя подкатегори, также chosenCategory и отправляет в <App объект params для fetchProducts
     this.clickSubcategory = (event)=>{
-      // event.preventDefault(); //!!! отменяет <App render
       if(event.target.tagName !== 'A') return;
       let params = {
         [event.currentTarget.dataset.subcategory]: event.target.textContent,
         categoryId: this.state.chosenCategory
       };
       console.log('clickSubcategory() params===', params);
-      //отправляем в <App параменты для <Catalogue
       this.props.setCatalogueParams(params);
     }
 
@@ -42,17 +39,14 @@ class Header extends Component {
       if(event.target.dataset.category != this.state.chosenCategory) this.setState({
         chosenCategory: event.target.dataset.category
       });
-    };//END clickCategory
+    };
 
     this.clickPictogram = (pictogram)=>{
       this.state.panelView === pictogram ? this.setState({panelView: null}) : this.setState({panelView: pictogram});
     };
     this.clickBasket = this.clickPictogram.bind(this, 'basket');
     this.clickProfile = this.clickPictogram.bind(this, 'profile');
-
-  }//END constructor
-
-
+  }
 
   render() {
     if(!this.props.categories) return null;
@@ -339,5 +333,10 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  categories: PropTypes.array.isRequired,
+  setCatalogueParams: PropTypes.func.isRequired
+};
 
 export default Header;

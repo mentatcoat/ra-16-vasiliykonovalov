@@ -8,9 +8,9 @@ import './css/style-catalogue.css';
 import services from './services';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
+import PropTypes from 'prop-types';
 
 class Catalogue extends Component {
-  // props.catalogueParams ;
   constructor(props) {
     super(props);
     console.log('<Catalogue got props===', props);
@@ -28,10 +28,7 @@ class Catalogue extends Component {
       })
     };
     this.getSortedProducts(this.props.catalogueParams);
-  }//END constructor
-
-  shouldComponentUpdate(nextProps, nextState) {
-  }//END shouldComponentUpdate
+  }
 
   render() {
     console.log('<Catalogue/> render() state.catalogueParams===', this.state.catalogueParams);
@@ -372,5 +369,9 @@ class Catalogue extends Component {
     );
   }
 }
+
+Catalogue.propTypes = {
+  catalogueParams : PropTypes.object.isRequired
+};
 
 export default Catalogue;

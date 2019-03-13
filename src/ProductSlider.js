@@ -33,7 +33,7 @@ class ProductSlider extends Component {
       if (this.counter > this.pics.length - 1) this.counter = 0;
       return this.counter++;
     };
-  }//END construector
+  }
 
   render() {
     console.log('ProductSlider props===', this.props);

@@ -44,7 +44,7 @@ function fetchCategories(callback) {
     .catch((err) => {
     // обрабатываем ошибку
     });
-}//END fetchCategories
+}
 function fetchFeatured(callback) {
   console.log('services.fetchFeatured() ==============');
   fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
@@ -63,7 +63,7 @@ function fetchFeatured(callback) {
     .catch((err) => {
     // обрабатываем ошибку
     });
-}//END fetchFeatured
+}
 
 // page — номер страницы (отступ от начала списка товаров), число;
 // type — тип обуви (балетки, босоножки, ботильоны…), строка;
@@ -73,6 +73,7 @@ function fetchProducts(params, callback) {
   // params= {page: 10, discounted: true ...}
   console.log('services.fetchProducts() ==============');
   console.log('fetchProducts params===', params);
+  console.log('fetchProducts args===', arguments);
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products';
   // если есть params то мы переопределим url
   //проверка: services.fetchProducts({color: 'черный', discounted: true});
@@ -85,8 +86,7 @@ function fetchProducts(params, callback) {
       }
     );
     console.log('fetchProducts url with params===', url);
-  }//END if
-
+  }
 
   fetch(url)
     .then((res) => {
@@ -104,7 +104,7 @@ function fetchProducts(params, callback) {
     .catch((err) => {
       console.log('fetchProducts catch===', err);
     });
-}//END fetchProducts
+}
 
 // GET /products/${id}
 function fetchProduct(id, callback) {
@@ -134,8 +134,8 @@ function fetchProduct(id, callback) {
       .catch((err) => {
         console.log('fetchProduct catch===', err);
       });
-  }//END if
-}//END fetchProduct
+  }
+}
 
 function fetchCreateCart(cartObj) {
   // cartObj json {"id": 42, "size": 14, "amount": 12}
@@ -172,8 +172,8 @@ function fetchCreateCart(cartObj) {
     .catch((err) => {
       console.log('fetchCreateCart catch===', err);
     });
-  }//END if
-}//END fetchCreateCart
+  }
+}
 
 // GET /cart/${cartId}
 function fetchGetCart(id, callback) {
@@ -199,8 +199,8 @@ function fetchGetCart(id, callback) {
       .catch((err) => {
         console.log('fetchGetCart catch===', err);
       });
-  }//END if
-}//END fetchGetCart
+  }
+}
 
 // POST /cart/${cartId}
 function fetchUpdateProduct(cartId, product) {
@@ -235,8 +235,8 @@ function fetchUpdateProduct(cartId, product) {
     .catch((err) => {
       console.log('fetchUpdateProduct catch===', err);
     });
-  }//END if
-}//END fetchUpdateProduct
+  }
+}
 
 // POST /order
 function fetchCreateOrder(info) {
@@ -271,8 +271,8 @@ function fetchCreateOrder(info) {
     .catch((err) => {
       console.log('fetchCreateOrder catch===', err);
     });
-  }//END if
-}//END fetchCreateOrder
+  }
+}
 
 
 

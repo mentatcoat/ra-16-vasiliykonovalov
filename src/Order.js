@@ -7,23 +7,48 @@ import './css/style-order.css';
 
 import OrderCart from './OrderCart';
 import services from './services';
+import JSONproducts from './data/products.json';
+
 
 class Order extends Component {
-// props.products ;
   constructor(props) {
     super(props);
     this.state = {
+      cartProducts: null,
       isDone: false,
       total: '',
-      cart: ''
+      cart: null
     };
     this.cart;
-    services.fetchGetCart(localStorage.cartId, (data)=> {
-      this.setState({cart : data});
-    });
 
-  }//END constructor
+    this.getCartProducts = ()=>{
+      const array = [];
+
+
+
+
+
+      this.state.cart.products.forEach(
+        product=>{
+          services.fetchProduct(
+            product.id,
+            (data)=>array.push(data.data)
+          );
+        }
+      );
+      console.log('getCartProducts() array===', array);
+      this.setState({cartProducts: array});
+    };
+
+    services.fetchGetCart(localStorage.cartId, (data)=> {
+      this.setState({cart : data.data}, this.getCartProducts);
+    });
+  // ??? делаю fetchProduct отправляю массви продуктов далее в OrderCart, но туда массив не доходит, почему?
+  }
+
   render() {
+    console.log('Order render() state===', this.state);
+    // console.log('Order render() state.cartProducts===', this.state.cartProducts[0]);
     console.log('Order render() this.cart===', this.cart);
 
     return (
@@ -39,7 +64,7 @@ class Order extends Component {
           <section className="order-process">
             <h2 className="order-process__title">Оформление заказа</h2>
 
-            {this.state.cart && <OrderCart products={this.props.products} items={this.state.cart.data.products} />}
+            {this.state.cartProducts && <OrderCart products={this.state.cartProducts} items={this.state.cart.products} />}
 
             <div className="order-process__confirmed">
               <form action="#">

@@ -7,13 +7,17 @@ import './css/style-order.css';
 
 import OrderCartItem from './OrderCartItem';
 import services from './services';
+import JSONproducts from './data/products.json';
 
 class OrderCart extends Component {
 // props.products ; props.items - это массив покупок
   constructor(props) {
     super(props);
     // this.cart = services.fetchGetCart(localStorage.cartId);
+    console.log('OrderCart props===', this.props);
+
     this.state = {
+      products: this.props.products
     };
     this.totalField; //дом-поле куда падает cart total
     this.total;
@@ -31,21 +35,44 @@ class OrderCart extends Component {
       this.totalField.textContent = this.total.toLocaleString();
     };
 
-    console.log('OrderCart props===', props);
-  }//END constructor
+  }
+
   componentDidMount() {
     // функция создает сумму карзины при Mount компонента:
-    this.props.items.forEach(
-      item=> {
-        console.log('in forEach item===', item);
-        console.log('in forEach product===', this.props.products.find(el=>el.id === item.id));
-        let summObj = {[item.id]: (this.props.products.find(el=> el.id === item.id).price *item.amount)};
-        this.countOrderCart(summObj)
-      }
-    )
-  }//END componentDidMount
+    // this.props.items.forEach(
+    //   item=> {
+    //     console.log('in forEach item===', item);
+    //     console.log('in forEach product===', this.props.products.find(el=>el.id === item.id));
+    //     let summObj = {[item.id]: (this.props.products.find(el=> el.id === item.id).price *item.amount)};
+    //     this.countOrderCart(summObj)
+    //   }
+    // )
+  }
 
   render() {
+    console.log('OrderCart render() props===', this.props);
+    console.log('OrderCart render() state.products[0]===', this.state.products[0]);
+    let cartItems = [];
+
+    cartItems = this.props.items.map(
+      item=>{
+        console.log('MAP0======', this.props.items[0]);
+        console.log('MAP1======', item.id);
+        console.log('MAP2======', this.state.products[0]);
+        console.log('MAP3======', this.props.products.find(el=>+el.id === +item.id));
+
+        // let itemProduct = this.props.products.find(el=>+el.id === +item.id);
+        let itemProduct = this.props.products[0];
+
+        return <OrderCartItem key={item.id} item={item} product={itemProduct} counter={this.countOrderCart} />;
+
+      }
+    );
+
+
+
+
+
 
     return (
       <div className="order-process__basket order-basket">
@@ -53,12 +80,7 @@ class OrderCart extends Component {
 
         <div className="order-basket__item-list">
 
-          {this.props.items.map(
-            item=>{
-              return <OrderCartItem key={item.id} item={item} product={this.props.products.find(el=>el.id === item.id )} counter={this.countOrderCart} />
-
-            }
-          )}
+          {cartItems}
 
         </div>
 

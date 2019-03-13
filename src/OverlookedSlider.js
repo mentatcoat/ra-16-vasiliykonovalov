@@ -41,7 +41,7 @@ class OverlookedSlider extends Component {
       if (this.counter > this.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  }//END construector
+  }
 
   render() {
     if(this.state.overlooked.length === 0) return null;

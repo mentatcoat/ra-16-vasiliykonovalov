@@ -14,7 +14,7 @@ class ProductInfoSizes extends Component {
     this.state= {
     };
 
-  }//END construector
+  }
   render() {
     console.log(`ProductInfoSizes this.props===`, this.props);
     return (

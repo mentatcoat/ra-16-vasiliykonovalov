@@ -16,18 +16,15 @@ class NewDeals extends Component {
       filtered: []
     };
     this.activeProduct;
-    // вызываем сервис получения новинок:
     services.fetchFeatured((data)=>{
       this.setState({featured: data.data},this.categoriseFeatured);
       console.log('NewDeals fetch data===', data.data);
     });
     services.fetchCategories((data)=>{
       this.setState({categories: data.data});
-      //ниже загружаем вторую Категорию как выбранную по умолнчанию, т к в ней есть продукты:
       this.setState({chosenCategory: data.data[1].id}, this.categoriseFeatured);
       console.log('NewDeals fetch data===', data.data);
     });
-    // когда мы выберем категоию, у нас профильтруется массив НОВИНОК для рендера в слайдер
     this.clickCategory = (event)=> {
       event.preventDefault();
       this.setState({chosenCategory: event.target.dataset.id}, this.categoriseFeatured);
@@ -37,14 +34,12 @@ class NewDeals extends Component {
       services.toggleFavorite(event.target.dataset.id);
 
     };
-    // функция фильтрует НОВИНКИ под выбранную категорию
     this.categoriseFeatured = ()=>{
       if(!this.state.featured) return;
       this.setState({filtered: this.state.featured.filter(el=> el.categoryId == this.state.chosenCategory)});
       console.log('categorise() filtered===', this.state.filtered);
     };
     this.counter;
-    // функция для кликов по стрелкам:
     this.clickArrow = (step)=>{
       console.log('clickArrow() before state.first===', this.state.first);
       let delta = this.state.first + step;
@@ -54,12 +49,11 @@ class NewDeals extends Component {
     }
     this.clickNext = this.clickArrow.bind(this,1);
     this.clickPrev = this.clickArrow.bind(this,-1);
-    // функция для прокрутки индекса массива по кругу, первое значение приходит от стрелки, задается в render()
     this.routIndex = ()=> {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  }//END constructor
+  }
 
   render() {
     console.log('NewDeals render() state.chosenCategory===', this.state.chosenCategory);
@@ -69,11 +63,9 @@ class NewDeals extends Component {
 
     this.activeProduct = '';
 
-    //массив продуктов который будет отобразаться на странице:
     let show = [];
     let amount = this.state.filtered.length;
     if(amount>3) amount = 3;
-    // тут должна быть функция для определния следующего индекса
     this.counter = this.state.first;
     for(let i = 0; i<amount; i++) {
       show.push(this.state.filtered[this.routIndex()]);

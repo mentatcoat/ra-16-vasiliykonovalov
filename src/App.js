@@ -18,13 +18,11 @@ import createHistory from 'history/createBrowserHistory'
 class App extends Component {
   constructor(props) {
     super(props);
-    //получаем products и gategories в этом компоненте
     this.state = {
-      categories: '',
+      categories: null,
       products: '',
-      catalogueParams: '', //это параметр для <Catalogue/>
+      catalogueParams: '',
     };
-    // функция листенер для Link подкатегори в <Header/> - вешаем на <ul>:
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
       //!!! ??? почему эта штука позволяет заменить Link? то есть без перезагрузки страницы/
@@ -37,7 +35,7 @@ class App extends Component {
     services.fetchProducts((data)=>{
       this.setState({products: data.data});
     });
-  }//END constructor
+  }
 
   render() {
     console.log('<App render() catalogueParams===', this.state.catalogueParams);

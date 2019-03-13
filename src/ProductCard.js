@@ -40,7 +40,7 @@ class ProductCard extends Component {
     });
 
 
-  }//END constructor
+  }
   render() {
     console.log('ProductCard props===', this.props);
 

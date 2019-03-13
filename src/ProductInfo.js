@@ -38,7 +38,7 @@ class ProductInfo extends Component {
     this.basketAmountPlus = this.basketAmountChange.bind(this, 1);
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
 
-  }//END construector
+  }
   render() {
     console.log('ProductInfo render() state.chosenSize===', this.state.chosenSize);
     console.log('ProductInfo render() isAvailable()===', this.isAvailable());

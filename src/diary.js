@@ -3,9 +3,13 @@
 
 !!! вся херня запускается в <App/>
 
+=======13/03/19
+
+
+
+
 =======12/03/19
-
-
+!!! проблема OrderCart не передает product в OrderCartItem
 38. правки в <ProductCard <ProductInfo <ProductInfoSizes , <ProductCard получает продуктв самостоятельно
 =======05/03/19
 37. <Catalogue getSortedProducts.
