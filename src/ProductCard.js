@@ -7,6 +7,7 @@ import './css/style-product-card.css';
 import './css/style-order.css';
 
 import OverlookedSlider from './OverlookedSlider';
+import SimilarSlider from './SimilarSlider';
 import ProductSlider from './ProductSlider';
 import ProductInfo from './ProductInfo';
 import services from './services';
@@ -65,7 +66,8 @@ class ProductCard extends Component {
   //   // return false;
   // }
   render() {
-      console.log('ProductCard render()');
+    console.log('ProductCard render()');
+    console.log('ProductCard render() state.product===', this.state.product);
     return (
       <div>
         <div className="site-path">
@@ -102,6 +104,8 @@ class ProductCard extends Component {
         </main>
 
         <OverlookedSlider match={this.props.match} />
+
+        {this.state.product && <SimilarSlider product={this.state.product}/>}
 
 
       </div>

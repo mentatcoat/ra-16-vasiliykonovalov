@@ -620,6 +620,12 @@ li.active {
   width: 100%;
 }
 
+.similar-products-slider__item a img {
+  display: inline-block;
+  height: 100%;
+  width: auto;
+}
+
 .similar-products-slider__item-list__item-card {
   width: 319px;
   height: auto;
