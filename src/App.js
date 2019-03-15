@@ -1,18 +1,61 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
+import Main from './Main';
+import Catalogue from './Catalogue';
+import Header from './Header';
+import services from './services';
+import {global} from './services';
+import Footer from './Footer';
+import Favorite from './Favorite';
+import ProductCard from './ProductCard';
+import Order from './Order';
+import JSONproducts from './data/products.json';
+import createHistory from 'history/createBrowserHistory'
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      categories: null,
+      products: '',
+      catalogueParams: '',
+    };
+    this.setCatalogueParams = (params)=>{
+      this.setState({catalogueParams: params});
+      createHistory().push('/catalogue');
+    }
+    services.fetchCategories((data)=>{
+      this.setState({categories: data.data});
+    });
+    services.fetchProducts((data)=>{
+      this.setState({products: data.data});
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
+        <Switch>
+          <Route exact path='/'>
+            <Main />
+          </Route>
+          <Route exact path='/catalogue' render={(props) => (
+<Catalogue {...props} catalogueParams={this.state.catalogueParams}/>)}/>
+          <Route exact path='/favorite'>
+            <Favorite />
+          </Route>
+          <Route exact path='/product-card/:id' render={(props) => (
+<ProductCard {...props}/>
+)}/>
+          <Route exact path='/order' render={(props) => (
+<Order {...props} />
+)}/>
+        </Switch>
+        <Footer />
       </div>
     );
   }
