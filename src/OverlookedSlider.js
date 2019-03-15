@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
 import services from './services';
 import JSONproducts from './data/products.json';
+import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 //!!! закинули в sessionStorage просмотренные id (это временный код для разработки)
@@ -14,23 +15,39 @@ sessionStorage.overlooked = JSON.stringify(overlookedIds);
 
 class OverlookedSlider extends Component {
   constructor(props) {
+    console.log('OverlookedSlider got props===', props);
     super(props);
     this.state = {
       overlooked: sessionStorage.overlooked ?
-      JSON.parse(sessionStorage.overlooked).slice(-10) : [],
+      JSON.parse(sessionStorage.overlooked) : [],
       first: 0,
-      filtered: null
+      filtered: null,
+      page: ''
     }
+    // это переменная массив из которой мы удаляем текущий товар, если мы находимся в ProductCard
+    this.filteredOverlooked = this.state.overlooked;
+    console.log('firstly filteredOverlooked===', this.filteredOverlooked
+    );
     this.getProductsInfo = ()=>{
-      const array = [];
-      this.state.overlooked.forEach(
-        id=>array.push(services.fetchProduct(id))
+      console.log('getProductsInfo this.state===', this.state);
+      const productsArray = [];
+      //если мы не в Catalogue то мы вырезаем просматриваемый товар
+      if(!/^\/catalogue/.test(this.props.match.path)) {
+        console.log('regExp ===',/^\/catalogue/.test(this.props.match.path));
+
+        this.filteredOverlooked.splice(this.filteredOverlooked.findIndex(id=>id===+this.props.match.params.id),1);
+        console.log('spliced filteredOverlooked===', this.filteredOverlooked);
+      }
+
+      this.filteredOverlooked.slice(-10).forEach(
+        id=>productsArray.push(services.fetchProduct(id))
       );
-      Promise.all(array)
+      Promise.all(productsArray)
         .then(results=>{
+          console.log('Promise.all results===',results);
           this.setState({filtered: results});
         });
-    };
+    };//END getProductsInfo()
     this.getProductsInfo();
 
     this.counter;
@@ -49,8 +66,10 @@ class OverlookedSlider extends Component {
   }
 
   render() {
+    console.log('OverlookedSlider render() this.state===', this.state);
     if(this.state.overlooked.length === 0) return null;
     if(!this.state.filtered) return null;
+
     let show = [];
     let amount = this.state.filtered.length;
     if(amount>5) amount = 5;
@@ -59,6 +78,10 @@ class OverlookedSlider extends Component {
       show.push(this.state.filtered[this.routIndex()]);
     }
 
+    console.log('OverlookedSlider() render() filtered===', this.state.filtered);
+    console.log('OverlookedSlider() render() show===', show);
+
+    console.log('BrowserRouter===', BrowserRouter);
     return (
         <section className="product-catalogue__overlooked-slider">
           <h3>Вы смотрели:</h3>
@@ -70,7 +93,7 @@ class OverlookedSlider extends Component {
             {show.map(
               product=>(
                 <div key={product.id} className="overlooked-slider__item" style={{backgroundImage: `url(${product.images[0]})`}}>
-                  <a href="product-card-desktop.html"></a>
+                  <Link to={`/product-card/${product.id}`} ></Link>
                 </div>
               )
             )
@@ -84,6 +107,7 @@ class OverlookedSlider extends Component {
 }
 
 OverlookedSlider.propTypes = {
+  match: PropTypes.object.isRequired
 };
 
 export default OverlookedSlider;

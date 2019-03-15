@@ -14,31 +14,39 @@ import PropTypes from 'prop-types';
 
 class ProductCard extends Component {
   constructor(props) {
+    console.log('ProductCard got props===', props);
     super(props);
     this.state= {
       mainpic: null,
       product: null
     };
-    services.fetchProduct(+this.props.match.params.id)
-      .then(productInfo=>{
-        this.setState({product:productInfo});
-        this.setState({mainpic: productInfo.images[0]});
-      });
+
     this.makeProductOverlooked = ()=>{
       if (!sessionStorage.overlooked) {
-        let array = [this.props.match.params.id];
+        let array = [+this.props.match.params.id];
         sessionStorage.overlooked = JSON.stringify(array);
       } else {
         let array = JSON.parse(sessionStorage.overlooked);
-        if (array.includes(this.props.match.params.id)) {
+        if (array.includes(+this.props.match.params.id)) {
           return;
         } else {
-          array.push(this.props.match.params.id);
+          array.push(+this.props.match.params.id);
           sessionStorage.overlooked = JSON.stringify(array);
         }
       }
     };
-    this.makeProductOverlooked();
+
+    this.init = ()=>{
+      console.log('init()');
+      services.fetchProduct(+this.props.match.params.id)
+        .then(productInfo=>{
+          this.setState({product:productInfo});
+          this.setState({mainpic: productInfo.images[0]});
+        });
+        this.makeProductOverlooked();
+    }
+    this.init();
+
     this.mainpicElement;
     this.pushMainpic = (event)=> {
       this.setState({mainpic: event.target.src});
@@ -47,8 +55,17 @@ class ProductCard extends Component {
       e.preventDefault();
       this.mainpicElement.classList.toggle('zoom-out')};
   }
+  // shouldComponentUpdate(nextProps, nextState){
+  //   console.log('shouldComponentUpdate() nextProps=== nextState===', nextProps, nextState);
+  //   if(this.props.match.params.id !== nextProps.match.params.id) {
+  //     this.init();
+  //     return true;
+  //   }
+  //   if(this.state !== nextState) return true;
+  //   // return false;
+  // }
   render() {
-
+      console.log('ProductCard render()');
     return (
       <div>
         <div className="site-path">
@@ -83,6 +100,10 @@ class ProductCard extends Component {
                   </section>
               </section>
         </main>
+
+        <OverlookedSlider match={this.props.match} />
+
+
       </div>
     );
   }

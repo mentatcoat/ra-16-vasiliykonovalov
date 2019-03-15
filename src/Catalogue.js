@@ -356,7 +356,7 @@ class Catalogue extends Component {
 
         {/*<!-- Слайдер внизу каталога  -->*/}
 
-        <OverlookedSlider />
+        <OverlookedSlider match={this.props.match} />
 
       </div>
     );
