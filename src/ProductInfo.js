@@ -6,15 +6,60 @@ import './css/style.css';
 import './css/style-order.css';
 import './css/style-product-card.css';
 import ProductInfoSizes from './ProductInfoSizes';
+import services from './services';
 import PropTypes from 'prop-types';
 
 class ProductInfo extends Component {
   constructor(props) {
     super(props);
     this.product = this.props.product;
+    this.isFavorite = ()=> {
+      let favorites = JSON.parse(localStorage.favorites);
+      return favorites.includes(this.product.id);
+    };
     this.state= {
       chosenSize: '',
-      chosenAmount: 1
+      chosenAmount: 1,
+      isFavorite: this.isFavorite(),
+      buttonTitle: 'В корзину'
+    };
+    this.clickInBasket = ()=> {
+      if(!this.state.chosenSize) {
+        this.setState({buttonTitle: 'Выберите размер!'});
+        return;
+      }
+      // здесь функция создания Корзины
+      let productObj = {
+        id: this.product.id,
+        size: this.state.chosenSize,
+        amount: this.state.chosenAmount
+      };
+      if(localStorage.cartId) {
+        services.fetchUpdateProduct(localStorage.cartId, productObj)
+          .then(data=>{
+            console.log('fetchUpdateProduct() promise resolve===', data);
+            if(data.status === 'ok') {
+              localStorage.cartProductsAmount=data.data.products.length;
+              services.twinkleBasketPic();
+            }
+
+          });
+      } else {
+        services.fetchCreateCart(productObj)
+          .then(data=>{
+            console.log('fetchCreateCart() promise resolve===', data);
+            if(data.status === 'ok') {
+              localStorage.cartProductsAmount=1;
+              services.twinkleBasketPic();
+            }
+          });
+      }
+      // функция мигания Количества в корзине
+      // services.twinkleBasketPic();
+    };
+    this.toggleFavorite = ()=>{
+      services.toggleFavorite(this.product.id);
+      this.setState({isFavorite: this.isFavorite()});
     };
     this.isAvailable = ()=> {
       let foundSize;
@@ -25,6 +70,7 @@ class ProductInfo extends Component {
     this.clickSize = (e)=>{
       e.preventDefault();
       this.setState({chosenSize: +e.target.textContent});
+      this.setState({buttonTitle: 'В корзину'});
 
     }
     this.basketAmountChange = (step)=>{
@@ -81,15 +127,15 @@ class ProductInfo extends Component {
 
             <ProductInfoSizes chosenSize={this.state.chosenSize} onclick={this.clickSize} sizes={this.product.sizes}/>
 
-            <a href="#" className="in-favourites-wrapper">
-              <div className="favourite" href="#"></div><p className="in-favourites">В избранное</p>
+            <a onClick={this.toggleFavorite} className="in-favourites-wrapper">
+              <div className={`favourite ${this.state.isFavorite && 'favourite-fill'}`} href="#"></div><p className="in-favourites">{this.state.isFavorite ? 'В избранном' : 'В избранное'}</p>
             </a>
           <div className="basket-item__quantity">
-            <div onClick={this.basketAmountMinus} className="basket-item__quantity-change basket-item-list__quantity-change_minus">-</div>1
+            <div onClick={this.basketAmountMinus} className="basket-item__quantity-change basket-item-list__quantity-change_minus">-</div>{this.state.chosenAmount}
             <div onClick={this.basketAmountPlus} className="basket-item__quantity-change basket-item-list__quantity-change_plus">+</div>
           </div>
           <div className="price">{(this.product.price * this.state.chosenAmount).toLocaleString()} ₽</div>
-          <button className="in-basket in-basket-click">В корзину</button>
+          <button onClick={this.clickInBasket} className={`in-basket in-basket-click ${!this.state.chosenSize && 'in-basket_disabled'}`}>{this.state.buttonTitle}</button>
         </div>
 
       </div>

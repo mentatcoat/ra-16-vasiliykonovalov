@@ -279,6 +279,11 @@ li.active {
   vertical-align: top;
   background: url(../img/product-card-pics/product-card__favorite.png) no-repeat;
 }
+/*добавил класс: */
+.favourite-fill {
+  background: url(../img/product-card-pics/product-card__favorite-fill.png) no-repeat;
+}
+
 
 /*Счётчик для корзины*/
 .basket-item__quantity {

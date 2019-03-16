@@ -5,7 +5,32 @@ let global = 123; //временный вспомогательный объек
 // https://neto-api.herokuapp.com/bosa-noga
 
 //!!! нужно этот массив задавать пустым:
-localStorage.favorites = JSON.stringify([66]);
+if(!localStorage.favorites) localStorage.favorites = JSON.stringify([]);
+
+function twinkleBasketPic() {
+  console.log('services.twinkleBasketPic() services.basketTwinklePic===', services.basketTwinklePic);
+  // scroll:
+  services.basketTwinklePic.textContent = localStorage.cartProductsAmount;
+  let twinklePicTop = services.basketTwinklePic.parentElement.getBoundingClientRect().top - 5;
+  console.log('twinklePicTop===', twinklePicTop);
+  console.log('window===', window);
+  if(twinklePicTop < 0) {
+    console.log('twinklePicTop < 0===', twinklePicTop < 0);
+    window.scrollTo(0,0);
+  }
+  // twinkling:
+  var timerId = setInterval(function() {
+    services.basketTwinklePic.classList.toggle('basket-visible');
+  }, 300);
+  // через 2 сек остановить повторы
+  setTimeout(function() {
+    clearInterval(timerId);
+    // alert( 'стоп' );
+  }, 1500);
+  setTimeout(function() {
+    services.basketTwinklePic.classList.toggle('basket-visible');
+  }, 3000);
+}
 
 function toggleFavorite(id) {
   id = +id;
@@ -15,6 +40,7 @@ function toggleFavorite(id) {
   } else {
     favorites.push(id);
   }
+  console.log('toggleFavorite() favorites===',favorites);
   localStorage.favorites = JSON.stringify(favorites);
 }
 
@@ -98,26 +124,28 @@ function fetchProduct(id, callback) {
 function fetchCreateCart(cartObj) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
   if(cartObj) {
-    const request = fetch(url, {
-      body: JSON.stringify(cartObj),
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json'
-      },
-    }
-    )
-    .then((res) => {
-      return res;
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(data=> {
-      localStorage.cartId = data.data.id;
-      global = data;
-    })
-    .catch((err) => {
+    return new Promise((resolve,reject)=>{
+      const request = fetch(url, {
+        body: JSON.stringify(cartObj),
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+      }
+      )
+      .then((res) => {
+        return res;
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(data=> {
+        localStorage.cartId = data.data.id;
+        resolve(data);
+      })
+      .catch((err) => {
+      });
     });
   }
 }
@@ -145,24 +173,27 @@ function fetchUpdateProduct(cartId, product) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
   if(cartId && product) {
     url = url + cartId;
-    const request = fetch(url, {
-      body: JSON.stringify(product),
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json'
-      },
-    }
-    )
-    .then((res) => {
-      return res;
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(data=> {
-    })
-    .catch((err) => {
+    return new Promise((resolve,reject)=>{
+      const request = fetch(url, {
+        body: JSON.stringify(product),
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+      }
+      )
+      .then((res) => {
+        return res;
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(data=> {
+        resolve(data);
+      })
+      .catch((err) => {
+      });
     });
   }
 }
@@ -192,6 +223,8 @@ function fetchCreateOrder(info) {
   }
 }
 
+services.basketTwinklePic = {};
+services.twinkleBasketPic = twinkleBasketPic;
 services.toggleFavorite = toggleFavorite;
 services.fetchCategories = fetchCategories;
 services.fetchProducts = fetchProducts;

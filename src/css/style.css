@@ -195,6 +195,11 @@ li a:hover {
   background: linear-gradient(90deg, #ff65a5 1.11%, #ff8076 100%);
   box-shadow: 0px 2px 8px rgba(255, 101, 165, 0.6), inset 0px 1px 1px #ff8076;
 }
+/*добавил стиль мигания:  */
+.header .header-main__pic_basket_full.basket-visible {
+  display: inline-block;
+}
+
 .header .header-main__pic_basket_menu {
   display: none;
 }

@@ -6,6 +6,7 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import logotype from './img/header-logo.png';
+import services from './services';
 import PropTypes from 'prop-types';
 
 class Header extends Component {
@@ -98,7 +99,7 @@ class Header extends Component {
                 </div>
                 <div className="header-main__pic_border"></div>
                 <div onClick={this.clickBasket} className="header-main__pic header-main__pic_basket">
-                  <div className="header-main__pic_basket_full">1</div>
+                  <div ref={el=> services.basketTwinklePic=el} className="header-main__pic_basket_full">1</div>
                   <div className={`header-main__pic_basket_menu ${this.state.panelView === 'basket' && 'header-main__pic_basket_menu_is-active'}`}></div>
                 </div>
               </div>
