@@ -1,10 +1,13 @@
 // That's developping chronic.
 /*
 
+=======17/03/19
+
+
+49. realize <CatalogueItem !!! стоит ли оставлять контейнером Link или <a>??? лишнее оформление
+!!! размеры не приходят с fetchProducts - сервер не создает такое свойство, сбил болванку
+48. realize <Catalogue
 =======16/03/19
-
-
-
 47. !!! сделал "В корзину". Если нет размера, то сервер не добавляет в корзину.
 services.basketTwinklePic = {}; это ДОМ элемент мигалки
 services.twinkleBasketPic = twinkleBasketPic;

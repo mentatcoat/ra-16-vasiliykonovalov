@@ -73,7 +73,7 @@ function fetchFeatured(callback) {
     });
 }
 
-function fetchProducts(params, callback) {
+function fetchProducts(params) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products';
   if(params) {
     url = url + '?';
@@ -84,19 +84,20 @@ function fetchProducts(params, callback) {
       }
     );
   }
-
-  fetch(url)
-    .then((res) => {
-      return res;
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(data=> {
-      callback(data);
-    })
-    .catch((err) => {
-    });
+  return new Promise((resolve,reject)=>{
+    fetch(url)
+      .then((res) => {
+        return res;
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(data=> {
+        resolve(data);
+      })
+      .catch((err) => {
+      });
+  });
 }
 
 function fetchProduct(id, callback) {
@@ -222,7 +223,12 @@ function fetchCreateOrder(info) {
     });
   }
 }
+function isFavorite() {
+  let favorites = JSON.parse(localStorage.favorites);
+  return favorites.includes(this.product.id);
+}
 
+services.isFavorite = isFavorite;
 services.basketTwinklePic = {};
 services.twinkleBasketPic = twinkleBasketPic;
 services.toggleFavorite = toggleFavorite;

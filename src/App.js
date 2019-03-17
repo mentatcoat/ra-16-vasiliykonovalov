@@ -44,7 +44,7 @@ class App extends Component {
             <Main />
           </Route>
           <Route exact path='/catalogue' render={(props) => (
-<Catalogue {...props} catalogueParams={this.state.catalogueParams}/>)}/>
+<Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories}/>)}/>
           <Route exact path='/favorite'>
             <Favorite />
           </Route>

@@ -13,10 +13,7 @@ class ProductInfo extends Component {
   constructor(props) {
     super(props);
     this.product = this.props.product;
-    this.isFavorite = ()=> {
-      let favorites = JSON.parse(localStorage.favorites);
-      return favorites.includes(this.product.id);
-    };
+    this.isFavorite = services.isFavorite;
     this.state= {
       chosenSize: '',
       chosenAmount: 1,

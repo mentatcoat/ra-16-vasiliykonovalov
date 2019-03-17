@@ -250,6 +250,11 @@ a.item-list__item-card {
   overflow: hidden;
   outline: 1px solid #F4F4F4;
 }
+/*добавил стиль:  */
+.item-pic-view {
+  height: auto;
+  width: 100%;
+}
 
 .item-pic-1 {
   position: relative;
@@ -387,6 +392,9 @@ span.producer {
 .product-catalogue .sizes {
   position: absolute;
   display: none;
+  /* display: block; */
+  top: inherit;
+  left: inherit;
   width: 100%;
   text-align: center;
 }
