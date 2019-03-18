@@ -16,9 +16,9 @@ class Catalogue extends Component {
     super(props);
     console.log('Catalogue props===', props);
     this.state = {
-      categoryTitle: this.props.categories && this.props.categories.find(el=>+el.id===+this.props.catalogueParams.categoryId).title,
       categories: this.props.categories,
       sortedProducts: '',
+      sortedProductsAmount: null,
       currentPage: '',
       pagesAmount: ''
     };
@@ -27,9 +27,16 @@ class Catalogue extends Component {
       services.fetchProducts(params)
         .then(data=>{
           console.log('Catalogue getSortedProducts() data===', data);
-          this.setState({sortedProducts: data.data});
-          this.setState({currentPage: data.page});
-          this.setState({pagesAmount: data.pages});
+          console.log('this PROPS===', this.props);
+          console.log('new PARAMS===', params);
+
+
+          this.setState({
+            sortedProducts: data.data,
+            sortedProductsAmount: data.goods,
+            currentPage: data.page,
+            pagesAmount: data.pages,
+        });
         });
     };
 
@@ -39,8 +46,27 @@ class Catalogue extends Component {
 
   }//END constructor
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
+    if( nextProps !== this.props) {
+
+      this.getSortedProducts(nextProps.catalogueParams);
+      // ??? это зачем то заправшивается 2 раза - почему?
+      return true;
+    }
+
+    return true;
+
+
+
+  }
+
   render() {
+    console.log('Catalogue render() props===', this.props);
     console.log('Catalogue render() state===', this.state);
+
+    let categoryTitle = (this.props.categories && this.props.catalogueParams) && this.props.categories.find(el=>+el.id===+this.props.catalogueParams.categoryId).title;
+
 
     return (
       <div className="Just wrapper">
@@ -58,6 +84,7 @@ class Catalogue extends Component {
         <main className="product-catalogue">
         {/*<CatalogueSidebar />*/}
 
+        <CatalogueSidebar />
 
 
 
@@ -66,7 +93,7 @@ class Catalogue extends Component {
             {/*<!-- Голова каталога с названием раздела и сортировкой -->*/}
             <section className="product-catalogue__head">
               <div className="product-catalogue__section-title">
-                <h2 className="section-name">Женская обувь</h2><span className="amount"> 1 764 товара</span>
+                <h2 className="section-name">{categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
               </div>
               <div className="product-catalogue__sort-by">
                 <p className="sort-by">Сортировать</p>

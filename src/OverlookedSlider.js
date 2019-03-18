@@ -15,7 +15,7 @@ sessionStorage.overlooked = JSON.stringify(overlookedIds);
 
 class OverlookedSlider extends Component {
   constructor(props) {
-    console.log('OverlookedSlider got props===', props);
+    // console.log('OverlookedSlider got props===', props);
     super(props);
     this.state = {
       overlooked: sessionStorage.overlooked ?
@@ -26,17 +26,17 @@ class OverlookedSlider extends Component {
     }
     // это переменная массив из которой мы удаляем текущий товар, если мы находимся в ProductCard
     this.filteredOverlooked = this.state.overlooked;
-    console.log('firstly filteredOverlooked===', this.filteredOverlooked
-    );
+    // console.log('firstly filteredOverlooked===', this.filteredOverlooked
+    // );
     this.getProductsInfo = ()=>{
-      console.log('getProductsInfo this.state===', this.state);
+      // console.log('getProductsInfo this.state===', this.state);
       const productsArray = [];
       //если мы не в Catalogue то мы вырезаем просматриваемый товар
       if(!/^\/catalogue/.test(this.props.match.path)) {
-        console.log('regExp ===',/^\/catalogue/.test(this.props.match.path));
+        // console.log('regExp ===',/^\/catalogue/.test(this.props.match.path));
 
         this.filteredOverlooked.splice(this.filteredOverlooked.findIndex(id=>id===+this.props.match.params.id),1);
-        console.log('spliced filteredOverlooked===', this.filteredOverlooked);
+        // console.log('spliced filteredOverlooked===', this.filteredOverlooked);
       }
 
       this.filteredOverlooked.slice(-10).forEach(
@@ -44,7 +44,7 @@ class OverlookedSlider extends Component {
       );
       Promise.all(productsArray)
         .then(results=>{
-          console.log('Promise.all results===',results);
+          // console.log('Promise.all results===',results);
           this.setState({filtered: results});
         });
     };//END getProductsInfo()
@@ -66,7 +66,7 @@ class OverlookedSlider extends Component {
   }
 
   render() {
-    console.log('OverlookedSlider render() this.state===', this.state);
+    // console.log('OverlookedSlider render() this.state===', this.state);
     if(this.state.overlooked.length === 0) return null;
     if(!this.state.filtered) return null;
 
@@ -78,10 +78,10 @@ class OverlookedSlider extends Component {
       show.push(this.state.filtered[this.routIndex()]);
     }
 
-    console.log('OverlookedSlider() render() filtered===', this.state.filtered);
-    console.log('OverlookedSlider() render() show===', show);
+    // console.log('OverlookedSlider() render() filtered===', this.state.filtered);
+    // console.log('OverlookedSlider() render() show===', show);
 
-    console.log('BrowserRouter===', BrowserRouter);
+    // console.log('BrowserRouter===', BrowserRouter);
     return (
         <section className="product-catalogue__overlooked-slider">
           <h3>Вы смотрели:</h3>

@@ -612,9 +612,9 @@ li.active {
 .sidebar {
   width: 285px;
   height: auto;
-  margin-left: 120px;
+  /* margin-left: 120px; */
   vertical-align: top;
-  float: left;
+  /* float: left; */
   border-radius: 15px;
   box-shadow: 3px 3px 15px #D4E4E6;
 }
@@ -693,6 +693,20 @@ li.active {
 .sidebar__catalogue-list ul li {
   padding-top: 12px;
 }
+
+
+
+/* .sidebar__catalogue-list select {
+  height: 206px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: auto;
+}
+
+.sidebar__catalogue-list select option {
+  padding-top: 12px;
+} */
 
 
 /*Цена*/

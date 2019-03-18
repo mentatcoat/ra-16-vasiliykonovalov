@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 class CatalogueItem extends Component {
   constructor(props) {
     super(props);
-    console.log('CatalogueItem props===', props);
+    // console.log('CatalogueItem props===', props);
     this.product = this.props.product;
     this.isFavorite = services.isFavorite;
     this.state = {
@@ -42,7 +42,7 @@ class CatalogueItem extends Component {
   }//END constructor
 
   render() {
-    console.log('CatalogueItem render() state===', this.state);
+    // console.log('CatalogueItem render() state===', this.state);
 
     return (
       <Link to={`/product-card/${this.product.id}`} className="item-list__item-card item" href="product-card-desktop.html">

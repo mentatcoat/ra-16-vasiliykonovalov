@@ -20,22 +20,29 @@ class App extends Component {
     super(props);
     this.state = {
       categories: null,
-      products: '',
       catalogueParams: '',
+      products: ''
     };
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
       createHistory().push('/catalogue');
     }
-    services.fetchCategories((data)=>{
-      this.setState({categories: data.data});
-    });
+    services.fetchCategories()
+      .then(data=>{
+        this.setState({
+          categories: data.data,
+          // ниже ставим Первую категорию, она нужна на случай reload <Catalogue/> page, чтобы экран не был без товаров
+          catalogueParams: {categoryId: data.data[0].id}
+        });
+
+      });
     services.fetchProducts((data)=>{
       this.setState({products: data.data});
     });
   }
 
   render() {
+    console.log('App render() state===', this.state);
     return (
       <div className="App">
         <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
@@ -44,7 +51,7 @@ class App extends Component {
             <Main />
           </Route>
           <Route exact path='/catalogue' render={(props) => (
-<Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories}/>)}/>
+<Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}/>)} />
           <Route exact path='/favorite'>
             <Favorite />
           </Route>

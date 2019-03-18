@@ -5,30 +5,24 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
+import SidebarItemCatalogue from './SidebarItemCatalogue';
 
 class CatalogueSidebar extends Component {
+
+
   render() {
     return (
-          <section className="sidebar">
-            <section className="sidebar__division">
-              <div className="sidebar__catalogue-list">
-                <div className="sidebar__division-title">
-                  <h3>Каталог</h3><div className="opener-down"></div>
-                </div>
-                <ul>
-                  <li><a href="#">Балетки</a></li>
-                  <li><a href="#">Босоножки и сандалии</a></li>
-                  <li><a href="#">Ботильоны</a></li>
-                  <li><a href="#">Ботинки</a></li>
-                  <li><a href="#">Ботфорты</a></li>
-                  <li><a href="#">Галоши</a></li>
-                  <li><a href="#">Тапочки</a></li>
-                  <li><a href="#">Туфли</a></li>
-                  <li><a href="#">Сапоги</a></li>
-                </ul>
-              </div>
-            </section>
+          <form className="sidebar">
+
+
+            <SidebarItemCatalogue/>
+
+
+
+
+
             <div className="separator-150 separator-150-1"></div>
+
             <section className="sidebar__division">
                 <div className="sidebar__price">
                   <div className="sidebar__division-title">
@@ -49,7 +43,9 @@ class CatalogueSidebar extends Component {
                   </div>
                 </div>
             </section>
+
             <div className="separator-150 separator-150-2"></div>
+
             <section className="sidebar__division">
               <div className="sidebar__color">
                 <div className="sidebar__division-title">
@@ -66,7 +62,9 @@ class CatalogueSidebar extends Component {
                 </ul>
               </div>
             </section>
+
             <div className="separator-150 separator-150-3"></div>
+
             <section className="sidebar__division">
               <div className="sidebar__size">
                 <div className="sidebar__division-title">
@@ -90,7 +88,9 @@ class CatalogueSidebar extends Component {
                 </ul>
               </div>
             </section>
+
             <div className="separator-150 separator-150-4"></div>
+
             <section className="sidebar__division">
               <div className="sidebar__heel-height">
                 <div className="sidebar__division-title">
@@ -98,7 +98,9 @@ class CatalogueSidebar extends Component {
                 </div>
               </div>
             </section>
+
             <div className="separator-150 separator-150-5"></div>
+
             <section className="sidebar__division">
               <div className="sidebar__occasion">
                 <div className="sidebar__division-title">
@@ -116,7 +118,9 @@ class CatalogueSidebar extends Component {
                 </ul>
               </div>
             </section>
+
             <div className="separator-150 separator-150-6"></div>
+
             <section className="sidebar__division">
               <div className="sidebar__season">
                 <div className="sidebar__division-title">
@@ -124,7 +128,9 @@ class CatalogueSidebar extends Component {
                 </div>
               </div>
             </section>
+
             <div className="separator-150 separator-150-7"></div>
+
             <section className="sidebar__division">
                 <div className="sidebar__brand">
                   <h3>Бренд</h3>
@@ -144,7 +150,7 @@ class CatalogueSidebar extends Component {
                 <a href="#"><span className="drop-down-icon"></span>Сбросить</a>
               </div>
             </section>
-          </section>
+          </form>
     );
   }
 }

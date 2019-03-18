@@ -44,19 +44,21 @@ function toggleFavorite(id) {
   localStorage.favorites = JSON.stringify(favorites);
 }
 
-function fetchCategories(callback) {
-  fetch('https://neto-api.herokuapp.com/bosa-noga/categories')
-    .then((res) => {
-      return res;
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(data=> {
-      if(callback) callback(data);
-    })
-    .catch((err) => {
-    });
+function fetchCategories() {
+  return new Promise((resolve,reject)=>{
+    fetch('https://neto-api.herokuapp.com/bosa-noga/categories')
+      .then((res) => {
+        return res;
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(data=> {
+        resolve(data);
+      })
+      .catch((err) => {
+      });
+  });
 }
 function fetchFeatured(callback) {
   fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
