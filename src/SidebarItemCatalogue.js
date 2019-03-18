@@ -19,7 +19,7 @@ class SidebarItemCatalogue extends Component {
       if(event.target.tagName !== 'A') return;
       event.preventDefault();
       this.setState({
-        value: event.target.textContent
+        value: this.state.value!==event.target.textContent ? event.target.textContent : ''
       });
     }
     this.clickDrawer = ()=>{
@@ -43,27 +43,19 @@ class SidebarItemCatalogue extends Component {
                 </div>
 
                 {this.state.isShown && <ul onClick={this.clickSubcategory}>
-                  <li><a href="#">Балетки</a></li>
-                  <li><a href="#">Босоножки и сандалии</a></li>
-                  <li><a href="#">Ботильоны</a></li>
-                  <li><a href="#">Ботинки</a></li>
-                  <li><a href="#">Ботфорты</a></li>
-                  <li><a href="#">Галоши</a></li>
-                  <li><a href="#">Тапочки</a></li>
-                  <li><a href="#">Туфли</a></li>
-                  <li><a href="#">Сапоги</a></li>
+                  <li><a className={this.state.value==='Балетки' && 'chosen'} href="#">Балетки</a></li>
+                  <li><a className={this.state.value==='Босоножки и сандалии' && 'chosen'} href="#">Босоножки и сандалии</a></li>
+                  <li><a className={this.state.value==='Ботильоны' && 'chosen'} href="#">Ботильоны</a></li>
+                  <li><a className={this.state.value==='Ботинки' && 'chosen'} href="#">Ботинки</a></li>
+                  <li><a className={this.state.value==='Ботфорты' && 'chosen'} href="#">Ботфорты</a></li>
+                  <li><a className={this.state.value==='Галоши' && 'chosen'} href="#">Галоши</a></li>
+                  <li><a className={this.state.value==='Тапочки' && 'chosen'} href="#">Тапочки</a></li>
+                  <li><a className={this.state.value==='Туфли' && 'chosen'} href="#">Туфли</a></li>
+                  <li><a className={this.state.value==='Сапоги' && 'chosen'} href="#">Сапоги</a></li>
                 </ul>}
 
-
-
-
               </div>
-
-
-
-
             </section>
-
           );
   }
 }

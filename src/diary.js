@@ -3,6 +3,11 @@
 
 =======18/03/19
 
+
+55. discounted
+54. realize <SidebarItemSeason
+53. realize <SidebarItemReason
+52. realize <SidebarItemColor
 51. realize <SidebarItemCatalogue
 50. <Catalogue/> название категории, кол-во товаров
 ??? Это нормально что компоненты по 100 раз вызывают свой метод render() прежде чем мы получаем нужный нам интерфейс на экране?

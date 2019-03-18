@@ -6,6 +6,9 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
 import SidebarItemCatalogue from './SidebarItemCatalogue';
+import SidebarItemColor from './SidebarItemColor';
+import SidebarItemReason from './SidebarItemReason';
+import SidebarItemSeason from './SidebarItemSeason';
 
 class CatalogueSidebar extends Component {
 
@@ -16,6 +19,13 @@ class CatalogueSidebar extends Component {
 
 
             <SidebarItemCatalogue/>
+
+            <SidebarItemColor/>
+
+            <SidebarItemReason/>
+
+            <SidebarItemSeason/>
+
 
 
 
@@ -140,7 +150,8 @@ class CatalogueSidebar extends Component {
                   </form>
                 </div>
 
-                  <label><input type="checkbox" className="checkbox" name="checkbox-disc"/><span className="checkbox-discount"></span> <span className="text-discount">Со скидкой</span></label>
+                  <label for='discounted' >
+                  <input id='discounted' value="true" type="checkbox" className="checkbox" name="discounted"/><span className="checkbox-discount"></span> <span className="text-discount">Со скидкой</span></label>
 
               <div className="separator-240"></div>
             </section>

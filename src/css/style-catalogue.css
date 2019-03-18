@@ -1014,10 +1014,18 @@ span.color-name {
   padding-bottom: 10px;
 }
 
-.sidebar__season .opener-up {
-  top: 20px;
-  right: 16px;
-  background-position: -16px -154px;
+
+
+.sidebar__season ul {
+  width: 240px;
+  height: 143px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: auto;
+}
+
+.sidebar__season ul li {
+  padding-top: 12px;
 }
 
 /*Бренд*/
