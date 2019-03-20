@@ -631,6 +631,12 @@ li.active {
   padding-bottom: 30px;
 }
 
+.sidebar__division__noUiSlider {
+  padding: 0 23px;
+  /* padding: 5px; */
+  /* padding-bottom: 30px;  мешает*/
+}
+
 .sidebar__division-title {
   position: relative;
   margin: 0;

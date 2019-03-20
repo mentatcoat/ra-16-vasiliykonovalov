@@ -1,9 +1,18 @@
 // That's developping chronic.
 /*
+=======20/03/19
 
+
+
+??? стоило ли использовать npm package noUiSlider для реализации инпута-слайдера-установщика диапазона цены? Потратил неприлично много времени.
+
+ИДЕЯ: CatalogueSidebar получает catalogueParams и обновляется - сбрасывает всю форму?
+
+
+!!! приходящая макс цена категории не падает в Слайдер
+56. realize SidebarItemSlider
+!!!catalogueParams в App.js при загрузке categories выставляется на первую пришедшую категорию
 =======18/03/19
-
-
 55. discounted
 54. realize <SidebarItemSeason
 53. realize <SidebarItemReason

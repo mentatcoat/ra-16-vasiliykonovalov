@@ -2,6 +2,8 @@
 
 let services = {};
 let global = 123; //временный вспомогательный объект для разработки
+services.categoryMaxPrice = '';
+
 // https://neto-api.herokuapp.com/bosa-noga
 
 //!!! нужно этот массив задавать пустым:
@@ -225,11 +227,28 @@ function fetchCreateOrder(info) {
     });
   }
 }
+
+function getCategoryMaxPrice(categoryIdNumber) {
+  if(!categoryIdNumber) return;
+  fetchProducts({
+    categoryId: categoryIdNumber,
+    sortBy: 'price',
+    maxPrice: 1000000
+  }).then(data=>{
+    let result = data.data[0].price;
+    result = Math.ceil(result/100) * 100;
+    services.categoryMaxPrice = result;
+    console.log('getCategoryMaxPrice() services.categoryMaxPrice===', services.categoryMaxPrice);
+  });
+}
+
 function isFavorite() {
   let favorites = JSON.parse(localStorage.favorites);
   return favorites.includes(this.product.id);
 }
 
+
+services.getCategoryMaxPrice = getCategoryMaxPrice;
 services.isFavorite = isFavorite;
 services.basketTwinklePic = {};
 services.twinkleBasketPic = twinkleBasketPic;

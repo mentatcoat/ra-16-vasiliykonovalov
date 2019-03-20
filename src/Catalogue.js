@@ -23,6 +23,7 @@ class Catalogue extends Component {
       pagesAmount: ''
     };
 
+
     this.getSortedProducts = (params)=>{
       services.fetchProducts(params)
         .then(data=>{
@@ -42,6 +43,7 @@ class Catalogue extends Component {
 
     this.getSortedProducts(this.props.catalogueParams);
 
+    services.getCategoryMaxPrice(this.props.catalogueParams.categoryId);
 
 
   }//END constructor
@@ -49,6 +51,7 @@ class Catalogue extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
     if( nextProps !== this.props) {
+      services.getCategoryMaxPrice(nextProps.catalogueParams.categoryId);
 
       this.getSortedProducts(nextProps.catalogueParams);
       // ??? это зачем то заправшивается 2 раза - почему?

@@ -9,6 +9,7 @@ import SidebarItemCatalogue from './SidebarItemCatalogue';
 import SidebarItemColor from './SidebarItemColor';
 import SidebarItemReason from './SidebarItemReason';
 import SidebarItemSeason from './SidebarItemSeason';
+import SidebarItemSlider from './SidebarItemSlider';
 
 class CatalogueSidebar extends Component {
 
@@ -25,6 +26,10 @@ class CatalogueSidebar extends Component {
             <SidebarItemReason/>
 
             <SidebarItemSeason/>
+
+            <SidebarItemSlider/>
+
+
 
 
 
