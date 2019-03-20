@@ -104,7 +104,7 @@ function fetchProducts(params) {
   });
 }
 
-function fetchProduct(id, callback) {
+function fetchProduct(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products/';
   if(id) {
     return new Promise((resolve, reject)=>{
