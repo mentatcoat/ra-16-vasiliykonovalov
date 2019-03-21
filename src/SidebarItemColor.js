@@ -20,7 +20,7 @@ class SidebarItemColor extends Component {
       event.preventDefault();
       this.setState({
         value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      });
+      }, this.props.onChangeFilter);
     }
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
@@ -30,7 +30,7 @@ class SidebarItemColor extends Component {
 
 
   render() {
-    console.log('SidebarItemCatalogue render() state===', this.state);
+    console.log('SidebarItemColor  render() state===', this.state);
     return (
       <section className="sidebar__division">
         <input name='color' type='hidden' value={this.state.value} />

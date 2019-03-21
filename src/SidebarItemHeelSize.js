@@ -31,7 +31,7 @@ class SidebarItemHeelSize extends Component {
 
 
   render() {
-    console.log('SidebarItemSize render() state===', this.state);
+    console.log('SidebarItemHeelSize render() state===', this.state);
     return (
       <section className="sidebar__division">
         <div className="sidebar__size">
@@ -42,20 +42,20 @@ class SidebarItemHeelSize extends Component {
             </div>
           </div>
 
-          {this.state.isShown && <ul>
-            <div className="list-1">
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">1</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">3</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">5</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">7</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">9</span></label></li>
+          {this.state.isShown && <ul onChange={this.props.onChangeFilter}>
+            <div  className="list-1">
+              <li><label><input value={1} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">1</span></label></li>
+              <li><label><input value={3} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">3</span></label></li>
+              <li><label><input value={5} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">5</span></label></li>
+              <li><label><input value={7} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">7</span></label></li>
+              <li><label><input value={9} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">9</span></label></li>
             </div>
             <div className="list-2">
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">2</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">4</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">6</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">8</span></label></li>
-              <li><label><input type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">10</span></label></li>
+              <li><label><input value={2} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">2</span></label></li>
+              <li><label><input value={4} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">4</span></label></li>
+              <li><label><input value={6} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">6</span></label></li>
+              <li><label><input value={8} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">8</span></label></li>
+              <li><label><input value={10} type="checkbox" className="checkbox" name="heelSize"/><span className="checkbox-custom"></span> <span className="label">10</span></label></li>
             </div>
           </ul>
           }

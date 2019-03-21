@@ -24,6 +24,9 @@ class SidebarItemSlider extends Component {
     };
     this.shouldCreateSlider = true;
 
+    this.debouncedOnChangeFilter = services.debounce( this.props.onChangeFilter, 2000);
+
+
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
       event.preventDefault();
@@ -53,7 +56,14 @@ class SidebarItemSlider extends Component {
         minPrice: values[0],
         maxPrice: values[1]
       });
+      this.debouncedOnChangeFilter();
+
     };
+
+
+    // нужно сделать БРАТА троттлера, чтоыб только последий чейндж вызывал onChange={this.props.onChangeFilter}
+
+
 
     this.noUiSliderClasses = {
             target: "nus_target",

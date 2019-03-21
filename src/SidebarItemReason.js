@@ -20,7 +20,7 @@ class SidebarItemReason extends Component {
       event.preventDefault();
       this.setState({
         value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      });
+      }, this.props.onChangeFilter);
     }
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});

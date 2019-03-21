@@ -5,11 +5,12 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
-import services from './services';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
 import CatalogueItem from './CatalogueItem';
 import PropTypes from 'prop-types';
+import services from './services';
+
 
 class Catalogue extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Catalogue extends Component {
       currentPage: '',
       pagesAmount: ''
     };
-
+    this.categoryId;
 
     this.getSortedProducts = (params)=>{
       services.fetchProducts(params)
@@ -43,7 +44,46 @@ class Catalogue extends Component {
 
     this.getSortedProducts(this.props.catalogueParams);
 
-    services.getCategoryMaxPrice(this.props.catalogueParams.categoryId);
+
+    this.getCurrentCategoryId = (catalogueParams)=>{
+      if(!catalogueParams) return;
+      this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
+    };
+    this.getCurrentCategoryId(this.props.catalogueParams);
+
+    services.getCategoryMaxPrice(this.categoryId);
+
+
+    this.onChangeFilter = (e)=>{
+      console.log('!!!onChangeFilter() event===',e);
+      console.log('!!!onChangeFilter() services.filterForm===',services.filterForm);
+      console.log('!!!onChangeFilter() services.filterForm===',services.filterForm.elements);
+
+      let paramsArray = [];
+
+      let formData = new FormData(services.filterForm);
+      for (const [k, v] of formData) {
+        if(v) {
+          paramsArray.push([k,v]);
+        }
+      }
+      console.log('RESULT formObj===', paramsArray);
+
+
+
+      // formObj = inputsArray.reduce((memo, elem)=>{
+      //   if(elem.type.checkbox value) {
+      //     memo[elem.name] = elem.value;
+      //   };
+      //   return memo;
+      // }, {});
+      //
+      // console.log('RESULT formObj===', formObj);
+
+
+    }
+
+
 
 
   }//END constructor
@@ -51,7 +91,9 @@ class Catalogue extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
     if( nextProps !== this.props) {
-      services.getCategoryMaxPrice(nextProps.catalogueParams.categoryId);
+      this.getCurrentCategoryId(nextProps.catalogueParams);
+
+      services.getCategoryMaxPrice(this.categoryId);
 
       this.getSortedProducts(nextProps.catalogueParams);
       // ??? это зачем то заправшивается 2 раза - почему?
@@ -64,12 +106,21 @@ class Catalogue extends Component {
 
   }
 
+
+
   render() {
     console.log('Catalogue render() props===', this.props);
     console.log('Catalogue render() state===', this.state);
 
-    let categoryTitle = (this.props.categories && this.props.catalogueParams) && this.props.categories.find(el=>+el.id===+this.props.catalogueParams.categoryId).title;
 
+
+
+    let categoryIdPair, categoryTitle;
+
+    if(this.props.categories && this.props.catalogueParams) {
+      // categoryIdPair = this.props.catalogueParams.find(el=>el[0]==='categoryId');
+      categoryTitle = this.props.categories.find(el=>+el.id===+this.categoryId).title;
+    }
 
     return (
       <div className="Just wrapper">
@@ -87,7 +138,7 @@ class Catalogue extends Component {
         <main className="product-catalogue">
         {/*<CatalogueSidebar />*/}
 
-        <CatalogueSidebar />
+        <CatalogueSidebar onChangeFilter={this.onChangeFilter}/>
 
 
 
@@ -98,14 +149,15 @@ class Catalogue extends Component {
               <div className="product-catalogue__section-title">
                 <h2 className="section-name">{categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
               </div>
+
               <div className="product-catalogue__sort-by">
                 <p className="sort-by">Сортировать</p>
-                <select name="" id="sorting">
-                  <option value="">по популярности</option>
-                  <option value="">по размеру</option>
-                  <option value="">по производителю</option>
+                <select onChange={this.onChangeFilter} form='filterForm' name="sortBy" id="sorting">
+                  <option value="price">по цене</option>
+                  <option value="popularity">по популярности</option>
                 </select>
               </div>
+
             </section>
 
 

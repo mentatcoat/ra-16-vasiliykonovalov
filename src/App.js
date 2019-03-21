@@ -32,13 +32,12 @@ class App extends Component {
         this.setState({
           categories: data.data,
           // ниже ставим Первую категорию, она нужна на случай reload <Catalogue/> page, чтобы экран не был без товаров
-          catalogueParams: {categoryId: data.data[0].id}
+          catalogueParams: [['categoryId', data.data[0].id]]
         });
 
       });
-    services.fetchProducts((data)=>{
-      this.setState({products: data.data});
-    });
+    services.fetchProducts().then((data)=>this.setState({products: data.data}));
+
   }
 
   render() {

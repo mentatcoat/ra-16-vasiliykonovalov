@@ -2,7 +2,7 @@
 
 let services = {};
 let global = 123; //временный вспомогательный объект для разработки
-services.categoryMaxPrice = '';
+services.categoryMaxPrice = '100000';
 
 // https://neto-api.herokuapp.com/bosa-noga
 
@@ -81,12 +81,19 @@ function fetchProducts(params) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products';
   if(params) {
     url = url + '?';
-    const paramsArr = Object.keys(params);
-    paramsArr.forEach(
+    params.forEach(
       param=>{
-        url = url + param + '=' + `${params[param]}` + '&';
+        url = url + param[0] + '=' + param[1] + '&';
       }
     );
+
+
+    // const paramsArr = Object.keys(params);
+    // paramsArr.forEach(
+    //   param=>{
+    //     url = url + param + '=' + `${params[param]}` + '&';
+    //   }
+    // );
   }
   return new Promise((resolve,reject)=>{
     fetch(url)
@@ -230,11 +237,12 @@ function fetchCreateOrder(info) {
 
 function getCategoryMaxPrice(categoryIdNumber) {
   if(!categoryIdNumber) return;
-  fetchProducts({
-    categoryId: categoryIdNumber,
-    sortBy: 'price',
-    maxPrice: 1000000
-  }).then(data=>{
+  fetchProducts([
+    ['categoryId', categoryIdNumber],
+    ['sortBy', 'price'],
+    ['maxPrice', 1000000]
+  ]
+).then(data=>{
     let result = data.data[0].price;
     result = Math.ceil(result/100) * 100;
     services.categoryMaxPrice = result;
@@ -247,7 +255,19 @@ function isFavorite() {
   return favorites.includes(this.product.id);
 }
 
+function debounce(callback, delay) {
+  let timeout;
+  return () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      callback();
+    }, delay);
+  };
+};
 
+services.debounce = debounce;
+services.filterForm = '';
 services.getCategoryMaxPrice = getCategoryMaxPrice;
 services.isFavorite = isFavorite;
 services.basketTwinklePic = {};
