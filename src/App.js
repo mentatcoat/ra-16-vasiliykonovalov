@@ -35,7 +35,7 @@ class App extends Component {
           catalogueParams: [['categoryId', data.data[0].id]]
         });
 
-      });
+    });
     services.fetchProducts().then((data)=>this.setState({products: data.data}));
 
   }

@@ -37,16 +37,16 @@ class ProductCard extends Component {
       }
     };
 
-    this.init = ()=>{
+    this.init = (id)=>{
       console.log('init()');
-      services.fetchProduct(+this.props.match.params.id)
+      services.fetchProduct(id)
         .then(productInfo=>{
           this.setState({product:productInfo});
           this.setState({mainpic: productInfo.images[0]});
         });
         this.makeProductOverlooked();
     }
-    this.init();
+    this.init(+this.props.match.params.id);
 
     this.mainpicElement;
     this.pushMainpic = (event)=> {
@@ -56,17 +56,18 @@ class ProductCard extends Component {
       e.preventDefault();
       this.mainpicElement.classList.toggle('zoom-out')};
   }
-  // shouldComponentUpdate(nextProps, nextState){
-  //   console.log('shouldComponentUpdate() nextProps=== nextState===', nextProps, nextState);
-  //   if(this.props.match.params.id !== nextProps.match.params.id) {
-  //     this.init();
-  //     return true;
-  //   }
-  //   if(this.state !== nextState) return true;
-  //   // return false;
-  // }
+  shouldComponentUpdate(nextProps, nextState){
+    console.log('shouldComponentUpdate() nextProps=== nextState===', nextProps, nextState);
+    if(this.props.match.params.id !== nextProps.match.params.id) {
+      this.init(+nextProps.match.params.id);
+      // ??? Правильно ли использовать подобныеы init() функции, которые при обновлении props обновляют ключевые параметры компонента?
+      return true;
+    }
+    if(this.state !== nextState) return true;
+    // return false;
+  }
   render() {
-    console.log('ProductCard render()');
+    console.log('ProductCard render() props===', this.props);
     console.log('ProductCard render() state.product===', this.state.product);
     return (
       <div>

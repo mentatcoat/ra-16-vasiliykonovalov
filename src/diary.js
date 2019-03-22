@@ -1,12 +1,18 @@
 // That's developping chronic.
 /*
+=======22/03/19
 
+
+66. realize WEEK-2 requirements 
+65. Header subcategory => clearFilterForm
+64. !!! фильтры превалируют над категориями <Header />
 =======21/03/19
 
-
-
-
-
+63. realize СБРОС фильтра с перемаунтом Sidebar и перерисовкой всех продуктов.
+Надо сделать СБРОСИТЬ - желательно перерисовать весь sidebar
+62. сделал brand.
+!!! фильтр по РАЗМЕР не дает результатов, видимо захардкодены нереальные размеры, при этомнегде получать разымеры.
+61. realize <SidebarItemSlider put price in catalogueParams
 60. <SidebarItemSlider debounced-вызов сбора формы
 59. Заменил в fetchProducts params - теперь это массив.
 

@@ -5,13 +5,14 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
+import services from './services';
 
 class SidebarItemSeason extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isShown: true,
+      isShown: false,
       value: ''
     };
 
@@ -31,22 +32,30 @@ class SidebarItemSeason extends Component {
 
   render() {
     console.log('SidebarItemSeason render() state===', this.state);
+
     return (
       <section className="sidebar__division">
         <div className="sidebar__season">
 
-          <input name='season' type='hidden' value={this.state.value} />
+
           <div className="sidebar__division-title">
             <h3>Сезон</h3>
             <div onClick={this.clickDrawer} className={this.state.isShown ? 'opener-down' : 'opener-up'}></div>
           </div>
 
-          {this.state.isShown && <ul onClick={this.clickSubcategory}>
+          {this.state.isShown &&
+            <div>
+
+            <input name='season' type='hidden' value={this.state.value} />
+            <ul onClick={this.clickSubcategory}>
             <li><a className={this.state.value==='Зима' && 'chosen'} href="#">Зима</a></li>
             <li><a className={this.state.value==='Весна' && 'chosen'} href="#">Весна</a></li>
             <li><a className={this.state.value==='Лето' && 'chosen'} href="#">Лето</a></li>
             <li><a className={this.state.value==='Осень' && 'chosen'} href="#">Осень</a></li>
-          </ul>}
+          </ul>
+
+            </div>
+            }
 
         </div>
       </section>

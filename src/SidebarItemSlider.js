@@ -40,7 +40,7 @@ class SidebarItemSlider extends Component {
         this.setState({
           isShown: !this.state.isShown,
           minPrice : '0',
-          maxPrice: '50 000'
+          maxPrice: services.categoryMaxPrice.toLocaleString()
         });
       } else {
         // this.slider.noUiSlider.destroy();
@@ -50,14 +50,18 @@ class SidebarItemSlider extends Component {
 
     this.onChangeSlider = (values)=>{
       console.log('onChangeSlider() values===', values);
-      values = values.map(value=>
-        Number.parseInt(value, 10).toLocaleString());
+      let minMax = [];
+      values = values.map((value, index)=>{
+        minMax[index] = Number.parseInt(value, 10);
+        return minMax[index].toLocaleString();
+      });
+      this.minPrice = minMax[0];
+      this.maxPrice = minMax[1];
       this.setState({
         minPrice: values[0],
         maxPrice: values[1]
       });
       this.debouncedOnChangeFilter();
-
     };
 
 
@@ -110,7 +114,7 @@ class SidebarItemSlider extends Component {
         this.slider = document.getElementById('priceSlider');
 
       noUiSlider.create(this.slider, {
-          start: [0, 50000],
+          start: [0, services.categoryMaxPrice],
           connect: [false, true, false],
           range: {
               'min': 0,
@@ -133,6 +137,8 @@ class SidebarItemSlider extends Component {
 
     return (
       <section className="sidebar__division">
+
+
         <div className="sidebar__price">
 
           <div className="sidebar__division-title">
@@ -142,13 +148,15 @@ class SidebarItemSlider extends Component {
 
           {this.state.isShown &&
             <div className="sidebar__division__noUiSlider">
+              <input name='minPrice' type="hidden" value={this.minPrice}/>
+              <input name='maxPrice' type="hidden" value={this.maxPrice}/>
               <section  id='priceSlider' >
               </section>
 
               <div className="counter">
-                <input name='minPrice' type="text" className="input-1" value={this.state.minPrice}/>
+                <input form='123' name='minPrice' type="text" className="input-1" value={this.state.minPrice}/>
                 <div className="input-separator"></div>
-                <input name='maxPrice' type="text" className="input-2" value={this.state.maxPrice}/>
+                <input form='123' name='maxPrice' type="text" className="input-2" value={this.state.maxPrice}/>
               </div>
 
             </div>

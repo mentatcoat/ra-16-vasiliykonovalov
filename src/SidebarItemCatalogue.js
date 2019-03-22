@@ -11,7 +11,7 @@ class SidebarItemCatalogue extends Component {
     super(props);
 
     this.state = {
-      isShown: true,
+      isShown: false,
       value: ''
     };
 
@@ -29,14 +29,12 @@ class SidebarItemCatalogue extends Component {
 
   }
 
-
   render() {
     console.log('SidebarItemCatalogue render() state===', this.state);
     console.log('SidebarItemCatalogue render() props===', this.props);
     return (
       <section className="sidebar__division">
 
-              <input name='type' type='hidden' value={this.state.value} />
               <div className="sidebar__catalogue-list">
 
                 <div className="sidebar__division-title">
@@ -44,7 +42,11 @@ class SidebarItemCatalogue extends Component {
                   <div onClick={this.clickDrawer} className={this.state.isShown ? 'opener-down' : 'opener-up'}></div>
                 </div>
 
-                {this.state.isShown && <ul onClick={this.clickSubcategory}>
+                {this.state.isShown &&
+                  <div>
+
+                  <input name='type' type='hidden' value={this.state.value} />,
+                  <ul onClick={this.clickSubcategory}>
                   <li><a className={this.state.value==='Балетки' && 'chosen'} href="#">Балетки</a></li>
                   <li><a className={this.state.value==='Босоножки и сандалии' && 'chosen'} href="#">Босоножки и сандалии</a></li>
                   <li><a className={this.state.value==='Ботильоны' && 'chosen'} href="#">Ботильоны</a></li>
@@ -54,7 +56,10 @@ class SidebarItemCatalogue extends Component {
                   <li><a className={this.state.value==='Тапочки' && 'chosen'} href="#">Тапочки</a></li>
                   <li><a className={this.state.value==='Туфли' && 'chosen'} href="#">Туфли</a></li>
                   <li><a className={this.state.value==='Сапоги' && 'chosen'} href="#">Сапоги</a></li>
-                </ul>}
+                </ul>
+
+                </div>
+                }
 
               </div>
             </section>

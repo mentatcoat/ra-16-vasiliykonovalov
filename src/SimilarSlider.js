@@ -25,15 +25,17 @@ class SimilarSlider extends Component {
     };
 
     this.getSimilarProducts = ()=>{
-      let params = {
-        type: this.state.type,
-        color: this.state.color
-      };
-      services.fetchProducts(params, data=>{
-        console.log('fetch similarProducts===', data.data.slice());
-        let duplicate = data.data.findIndex(el=>el.id===this.state.id);
-        if(duplicate !== -1) data.data.splice(duplicate, 1);
-        this.setState({filtered: data.data.slice(-10)});
+      let params = [
+        ['type', this.state.type],
+        ['color',this.state.color]
+      ];
+
+      services.fetchProducts(params)
+        .then(data=>{
+          console.log('fetch similarProducts===', data.data.slice());
+          let duplicate = data.data.findIndex(el=>el.id===this.state.id);
+          if(duplicate !== -1) data.data.splice(duplicate, 1);
+          this.setState({filtered: data.data.slice(-10)});
       });
     };
     this.getSimilarProducts();

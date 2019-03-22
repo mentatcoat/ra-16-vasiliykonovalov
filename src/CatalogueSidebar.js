@@ -19,20 +19,35 @@ class CatalogueSidebar extends Component {
   constructor(props) {
     super(props);
     this.formElement;
+    this.state={reset: true};
 
-
+    this.brand;
     // this.onChangeForm = (e)=>{
     //   // e.preventDefault();
     //   console.log('!!!!!!onChangeForm() event===', e);
     //
     //
     // };
+    this.submitBrand = (e)=>{
+      e.preventDefault();
+      this.brand.value = e.target.elements[0].value;
+      this.props.onChangeFilter();
+          // && paramsArray.push(['brand', e.target.elements[0].value]);
+      }
 
-  }
+    this.reset = (e)=> {
+      console.log("RESSSSSSSSSSSSSSET FORM");
+      e.preventDefault();
+      // console.log('services.filterForm===', services.filterForm.elements);
+      for (let elem of services.filterForm.elements) {
+        console.log('ELEM===', elem);
+        elem.value = '';
+      }
+    }
 
+    }
 
   componentDidMount() {
-
 
   }
 
@@ -40,7 +55,7 @@ class CatalogueSidebar extends Component {
 
 
     return (
-          <form onChange={this.onChangeForm} ref={el=>services.filterForm = el} id="filterForm" className="sidebar">
+          <form  ref={el=>services.filterForm = el}  id="filterForm" className="sidebar">
 
             <SidebarItemCatalogue onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-1"></div>
@@ -59,9 +74,10 @@ class CatalogueSidebar extends Component {
             <div className="separator-150 separator-150-7"></div>
 
             <section className="sidebar__division">
+                <input form='filterForm' ref={el=>this.brand=el} name='brand' type='hidden'  />
                 <div className="sidebar__brand">
                   <h3>Бренд</h3>
-                  <form action="post" className="brand-search">
+                  <form onSubmit={this.submitBrand}  className="brand-search">
                     <input type="search" name='brand' className="brand-search" id="brand-search" placeholder="Поиск"/>
                     <input type="submit" name="" value="" className="submit"/>
                   </form>
@@ -75,7 +91,7 @@ class CatalogueSidebar extends Component {
 
             <section className="sidebar__division">
               <div className="drop-down">
-                <a href="#"><span className="drop-down-icon"></span>Сбросить</a>
+                <a onClick={this.props.resetFilter} ><span className="drop-down-icon"></span>Сбросить</a>
               </div>
             </section>
           </form>

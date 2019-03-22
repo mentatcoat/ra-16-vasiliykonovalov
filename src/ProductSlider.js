@@ -16,6 +16,14 @@ class ProductSlider extends Component {
     this.state = {
       first: 0
     }
+
+    this.init = (props)=>{
+      this.pics = props.product.images;
+      this.setState({
+        first: 0
+      });
+    };
+
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;
       if(delta > this.pics.length - 1) delta = 0;
@@ -30,6 +38,16 @@ class ProductSlider extends Component {
       return this.counter++;
     };
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if( nextProps !== this.props) {
+      this.init(nextProps);
+      return true;
+    }
+    return true;
+
+  }
+
 
   render() {
     if(this.pics.length < 2) return null;

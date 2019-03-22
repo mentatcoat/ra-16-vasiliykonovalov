@@ -20,6 +20,18 @@ class ProductInfo extends Component {
       isFavorite: this.isFavorite(),
       buttonTitle: 'В корзину'
     };
+
+    this.init = (props)=>{
+      this.product = props.product;
+      this.setState({
+        chosenSize: '',
+        chosenAmount: 1,
+        isFavorite: this.isFavorite(),
+        buttonTitle: 'В корзину'
+      });
+    }
+
+
     this.clickInBasket = ()=> {
       if(!this.state.chosenSize) {
         this.setState({buttonTitle: 'Выберите размер!'});
@@ -79,6 +91,17 @@ class ProductInfo extends Component {
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
 
   }
+
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps !== this.props) {
+      this.init(nextProps);
+      return true;
+    }
+    return true;
+  }
+
+
   render() {
     return (
       <div>ProductInfo Component here

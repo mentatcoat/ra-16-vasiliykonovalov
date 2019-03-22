@@ -19,10 +19,13 @@ class Header extends Component {
     };
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
+      if(services.clearFilterForm) services.clearFilterForm();
+
       let params = [
-        [event.currentTarget.dataset.subcategory, event.target.textContent],
-        ['categoryId', this.state.chosenCategory]
+        ['categoryId', this.state.chosenCategory],
+        [event.currentTarget.dataset.subcategory, event.target.textContent]
       ];
+      services.headerParam = [event.currentTarget.dataset.subcategory, event.target.textContent];
       this.props.setCatalogueParams(params);
     }
 

@@ -11,7 +11,7 @@ class SidebarItemHeelSize extends Component {
     super(props);
 
     this.state = {
-      isShown: true,
+      isShown: false,
       value: ''
     };
 

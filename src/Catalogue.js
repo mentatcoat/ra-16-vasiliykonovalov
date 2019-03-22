@@ -8,6 +8,7 @@ import './css/style-catalogue.css';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
 import CatalogueItem from './CatalogueItem';
+import CataloguePagination from './CataloguePagination';
 import PropTypes from 'prop-types';
 import services from './services';
 
@@ -17,6 +18,7 @@ class Catalogue extends Component {
     super(props);
     console.log('Catalogue props===', props);
     this.state = {
+      isShownSidebar: true,
       categories: this.props.categories,
       sortedProducts: '',
       sortedProductsAmount: null,
@@ -24,14 +26,16 @@ class Catalogue extends Component {
       pagesAmount: ''
     };
     this.categoryId;
+    // this.brand;
 
     this.getSortedProducts = (params)=>{
+      console.log('Catalogue getSortedProducts() params===', params);
+      // let isSortBy = params.find(el=>el[0]==='sortBy');
+
       services.fetchProducts(params)
         .then(data=>{
           console.log('Catalogue getSortedProducts() data===', data);
-          console.log('this PROPS===', this.props);
-          console.log('new PARAMS===', params);
-
+          console.log('Catalogue getSortedProducts() PARAMS===', params);
 
           this.setState({
             sortedProducts: data.data,
@@ -42,10 +46,10 @@ class Catalogue extends Component {
         });
     };
 
-    this.getSortedProducts(this.props.catalogueParams);
-
+    if(this.props.catalogueParams) this.getSortedProducts(this.props.catalogueParams);
 
     this.getCurrentCategoryId = (catalogueParams)=>{
+      console.log('getCurrentCategoryId() catalogueParams===', catalogueParams);
       if(!catalogueParams) return;
       this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
     };
@@ -53,9 +57,20 @@ class Catalogue extends Component {
 
     services.getCategoryMaxPrice(this.categoryId);
 
+    this.resetFilter = ()=>{
+      console.log('RESET Sidebar()');
+      this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
+      services.headerParam = '';
+      // ??? строчка выше быстро делает ремаунт <CatalogueSidebar/>, так что сбрасываются все настройки фильтра.
+      // this.onChangeFilter();
+    };
+
+    this.clearFilterForm = ()=>{
+      this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar}));
+    };
+    services.clearFilterForm = this.clearFilterForm;
 
     this.onChangeFilter = (e)=>{
-      console.log('!!!onChangeFilter() event===',e);
       console.log('!!!onChangeFilter() services.filterForm===',services.filterForm);
       console.log('!!!onChangeFilter() services.filterForm===',services.filterForm.elements);
 
@@ -63,34 +78,24 @@ class Catalogue extends Component {
 
       let formData = new FormData(services.filterForm);
       for (const [k, v] of formData) {
+        if(services.headerParam) {
+          if(k===services.headerParam[0] && v) services.headerParam = '';
+        }
         if(v) {
           paramsArray.push([k,v]);
         }
       }
-      console.log('RESULT formObj===', paramsArray);
 
-
-
-      // formObj = inputsArray.reduce((memo, elem)=>{
-      //   if(elem.type.checkbox value) {
-      //     memo[elem.name] = elem.value;
-      //   };
-      //   return memo;
-      // }, {});
-      //
-      // console.log('RESULT formObj===', formObj);
-
-
+      if(services.headerParam) paramsArray.push(services.headerParam);
+      paramsArray.push(['categoryId', this.categoryId]);
+      console.log('RESULT paramsARRAY===', paramsArray);
+      this.props.setCatalogueParams(paramsArray);
     }
-
-
-
-
   }//END constructor
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
-    if( nextProps !== this.props) {
+    if(nextProps &&  nextProps !== this.props) {
       this.getCurrentCategoryId(nextProps.catalogueParams);
 
       services.getCategoryMaxPrice(this.categoryId);
@@ -99,21 +104,13 @@ class Catalogue extends Component {
       // ??? это зачем то заправшивается 2 раза - почему?
       return true;
     }
-
     return true;
-
-
-
   }
-
-
 
   render() {
     console.log('Catalogue render() props===', this.props);
     console.log('Catalogue render() state===', this.state);
-
-
-
+    // console.log('Catalogue render() services.filterForm===', services.filterForm.elements);
 
     let categoryIdPair, categoryTitle;
 
@@ -138,9 +135,7 @@ class Catalogue extends Component {
         <main className="product-catalogue">
         {/*<CatalogueSidebar />*/}
 
-        <CatalogueSidebar onChangeFilter={this.onChangeFilter}/>
-
-
+        {this.state.isShownSidebar && <CatalogueSidebar onChangeFilter={this.onChangeFilter} resetFilter={this.resetFilter}/>}
 
         {/*<!-- Основной контент каталога -->*/}
           <section className="product-catalogue-content">
@@ -160,23 +155,7 @@ class Catalogue extends Component {
 
             </section>
 
-
-
-
-
-
-
-
             {/*<!-- Список товаров каталога -->*/}
-
-
-
-
-
-
-
-
-
 
             <section  className="product-catalogue__item-list">
               {/*<!-- Товары -->*/}
@@ -184,29 +163,12 @@ class Catalogue extends Component {
               {this.state.sortedProducts && this.state.sortedProducts.map(
                 product=><CatalogueItem key={product.id} product={product} />
 
-
-
-
               )}
-
 
             </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/*<!-- Пагинация под каталогом -->*/}
-            <div className="product-catalogue__pagination">
+            {/*<div className="product-catalogue__pagination">
               <div className="page-nav-wrapper">
                 <div className="angle-back"><a href="#"></a></div>
                 <ul>
@@ -220,7 +182,10 @@ class Catalogue extends Component {
                 </ul>
                 <div className="angle-forward"><a href="#"></a></div>
               </div>
-            </div>
+            </div>*/}
+
+            <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeFilter={this.onChangeFilter}/>
+
           </section>
 
         </main>

@@ -11,7 +11,7 @@ class SidebarItemReason extends Component {
     super(props);
 
     this.state = {
-      isShown: true,
+      isShown: false,
       value: ''
     };
 
@@ -34,13 +34,17 @@ class SidebarItemReason extends Component {
       <section className="sidebar__division">
         <div className="sidebar__occasion">
 
-          <input name='reason' type='hidden' value={this.state.value} />
+
           <div className="sidebar__division-title">
             <h3>Повод</h3>
             <div onClick={this.clickDrawer} className={this.state.isShown ? 'opener-down' : 'opener-up'}></div>
           </div>
 
-          {this.state.isShown && <ul onClick={this.clickSubcategory}>
+          {this.state.isShown &&
+            <div>
+
+            <input name='reason' type='hidden' value={this.state.value} />
+            <ul onClick={this.clickSubcategory}>
             <li><a className={this.state.value==='Офис' && 'chosen'} href="#">Офис</a></li>
             <li><a className={this.state.value==='Вечеринка' && 'chosen'} href="#">Вечеринка</a></li>
             <li><a className={this.state.value==='Свадьба' && 'chosen'} href="#">Свадьба</a></li>
@@ -49,7 +53,10 @@ class SidebarItemReason extends Component {
             <li><a className={this.state.value==='Свидание' && 'chosen'} href="#">Свидание</a></li>
             <li><a className={this.state.value==='Дома' && 'chosen'} href="#">Дома</a></li>
             <li><a className={this.state.value==='Произвести впечатление' && 'chosen'} href="#">Произвести впечатление</a></li>
-          </ul>}
+          </ul>
+
+          </div>
+        }
 
         </div>
       </section>

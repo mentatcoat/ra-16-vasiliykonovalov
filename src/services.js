@@ -266,8 +266,11 @@ function debounce(callback, delay) {
   };
 };
 
+services.clearFilterForm = '';
 services.debounce = debounce;
 services.filterForm = '';
+services.headerParam = '';
+services.headerParamInput = '';
 services.getCategoryMaxPrice = getCategoryMaxPrice;
 services.isFavorite = isFavorite;
 services.basketTwinklePic = {};

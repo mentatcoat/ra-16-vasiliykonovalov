@@ -20,10 +20,14 @@ class NewDeals extends Component {
     services.fetchFeatured((data)=>{
       this.setState({featured: data.data},this.categoriseFeatured);
     });
-    services.fetchCategories((data)=>{
+    services.fetchCategories()
+      .then((data)=>{
       this.setState({categories: data.data});
       this.setState({chosenCategory: data.data[1].id}, this.categoriseFeatured);
     });
+
+
+
     this.clickCategory = (event)=> {
       event.preventDefault();
       this.setState({chosenCategory: event.target.dataset.id}, this.categoriseFeatured);
