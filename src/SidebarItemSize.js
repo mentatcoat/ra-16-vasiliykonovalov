@@ -25,12 +25,9 @@ class SidebarItemSize extends Component {
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
     }
-
   }
 
-
   render() {
-    console.log('SidebarItemSize render() state===', this.state);
     return (
       <section className="sidebar__division">
         <div className="sidebar__size">

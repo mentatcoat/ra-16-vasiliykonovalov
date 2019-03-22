@@ -53,14 +53,10 @@ class SimilarSlider extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-
   }//END constructor
 
   render() {
-
-    console.log('SimilarSlider render() this.state===', this.state);
     if(this.state.filtered.length === 0) return null;
-
     let show = [];
     let amount = this.state.filtered.length;
     if(amount>3) amount = 3;
@@ -68,7 +64,6 @@ class SimilarSlider extends Component {
     for(let i = 0; i<amount; i++) {
       show.push(this.state.filtered[this.routIndex()]);
     }
-
 
     return (
       <section className="product-card__similar-products-slider">
@@ -94,11 +89,6 @@ class SimilarSlider extends Component {
             )
           )
           }
-
-
-
-
-
           {this.state.filtered.length > 3 && <div className="similar-products-slider__arrow similar-products-slider__arrow_right arrow" onClick={this.clickNext}></div>}
 
         </div>

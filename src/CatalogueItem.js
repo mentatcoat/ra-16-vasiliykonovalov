@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 class CatalogueItem extends Component {
   constructor(props) {
     super(props);
-    // console.log('CatalogueItem props===', props);
     this.product = this.props.product;
     this.isFavorite = services.isFavorite;
     this.state = {
@@ -42,7 +41,6 @@ class CatalogueItem extends Component {
   }//END constructor
 
   render() {
-    // console.log('CatalogueItem render() state===', this.state);
 
     return (
       <Link to={`/product-card/${this.product.id}`} className="item-list__item-card item" href="product-card-desktop.html">
@@ -50,7 +48,6 @@ class CatalogueItem extends Component {
         <div className="item-pic">
 
         <img className="item-pic-view" src={this.props.product.images[this.state.currentImage]} alt={this.props.product.title}/>
-
 
           <div onClick={this.toggleFavorite} className={`product-catalogue__product_favorite${this.isFavorite() ? '-chosen' : ''}`}>
             <p></p>

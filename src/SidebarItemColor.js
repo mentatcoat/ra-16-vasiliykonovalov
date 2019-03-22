@@ -25,12 +25,9 @@ class SidebarItemColor extends Component {
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
     }
-
   }
 
-
   render() {
-    console.log('SidebarItemColor  render() state===', this.state);
     return (
       <section className="sidebar__division">
 
@@ -60,9 +57,6 @@ class SidebarItemColor extends Component {
 
         </div>
       </section>
-
-
-
       );
   }
 }

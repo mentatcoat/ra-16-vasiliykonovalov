@@ -26,8 +26,6 @@ class NewDeals extends Component {
       this.setState({chosenCategory: data.data[1].id}, this.categoriseFeatured);
     });
 
-
-
     this.clickCategory = (event)=> {
       event.preventDefault();
       this.setState({chosenCategory: event.target.dataset.id}, this.categoriseFeatured);

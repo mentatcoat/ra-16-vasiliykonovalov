@@ -26,16 +26,11 @@ class Catalogue extends Component {
       pagesAmount: ''
     };
     this.categoryId;
-    // this.brand;
 
     this.getSortedProducts = (params)=>{
-      console.log('Catalogue getSortedProducts() params===', params);
-      // let isSortBy = params.find(el=>el[0]==='sortBy');
 
       services.fetchProducts(params)
         .then(data=>{
-          console.log('Catalogue getSortedProducts() data===', data);
-          console.log('Catalogue getSortedProducts() PARAMS===', params);
 
           this.setState({
             sortedProducts: data.data,
@@ -49,7 +44,6 @@ class Catalogue extends Component {
     if(this.props.catalogueParams) this.getSortedProducts(this.props.catalogueParams);
 
     this.getCurrentCategoryId = (catalogueParams)=>{
-      console.log('getCurrentCategoryId() catalogueParams===', catalogueParams);
       if(!catalogueParams) return;
       this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
     };
@@ -61,8 +55,7 @@ class Catalogue extends Component {
       console.log('RESET Sidebar()');
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
       services.headerParam = '';
-      // ??? строчка выше быстро делает ремаунт <CatalogueSidebar/>, так что сбрасываются все настройки фильтра.
-      // this.onChangeFilter();
+      // ??? строчка выше быстро делает ремаунт <CatalogueSidebar/> рендер которого зависит от стейт, сбрасываются все настройки фильтра находящегося в этом компоненте. Здоровый подход?.
     };
 
     this.clearFilterForm = ()=>{
@@ -71,8 +64,6 @@ class Catalogue extends Component {
     services.clearFilterForm = this.clearFilterForm;
 
     this.onChangeFilter = (e)=>{
-      console.log('!!!onChangeFilter() services.filterForm===',services.filterForm);
-      console.log('!!!onChangeFilter() services.filterForm===',services.filterForm.elements);
 
       let paramsArray = [];
 
@@ -88,7 +79,6 @@ class Catalogue extends Component {
 
       if(services.headerParam) paramsArray.push(services.headerParam);
       paramsArray.push(['categoryId', this.categoryId]);
-      console.log('RESULT paramsARRAY===', paramsArray);
       this.props.setCatalogueParams(paramsArray);
     }
   }//END constructor
@@ -108,14 +98,10 @@ class Catalogue extends Component {
   }
 
   render() {
-    console.log('Catalogue render() props===', this.props);
-    console.log('Catalogue render() state===', this.state);
-    // console.log('Catalogue render() services.filterForm===', services.filterForm.elements);
 
     let categoryIdPair, categoryTitle;
 
     if(this.props.categories && this.props.catalogueParams) {
-      // categoryIdPair = this.props.catalogueParams.find(el=>el[0]==='categoryId');
       categoryTitle = this.props.categories.find(el=>+el.id===+this.categoryId).title;
     }
 
@@ -133,7 +119,6 @@ class Catalogue extends Component {
 
         {/*<!-- Тело каталога с сайдбаром -->*/}
         <main className="product-catalogue">
-        {/*<CatalogueSidebar />*/}
 
         {this.state.isShownSidebar && <CatalogueSidebar onChangeFilter={this.onChangeFilter} resetFilter={this.resetFilter}/>}
 
@@ -168,21 +153,6 @@ class Catalogue extends Component {
             </section>
 
             {/*<!-- Пагинация под каталогом -->*/}
-            {/*<div className="product-catalogue__pagination">
-              <div className="page-nav-wrapper">
-                <div className="angle-back"><a href="#"></a></div>
-                <ul>
-                  <li className="active"><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li><a href="">...</a></li>
-                  <li><a href="#">99</a></li>
-                </ul>
-                <div className="angle-forward"><a href="#"></a></div>
-              </div>
-            </div>*/}
 
             <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeFilter={this.onChangeFilter}/>
 

@@ -25,9 +25,7 @@ class SidebarItemReason extends Component {
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
     }
-
   }
-
 
   render() {
     return (
@@ -60,8 +58,6 @@ class SidebarItemReason extends Component {
 
         </div>
       </section>
-
-
     );
   }
 }

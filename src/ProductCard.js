@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 
 class ProductCard extends Component {
   constructor(props) {
-    console.log('ProductCard got props===', props);
     super(props);
     this.state= {
       mainpic: null,
@@ -38,7 +37,6 @@ class ProductCard extends Component {
     };
 
     this.init = (id)=>{
-      console.log('init()');
       services.fetchProduct(id)
         .then(productInfo=>{
           this.setState({product:productInfo});
@@ -57,7 +55,6 @@ class ProductCard extends Component {
       this.mainpicElement.classList.toggle('zoom-out')};
   }
   shouldComponentUpdate(nextProps, nextState){
-    console.log('shouldComponentUpdate() nextProps=== nextState===', nextProps, nextState);
     if(this.props.match.params.id !== nextProps.match.params.id) {
       this.init(+nextProps.match.params.id);
       // ??? Правильно ли использовать подобныеы init() функции, которые при обновлении props обновляют ключевые параметры компонента?
@@ -67,8 +64,6 @@ class ProductCard extends Component {
     // return false;
   }
   render() {
-    console.log('ProductCard render() props===', this.props);
-    console.log('ProductCard render() state.product===', this.state.product);
     return (
       <div>
         <div className="site-path">

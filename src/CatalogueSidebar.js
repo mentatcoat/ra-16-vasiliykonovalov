@@ -15,45 +15,27 @@ import SidebarItemHeelSize from './SidebarItemHeelSize';
 import services from './services';
 
 class CatalogueSidebar extends Component {
-  // тут есть this.props.onChangeFilter
   constructor(props) {
     super(props);
     this.formElement;
     this.state={reset: true};
 
     this.brand;
-    // this.onChangeForm = (e)=>{
-    //   // e.preventDefault();
-    //   console.log('!!!!!!onChangeForm() event===', e);
-    //
-    //
-    // };
     this.submitBrand = (e)=>{
       e.preventDefault();
       this.brand.value = e.target.elements[0].value;
       this.props.onChangeFilter();
-          // && paramsArray.push(['brand', e.target.elements[0].value]);
       }
 
     this.reset = (e)=> {
-      console.log("RESSSSSSSSSSSSSSET FORM");
       e.preventDefault();
-      // console.log('services.filterForm===', services.filterForm.elements);
       for (let elem of services.filterForm.elements) {
-        console.log('ELEM===', elem);
         elem.value = '';
       }
     }
-
     }
 
-  componentDidMount() {
-
-  }
-
   render() {
-
-
     return (
           <form  ref={el=>services.filterForm = el}  id="filterForm" className="sidebar">
 

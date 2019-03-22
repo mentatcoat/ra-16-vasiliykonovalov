@@ -5,7 +5,6 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
-// import './css/style-noUiSlider.css';
 import './css/style-new-nouislider.css';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
@@ -23,9 +22,7 @@ class SidebarItemSlider extends Component {
       maxPrice: '50 000'
     };
     this.shouldCreateSlider = true;
-
     this.debouncedOnChangeFilter = services.debounce( this.props.onChangeFilter, 2000);
-
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
@@ -43,13 +40,11 @@ class SidebarItemSlider extends Component {
           maxPrice: services.categoryMaxPrice.toLocaleString()
         });
       } else {
-        // this.slider.noUiSlider.destroy();
       }
       this.setState({isShown: !this.state.isShown});
     }
 
     this.onChangeSlider = (values)=>{
-      console.log('onChangeSlider() values===', values);
       let minMax = [];
       values = values.map((value, index)=>{
         minMax[index] = Number.parseInt(value, 10);
@@ -63,11 +58,6 @@ class SidebarItemSlider extends Component {
       });
       this.debouncedOnChangeFilter();
     };
-
-
-    // нужно сделать БРАТА троттлера, чтоыб только последий чейндж вызывал onChange={this.props.onChangeFilter}
-
-
 
     this.noUiSliderClasses = {
             target: "nus_target",
@@ -108,8 +98,6 @@ class SidebarItemSlider extends Component {
   }//END constructor
 
   componentDidUpdate() {
-    console.log('noUiSlider===', noUiSlider);
-
     if(this.state.isShown && this.shouldCreateSlider) {
         this.slider = document.getElementById('priceSlider');
 
@@ -125,19 +113,14 @@ class SidebarItemSlider extends Component {
         }
       );
       this.slider.noUiSlider.on('slide', this.onChangeSlider);
-
-      console.log('CREATED this.slider===', this.slider);
       this.shouldCreateSlider = false;
     }
 
   }//END componentDidUpdate
 
   render() {
-    console.log('SidebarItemSlider render() state===', this.state);
-
     return (
       <section className="sidebar__division">
-
 
         <div className="sidebar__price">
 

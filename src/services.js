@@ -10,24 +10,16 @@ services.categoryMaxPrice = '100000';
 if(!localStorage.favorites) localStorage.favorites = JSON.stringify([]);
 
 function twinkleBasketPic() {
-  console.log('services.twinkleBasketPic() services.basketTwinklePic===', services.basketTwinklePic);
-  // scroll:
   services.basketTwinklePic.textContent = localStorage.cartProductsAmount;
   let twinklePicTop = services.basketTwinklePic.parentElement.getBoundingClientRect().top - 5;
-  console.log('twinklePicTop===', twinklePicTop);
-  console.log('window===', window);
   if(twinklePicTop < 0) {
-    console.log('twinklePicTop < 0===', twinklePicTop < 0);
     window.scrollTo(0,0);
   }
-  // twinkling:
   var timerId = setInterval(function() {
     services.basketTwinklePic.classList.toggle('basket-visible');
   }, 300);
-  // через 2 сек остановить повторы
   setTimeout(function() {
     clearInterval(timerId);
-    // alert( 'стоп' );
   }, 1500);
   setTimeout(function() {
     services.basketTwinklePic.classList.toggle('basket-visible');
@@ -42,7 +34,6 @@ function toggleFavorite(id) {
   } else {
     favorites.push(id);
   }
-  console.log('toggleFavorite() favorites===',favorites);
   localStorage.favorites = JSON.stringify(favorites);
 }
 
@@ -86,14 +77,6 @@ function fetchProducts(params) {
         url = url + param[0] + '=' + param[1] + '&';
       }
     );
-
-
-    // const paramsArr = Object.keys(params);
-    // paramsArr.forEach(
-    //   param=>{
-    //     url = url + param + '=' + `${params[param]}` + '&';
-    //   }
-    // );
   }
   return new Promise((resolve,reject)=>{
     fetch(url)
@@ -246,7 +229,6 @@ function getCategoryMaxPrice(categoryIdNumber) {
     let result = data.data[0].price;
     result = Math.ceil(result/100) * 100;
     services.categoryMaxPrice = result;
-    console.log('getCategoryMaxPrice() services.categoryMaxPrice===', services.categoryMaxPrice);
   });
 }
 

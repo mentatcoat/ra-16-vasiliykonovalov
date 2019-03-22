@@ -13,24 +13,13 @@ import services from './services';
 
 
 class CataloguePagination extends Component {
-// pagesAmount currentPage
-
-
   constructor(props) {
     super(props);
-    console.log('CataloguePagination props===', props);
-
     this.state = {
       first: 0,
       pagesAmount: this.props.pagesAmount,
       currentPage: this.props.currentPage
-
-
     };
-
-
-
-
     this.counter;
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;
@@ -44,11 +33,6 @@ class CataloguePagination extends Component {
       if (this.counter > this.state.pagesAmount) this.counter = 0;
       return this.counter++;
     };
-
-
-
-
-
     this.clickPage = (e,step)=>{
       if(!e) {
         this.setState({
@@ -66,8 +50,6 @@ class CataloguePagination extends Component {
     }
     this.clickNextPage = this.clickPage.bind(null,null, 1);
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
-
-
   }//END constructor
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -81,48 +63,31 @@ class CataloguePagination extends Component {
   }
 
 
-
   render() {
-    console.log('CataloguePagination render() state===', this.state);
-
     let toShowAmount = this.state.pagesAmount - this.state.currentPage + 1;
-
     let show = [];
     let amount = toShowAmount;
     if(amount>5) amount = 5;
-    // if(toShowAmount < 5) amount = toShowAmount;
     this.counter = this.state.currentPage;
     for(let i = 0; i<amount; i++) {
       show.push(this.routIndex());
     }
-
-
-
 
     return (
       <div className="product-catalogue__pagination">
         <div className="page-nav-wrapper">
 
           <input form='filterForm' name='page' type='hidden' value={this.state.currentPage} />
-
-
           {this.state.currentPage !== 1 && <div className="angle-back"><a onClick={this.clickPrevPage}></a></div>}
-
-
           <ul onClick={this.clickPage}>
-
             {show.map(
               pageNumber=>(
                 <li key={pageNumber} className={pageNumber===this.state.currentPage ? "active" : ''}><a>{pageNumber}</a></li>
               )
             )
             }
-
             {toShowAmount > 5 && <li><p>...</p></li>}
             {toShowAmount > 5 && <li><a>{this.state.pagesAmount}</a></li>}
-
-
-
           </ul>
           {this.state.currentPage !== this.state.pagesAmount && <div className="angle-forward"><a onClick={this.clickNextPage}></a></div>}
 

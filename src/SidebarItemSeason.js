@@ -31,7 +31,6 @@ class SidebarItemSeason extends Component {
 
 
   render() {
-    console.log('SidebarItemSeason render() state===', this.state);
 
     return (
       <section className="sidebar__division">

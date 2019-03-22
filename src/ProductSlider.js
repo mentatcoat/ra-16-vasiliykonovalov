@@ -48,7 +48,6 @@ class ProductSlider extends Component {
 
   }
 
-
   render() {
     if(this.pics.length < 2) return null;
 

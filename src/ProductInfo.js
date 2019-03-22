@@ -46,7 +46,6 @@ class ProductInfo extends Component {
       if(localStorage.cartId) {
         services.fetchUpdateProduct(localStorage.cartId, productObj)
           .then(data=>{
-            console.log('fetchUpdateProduct() promise resolve===', data);
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=data.data.products.length;
               services.twinkleBasketPic();
@@ -56,15 +55,12 @@ class ProductInfo extends Component {
       } else {
         services.fetchCreateCart(productObj)
           .then(data=>{
-            console.log('fetchCreateCart() promise resolve===', data);
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=1;
               services.twinkleBasketPic();
             }
           });
       }
-      // функция мигания Количества в корзине
-      // services.twinkleBasketPic();
     };
     this.toggleFavorite = ()=>{
       services.toggleFavorite(this.product.id);
@@ -89,9 +85,7 @@ class ProductInfo extends Component {
     }
     this.basketAmountPlus = this.basketAmountChange.bind(this, 1);
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
-
   }
-
 
   shouldComponentUpdate(nextProps, nextState) {
     if(nextProps !== this.props) {
