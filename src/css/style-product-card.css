@@ -1,6 +1,5 @@
 html,
 body {
-  /* max-width: 1438px; */
   min-width: 1205px;
   margin: 0 auto;
   font-family: 'Roboto', sans-serif;
@@ -225,7 +224,6 @@ li.active {
 .size-wrapper {
   position: relative;
   top: 45px;
-  /* right: 42px; */
   left: 140px;
   display: inline-block;
 }
@@ -250,7 +248,6 @@ li.active {
 .in-favourites-wrapper {
   position: relative;
   top: 58px;
-  /* left: 204px; */
   left: 265px;
   display: inline-block;
   width: 200px;

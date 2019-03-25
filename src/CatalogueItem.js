@@ -33,7 +33,6 @@ class CatalogueItem extends Component {
     this.toggleFavorite = (e)=>{
       e.preventDefault();//!!!???почему это помогло избежать высплытиеClick с этого элемента на <a>, а не это:
       // e.nativeEvent.stopImmediatePropagation();
-      console.log('EVENT click===', e.nativeEvent);
       services.toggleFavorite(this.product.id);
       this.setState({isFavorite: this.isFavorite()});
     };

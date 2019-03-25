@@ -9,10 +9,6 @@ import JSONproducts from './data/products.json';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-//!!! закинули в sessionStorage просмотренные id (это временный код для разработки)
-// let overlookedIds = [20, 21, 22,23,24,25,26,27,28,29,30,31,32,33,34,35];
-// sessionStorage.overlooked = JSON.stringify(overlookedIds);
-
 class OverlookedSlider extends Component {
   constructor(props) {
     super(props);

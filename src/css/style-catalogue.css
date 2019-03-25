@@ -1,6 +1,5 @@
 html,
 body {
-  /* max-width: 1438px; */
   min-width: 1205px;
   margin: 0 auto;
   font-family: 'Roboto', sans-serif;
@@ -70,10 +69,6 @@ a:hover {
   margin-left: 24px;
 }
 
-/*.product-catalogue__section-title {
-  outline: 1px solid red;
-}
-*/
 .product-catalogue__sort-by {
   text-align: right;
   padding-right: 13px;
@@ -392,7 +387,6 @@ span.producer {
 .product-catalogue .sizes {
   position: absolute;
   display: none;
-  /* display: block; */
   top: inherit;
   left: inherit;
   width: 100%;
@@ -612,9 +606,7 @@ li.active {
 .sidebar {
   width: 285px;
   height: auto;
-  /* margin-left: 120px; */
   vertical-align: top;
-  /* float: left; */
   border-radius: 15px;
   box-shadow: 3px 3px 15px #D4E4E6;
 
@@ -635,8 +627,6 @@ li.active {
 
 .sidebar__division__noUiSlider {
   padding: 0 23px;
-  /* padding: 5px; */
-  /* padding-bottom: 30px;  мешает*/
 }
 
 .sidebar__division-title {
@@ -701,21 +691,6 @@ li.active {
 .sidebar__catalogue-list ul li {
   padding-top: 12px;
 }
-
-
-
-/* .sidebar__catalogue-list select {
-  height: 206px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  overflow: auto;
-}
-
-.sidebar__catalogue-list select option {
-  padding-top: 12px;
-} */
-
 
 /*Цена*/
 .sidebar__price h3 {
@@ -861,10 +836,6 @@ span.color-name {
 .sidebar__color ul li:hover div {
   opacity: 1;
 }
-
-/*span.color-name:hover {
- text-decoration: underline;
-}*/
 
 .beige {
   background: #E5DBC5;
