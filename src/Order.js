@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
 
 import OrderCart from './OrderCart';
+import OrderForm from './OrderForm';
 import services from './services';
 import JSONproducts from './data/products.json';
 import PropTypes from 'prop-types';
@@ -17,7 +18,12 @@ class Order extends Component {
       cartProductsInfo: null,
       isDone: false,
       total: '',
-      cart: null
+      paymentType: '',
+      name: '',
+      address: '',
+      phone: '',
+      email: ''
+      // cart: null
     };
     this.cart;
 
@@ -39,9 +45,53 @@ class Order extends Component {
     services.fetchGetCart(localStorage.cartId, (data)=> {
       this.setState({cart : data.data}, this.getCartProductsInfo);
     });
+
+    this.submitCreateOrder = (event) => {
+      event.preventDefault();
+      console.log('submitCreateOrder() event===', event);
+      console.log('submitCreateOrder() event===', event.target);
+
+      let form = event.target;
+
+      let orderInfo = {
+        cart: localStorage.cartId,
+        paymentType: form.paid.value,
+        name: form.name.value,
+        address: form.address.value,
+        phone: form.phone.value,
+      };
+      console.log('submitCreateOrder() orderInfo===', orderInfo);
+      services.fetchCreateOrder(orderInfo)
+        .then(data=>{
+          console.log('createdOrder() data===', data);
+          if(data.status === 'ok') {
+            this.setState({
+              isDone: true,
+              total: services.cartTotal,
+              paymentType: form.paid.value,
+              name: form.name.value,
+              address: form.address.value,
+              phone: form.phone.value,
+              email: form.email.value
+            });
+          }
+        });
+    };
   }
 
   render() {
+    let paymentType;
+    switch(this.state.paymentType) {
+      case 'onlineСard':
+        paymentType = 'Картой онлайн';
+        break;
+      case 'offlineCard':
+        paymentType = 'Картой курьеру';
+        break;
+      case 'offlineCash':
+        paymentType = 'Наличными курьеру';
+        break;
+    }
 
     return (
         <div className="wrapper order-wrapper">
@@ -54,52 +104,46 @@ class Order extends Component {
           </div>
 
           <section className="order-process">
-            <h2 className="order-process__title">Оформление заказа</h2>
+            {!this.state.isDone && <h2 className="order-process__title">Оформление заказа</h2>}
 
-            {this.state.cartProductsInfo && <OrderCart products={this.state.cartProductsInfo} items={this.state.cart.products} />}
+            {this.state.cartProductsInfo && !this.state.isDone && <OrderCart products={this.state.cartProductsInfo} items={this.state.cart.products} />}
 
-            <div className="order-process__confirmed">
-              <form action="#">
-                <div className="order-process__delivery">
-                  <h3 className="h3">кому и куда доставить?</h3>
-                  <div className="order-process__delivery-form">
-                    <label className="order-process__delivery-label">
-                      <div className="order-process__delivery-text">Имя</div>
-                      <input className="order-process__delivery-input" type="text" name="delivery" placeholder="Представьтесь, пожалуйста"/>
-                    </label>
-                    <label className="order-process__delivery-label">
-                      <div className="order-process__delivery-text">Телефон</div>
-                      <input className="order-process__delivery-input" type="tel" name="delivery" placeholder="Номер в любом формате"/>
-                    </label>
-                    <label className="order-process__delivery-label">
-                      <div className="order-process__delivery-text">E-mail</div>
-                      <input className="order-process__delivery-input" type="email" name="delivery" placeholder="Укажите E-mail"/>
-                    </label>
-                    <label className="order-process__delivery-label order-process__delivery-label_adress">
-                      <div className="order-process__delivery-text">Адрес</div>
-                      <input className="order-process__delivery-input order-process__delivery-input_adress" type="text" name="delivery" placeholder="Ваша покупка будет доставлена по этому адресу"/>
-                    </label>
-                  </div>
-                  <p>Все поля обязательны для заполнения. Наш оператор свяжется с вами для уточнения деталей заказа.</p>
-                </div>
-                <div className="order-process__paid">
-                  <h3 className="h3">хотите оплатить онлайн или курьеру при получении?</h3>
-                  <div className="order-process__paid-form">
-                    <label className="order-process__paid-label">
-                      <input className="order-process__paid-radio" type="radio" name="paid" value="card-online"/><span className="order-process__paid-text">Картой онлайн</span>
-                    </label>
-                    <label className="order-process__paid-label">
-                      <input className="order-process__paid-radio" type="radio" name="paid" value="card-courier" checked=""/><span className="order-process__paid-text">Картой курьеру</span>
-                    </label>
-                    <label className="order-process__paid-label">
-                      <input className="order-process__paid-radio" type="radio" name="paid" value="cash"/><span className="order-process__paid-text">Наличными курьеру</span>
-                    </label>
-                  </div>
-                </div>
-                <button className="order-process__form-submit order-process__form-submit_click">Подтвердить заказ</button>
-              </form>
+            {!this.state.isDone && <OrderForm onsubmit={this.submitCreateOrder}/>}
+
+            </section>
+
+            {this.state.isDone &&
+            <section className="order-done">
+            <h2 className="order-process__title">Заказ принят, спасибо!</h2>
+
+            <div className="order-done__information order-info">
+              <div className="order-info__item order-info__item_summ">
+                <h3>Сумма заказа:</h3>
+                <p>{`${this.state.total.toLocaleString()} `}<i className="fa fa-rub" aria-hidden="true"></i></p>
+              </div>
+              <div className="order-info__item order-info__item_pay-form">
+                <h3>Способ оплаты:</h3>
+                <p>{paymentType}</p>
+              </div>
+              <div className="order-info__item order-info__item_customer-name">
+                <h3>Имя клиента:</h3>
+                <p>{this.state.name}</p>
+              </div>
+              <div className="order-info__item order-info__item_adress">
+                <h3>Адрес доставки:</h3>
+                <p>{this.state.address}</p>
+              </div>
+              <div className="order-info__item order-info__item_phone">
+                <h3>Телефон:</h3>
+                <p>{this.state.phone}</p>
+              </div>
             </div>
-          </section>
+            <p className="order-done__notice">Данные о заказе отправлены на адрес <span>{`${this.state.email}.`}</span></p>
+            <Link to={'/catalogue'} className="order-done__continue">продолжить покупки</Link>
+
+            </section>
+          }
+
         </div>
     );
   }

@@ -1,9 +1,16 @@
 // That's developping chronic.
 /*
+
+
+=======25/03/19
+
+70. сделал заказ оформлен
+69. сделал createdOrder
+68. Отправка данных - изменение корзины при каждом обновлении количества item, срабатывает дебаунс функции fetchUpdateProduct
+сделал код OrderCaritem unique
+67. !!! ПРОБЛЕМА: потенциальная, в OrderCart собираются данные в totalCollector, в нем заказы с одним id продукта но с разными размерами перезатрутся в один продукт.
 =======22/03/19
-
-
-66. realize WEEK-2 requirements 
+66. realize WEEK-2 requirements
 65. Header subcategory => clearFilterForm
 64. !!! фильтры превалируют над категориями <Header />
 =======21/03/19

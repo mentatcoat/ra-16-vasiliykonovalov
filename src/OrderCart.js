@@ -20,7 +20,7 @@ class OrderCart extends Component {
     this.totalCollector = {};
     this.countOrderCart = (summObj) => {
       Object.assign(this.totalCollector, summObj);
-      this.total = Object.values(this.totalCollector).reduce(
+      this.total = services.cartTotal = Object.values(this.totalCollector).reduce(
         (memo, value)=>{
           return memo+value;
         },0
@@ -32,19 +32,22 @@ class OrderCart extends Component {
   componentDidMount() {
     this.props.items.forEach(
       item=> {
-        let summObj = {[item.id]: (this.props.products.find(el=> el.id === item.id).price *item.amount)};
+        // сюда тоже добавил unique номер:
+        let summObj = {[`${item.id}` + `${item.size}`]: (this.props.products.find(el=> el.id === item.id).price *item.amount)};
         this.countOrderCart(summObj)
       }
     )
   }
 
   render() {
+    console.log('OrderCart render() props===', this.props);
+
     let cartItems = [];
 
     cartItems = this.props.items.map(
       item=>{
         let itemProduct = this.props.products.find(el=>+el.id === +item.id);
-        return <OrderCartItem key={item.id} item={item} product={itemProduct} counter={this.countOrderCart} />;
+        return <OrderCartItem key={item.id} unique={`${item.id}` + `${item.size}`} item={item} product={itemProduct} counter={this.countOrderCart} />;
       }
     );
 

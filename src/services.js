@@ -164,13 +164,14 @@ function fetchGetCart(id, callback) {
   }
 }
 
-function fetchUpdateProduct(cartId, product) {
+function fetchUpdateProduct(cartId, item) {
+  console.log('fetchUpdateProduct() args===', arguments);
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
-  if(cartId && product) {
+  if(cartId && item) {
     url = url + cartId;
     return new Promise((resolve,reject)=>{
       const request = fetch(url, {
-        body: JSON.stringify(product),
+        body: JSON.stringify(item),
         credentials: 'same-origin',
         method: 'POST',
         headers: {
@@ -196,25 +197,30 @@ function fetchUpdateProduct(cartId, product) {
 function fetchCreateOrder(info) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/order';
   if(info) {
-    const request = fetch(url, {
-      body: JSON.stringify(info),
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json'
-      },
-    }
-    )
-    .then((res) => {
-      return res;
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(data=> {
-    })
-    .catch((err) => {
+
+    return new Promise((resolve, reject)=>{
+      const request = fetch(url, {
+        body: JSON.stringify(info),
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+      }
+      )
+      .then((res) => {
+        return res;
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(data=> {
+        resolve(data);
+      })
+      .catch((err) => {
+      });
     });
+
   }
 }
 
@@ -239,15 +245,16 @@ function isFavorite() {
 
 function debounce(callback, delay) {
   let timeout;
-  return () => {
+  return (arg1, arg2) => {
     clearTimeout(timeout);
     timeout = setTimeout(function() {
       timeout = null;
-      callback();
+      callback(arg1, arg2);
     }, delay);
   };
 };
 
+services.cartTotal = '';
 services.clearFilterForm = '';
 services.debounce = debounce;
 services.filterForm = '';
