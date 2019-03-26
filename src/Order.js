@@ -74,6 +74,7 @@ class Order extends Component {
               phone: form.phone.value,
               email: form.email.value
             });
+            delete localStorage.cartId;
           }
         });
     };

@@ -14,9 +14,15 @@ class OrderForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      isButtonActive: false
     };
 
+    this.onChangeForm = (e)=>{
+      this.setState({
+        isButtonActive: e.currentTarget.checkValidity()
+      });
+    };
+    // ??? дайте критику по методу выше: он срабатывает при каждом изменении в элементах формы, задем вызывает дополнительно метод формы checkValidity   - возможно есть более простой способ сделать тоже самое?
 
   }
 
@@ -27,7 +33,7 @@ class OrderForm extends Component {
 
     return (
       <div className="order-process__confirmed">
-        <form onSubmit={this.props.onsubmit}>
+        <form onSubmit={this.props.onsubmit} onChange={this.onChangeForm}>
           <div className="order-process__delivery">
             <h3 className="h3">кому и куда доставить?</h3>
             <div className="order-process__delivery-form">
@@ -64,7 +70,8 @@ class OrderForm extends Component {
               </label>
             </div>
           </div>
-          <button className="order-process__form-submit order-process__form-submit_click">Подтвердить заказ</button>
+          <button className={`order-process__form-submit order-process__form-submit_click
+            ${!this.state.isButtonActive && 'order-process__form-submit_disabled'}`}>Подтвердить заказ</button>
         </form>
       </div>
     );

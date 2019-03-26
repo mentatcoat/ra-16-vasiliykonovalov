@@ -47,7 +47,7 @@ class OrderCartItem extends Component {
                     </div>
                     <div className="basket-item__product-features">
                       <div className="basket-item__size">Размер: <span>{this.props.item.size}</span></div>
-                      <div className="basket-item__producer">Производитель: <span>{this.props.product.manufacturer}</span></div>
+                      <div className="basket-item__producer">Производитель: <span>{this.props.product.brand}</span></div>
                       <div className="basket-item__color">Цвет: <span>{this.props.product.color}</span></div>
                     </div>
                   </div>
