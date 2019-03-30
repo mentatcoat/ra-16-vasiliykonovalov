@@ -29,6 +29,7 @@ class Order extends Component {
 
     this.getCartProductsInfo = ()=>{
       const array = [];
+      console.log('getCartProductsInfo() state===', this.state);
       this.state.cart.products.forEach(
         product=>{
           array.push(services.fetchProduct(
@@ -42,9 +43,11 @@ class Order extends Component {
         });
     };//END getCartProductsInfo
 
-    services.fetchGetCart(localStorage.cartId, (data)=> {
-      this.setState({cart : data.data}, this.getCartProductsInfo);
-    });
+    services.fetchGetCart(localStorage.cartId)
+      .then((data)=> {
+        this.setState({cart: data}, this.getCartProductsInfo);
+      }
+      );
 
     this.submitCreateOrder = (event) => {
       event.preventDefault();
@@ -75,12 +78,15 @@ class Order extends Component {
               email: form.email.value
             });
             delete localStorage.cartId;
+            services.resetBasketPanel();
           }
         });
     };
   }
 
   render() {
+    console.log('Order render() state===', this.state);
+
     let paymentType;
     switch(this.state.paymentType) {
       case 'onlineСard':

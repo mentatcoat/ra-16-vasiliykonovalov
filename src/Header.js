@@ -7,6 +7,7 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import logotype from './img/header-logo.png';
 import services from './services';
+import HeaderCartItem from './HeaderCartItem';
 import PropTypes from 'prop-types';
 
 class Header extends Component {
@@ -15,8 +16,50 @@ class Header extends Component {
     this.state = {
       panelView: null,
       chosenCategory: '',
-      isCategoriesOpen: false
+      isCategoriesOpen: false,
+      cartId: null,
+      changer: true,
+      items: null,
+      products: null
     };
+
+
+    this.loadProducts = ()=>{
+      let productsArray = [];
+      this.state.items.forEach(item=>{
+        productsArray.push(services.fetchProduct(item.id));
+      });
+      Promise.all(productsArray)
+        .then(products=>{
+          this.setState({
+            products: products
+          });
+        });
+    };
+
+    this.loadItems = ()=>{
+      if(localStorage.cartId) {
+        services.fetchGetCart(localStorage.cartId)
+          .then(data=>{
+            this.setState({
+              items: data.products
+            }, this.loadProducts);
+        });
+      } else {
+        this.setState({
+          items: null,
+          products: null
+        });
+      }
+    };
+
+    this.loadItems();
+
+    this.resetBasketPanel = ()=>{
+      console.log('resetBasketPanel()');
+      this.loadItems();
+    };
+    services.resetBasketPanel = this.resetBasketPanel;
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
       if(services.clearFilterForm) services.clearFilterForm();
@@ -51,7 +94,14 @@ class Header extends Component {
   }
 
   render() {
+    console.log('HEADER render() state===', this.state);
+
+
     if(!this.props.categories) return null;
+    let isItemsShown = false;
+    if(this.state.items && this.state.products) {
+      if (this.state.items.length === this.state.products.length) isItemsShown = true;
+    }
 
     return (
       <header className="header">
@@ -123,60 +173,20 @@ class Header extends Component {
                 <a href="#">Выйти</a>
               </div>
               <div className={`hidden-panel__basket basket-dropped ${this.state.panelView==='basket' && 'hidden-panel__basket_visible'}`}>
-                <div className="basket-dropped__title">В вашей корзине:</div>
-                <div className="basket-dropped__product-list product-list">
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
+                <div className="basket-dropped__title">{localStorage.cartId ? 'В вашей корзине:' : 'В корзине пока ничего нет. Не знаете, с чего начать? Посмотрите наши новинки!'}</div>
 
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
+                {isItemsShown &&
+                  <div className={`basket-dropped__product-list product-list ${this.state.items.length>3 ? 'basket-dropped__product-list-scroll' : ''}`}>
 
-                </div>
-                <Link to="/order" className="basket-dropped__order-button" href="order.html">Оформить заказ</Link>
+                  {this.state.items.map((item, index)=>{
+                    console.log('map => <HeaderCartItem/> this.state.products===', this.state.products);
+                    return <HeaderCartItem key={`${item.id}` + `${item.size}`} item={item} product={this.state.products[index]} items={this.state.items} />;
+                  }
+                  )}
+                  </div>
+                }
+
+                {localStorage.cartId && <Link to="/order" className="basket-dropped__order-button" href="order.html">Оформить заказ</Link>}
               </div>
             </div>
           </div>

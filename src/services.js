@@ -145,23 +145,32 @@ function fetchCreateCart(cartObj) {
   }
 }
 
-function fetchGetCart(id, callback) {
+function fetchGetCart(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
-  if(id) {
-    url = url + id;
-    fetch(url)
-      .then((res) => {
-        return res;
-      })
-      .then(res => {
-        return res.json();
-      })
-      .then(data=> {
-        if(callback) callback(data);
-      })
-      .catch((err) => {
-      });
-  }
+  // if(id) {
+    return new Promise((resolve, reject)=>{
+      if(!id) reject();
+      // ??? верно ли применен reject() выше - в случае когда не передан аргумент в функцию? (Если не возвращать rejectedPromise то вылетет ошибка).
+      url = url + id;
+      fetch(url)
+        .then((res) => {
+          return res;
+        })
+        .then(res => {
+          return res.json();
+        })
+        .then(data=> {
+          console.log('fetchGetCart data===', data);
+          if(data.status === 'error') reject();
+          resolve(data.data);
+        })
+        .catch((err) => {
+        });
+    });
+
+  // }
+
+
 }
 
 function fetchUpdateProduct(cartId, item) {
@@ -254,6 +263,7 @@ function debounce(callback, delay) {
   };
 };
 
+services.resetBasketPanel = '';
 services.cartTotal = '';
 services.clearFilterForm = '';
 services.debounce = debounce;

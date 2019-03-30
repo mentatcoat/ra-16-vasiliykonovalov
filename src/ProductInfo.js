@@ -49,6 +49,7 @@ class ProductInfo extends Component {
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=data.data.products.length;
               services.twinkleBasketPic();
+              services.resetBasketPanel();
             }
 
           });
@@ -58,6 +59,7 @@ class ProductInfo extends Component {
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=1;
               services.twinkleBasketPic();
+              services.resetBasketPanel();
             }
           });
       }

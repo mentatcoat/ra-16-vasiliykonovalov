@@ -1,10 +1,14 @@
 // That's developping chronic.
 /*
 
+=======30/03/19
 
+
+74. <HeaderCartItem/>
+=======28/03/19
+73. make <HeaderCartItem/>
+72. make Basket panel in <Header>:
 =======26/03/19
-
-
 71. экран Order - сделал стайл кнопки, удаление localStorage.cartId
 =======25/03/19
 70. сделал заказ оформлен
