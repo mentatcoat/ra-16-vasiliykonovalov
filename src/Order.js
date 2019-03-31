@@ -10,6 +10,8 @@ import OrderForm from './OrderForm';
 import services from './services';
 import JSONproducts from './data/products.json';
 import PropTypes from 'prop-types';
+import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
+
 
 class Order extends Component {
   constructor(props) {
@@ -22,8 +24,8 @@ class Order extends Component {
       name: '',
       address: '',
       phone: '',
-      email: ''
-      // cart: null
+      email: '',
+      cart: ''
     };
     this.cart;
 
@@ -82,6 +84,14 @@ class Order extends Component {
           }
         });
     };
+
+    this.backToOrder = ()=>{
+      this.setState({
+        isDone: false,
+        cart: null,
+        cartProductsInfo: null
+      });
+    };
   }
 
   render() {
@@ -100,15 +110,40 @@ class Order extends Component {
         break;
     }
 
+// ??? В breadcrumb КОРЗИНА, ниже по коду, я использую слушатель services.openBasketPanel, чтобы просто развернуть карзину. Мне не понятно что должно произойти при клике на корзину? Так как одноименной страницы в задании не предусмотрено, то я просто открываю корзину и не ухожу с текущей страницы. А как надо было это сделать? Или это неразъясненная часть задания и разработчик сам должен сделать как считает нужным?
     return (
         <div className="wrapper order-wrapper">
-          <div className="site-path">
-            <ul className="site-path__items">
-              <li className="site-path__item"><a href="index.html">Главная</a></li>
-              <li className="site-path__item"><a href="#">Корзина</a></li>
-              <li className="site-path__item"><a href="#">Оформление заказа</a></li>
-            </ul>
-          </div>
+
+          <BreadcrumbsItem
+            to='/'
+            className='site-path__item'
+          >
+            Главная
+          </BreadcrumbsItem>
+
+          <BreadcrumbsItem
+           to='/order'
+           className='site-path__item'
+           onClick={services.openBasketPanel}
+          >
+           Корзина
+          </BreadcrumbsItem>
+
+          <BreadcrumbsItem
+           to='/order/'
+           className='site-path__item'
+           onClick={this.backToOrder}
+          >
+           Оформление заказа
+          </BreadcrumbsItem>
+
+          {this.state.isDone && <BreadcrumbsItem
+            to='/fourth/fifth'
+          >
+           Заказ принят
+          </BreadcrumbsItem>}
+
+
 
           <section className="order-process">
             {!this.state.isDone && <h2 className="order-process__title">Оформление заказа</h2>}

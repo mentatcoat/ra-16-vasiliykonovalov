@@ -108,41 +108,21 @@ class Catalogue extends Component {
     }
 
     return (
-      <div className="Just wrapper">
+      <div className="just-wrapper">
 
         <BreadcrumbsItem
           to='/'
+          className='site-path__item'
         >
-          ГЛАВНАЯ
-       </BreadcrumbsItem>
+          Главная
+        </BreadcrumbsItem>
 
-       <BreadcrumbsItem
-         to='/second'
-       >
-         ВТОРИЧНАЯ
-       </BreadcrumbsItem>
-
-       <BreadcrumbsItem
-         to='/third/'
-       >
-         ТРЕТИЧНАЯ
-       </BreadcrumbsItem>
-
-       <BreadcrumbsItem
-         to='/fourth/fifth'
-       >
-         ЧЕТВЕРИЧНАЯ
-       </BreadcrumbsItem>
-
-
-        {/*<!-- Breadcrumbs -->*/}
-        <div className="site-path">
-          <ul className="site-path__items">
-            <li className="site-path__item"><a href="index.html">Главная</a></li>
-            <li className="site-path__item"><a href="#">Женская обувь</a></li>
-          </ul>
-        </div>
-        {/* //////done////// */}
+        <BreadcrumbsItem
+         to='/catalogue'
+         className='site-path__item'
+        >
+         {categoryTitle}
+        </BreadcrumbsItem>
 
         {/*<!-- Тело каталога с сайдбаром -->*/}
         <main className="product-catalogue">

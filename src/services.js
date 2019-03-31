@@ -263,6 +263,7 @@ function debounce(callback, delay) {
   };
 };
 
+services.openBasketPanel;
 services.resetBasketPanel = '';
 services.cartTotal = '';
 services.clearFilterForm = '';

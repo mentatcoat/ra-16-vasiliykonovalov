@@ -54,16 +54,12 @@ class App extends Component {
           containerProps={{
             className: 'site-path__items'
           }}
-
-
           finalItem={'span'}
           finalProps={{
             className: 'site-path__item',
+            onClick: null
             // style: {color: 'red'}
           }}
-
-
-
         />
 
         <Switch>

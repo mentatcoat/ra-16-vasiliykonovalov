@@ -91,7 +91,15 @@ class Header extends Component {
     };
     this.clickBasket = this.clickPictogram.bind(this, 'basket');
     this.clickProfile = this.clickPictogram.bind(this, 'profile');
+
+    this.openBasketPanel = ()=>{
+      this.setState({
+        panelView: 'basket'
+      });
+    };
+    services.openBasketPanel = this.openBasketPanel;
   }
+
 
   render() {
     console.log('HEADER render() state===', this.state);
@@ -186,7 +194,8 @@ class Header extends Component {
                   </div>
                 }
 
-                {localStorage.cartId && <Link to="/order" className="basket-dropped__order-button" href="order.html">Оформить заказ</Link>}
+                {localStorage.cartId && <Link to="/order" className="basket-dropped__order-button"
+                onClick={this.clickBasket} >Оформить заказ</Link>}
               </div>
             </div>
           </div>

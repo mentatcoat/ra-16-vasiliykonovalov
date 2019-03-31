@@ -7,6 +7,7 @@ import './css/style.css';
 import './css/style-order.css';
 import './css/style-catalogue.css';
 import './css/style-favorite.css';
+import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
 class Favorite extends Component {
   render() {
@@ -21,12 +22,24 @@ class Favorite extends Component {
         <div className="container">
           <div className="wrapper wrapper_favorite">
 
-            <div className="site-path">
-              <ul className="site-path__items">
-                <li className="site-path__item"><a href="index.html">Главная</a></li>
-                <li className="site-path__item"><a href="favorite.html">Избранное</a></li>
-              </ul>
-            </div>
+          {/*Breadcrumbs*/}
+
+            <BreadcrumbsItem
+              to='/'
+              className='site-path__item'
+            >
+              Главная
+            </BreadcrumbsItem>
+
+            <BreadcrumbsItem
+             to='/order'
+             className='site-path__item'
+            >
+             Избранное
+            </BreadcrumbsItem>
+
+
+            {/*Breadcrumbs*/}
 
             <main className="product-catalogue product-catalogue_favorite">
               <section className="product-catalogue__head product-catalogue__head_favorite">
