@@ -11,6 +11,8 @@ import CatalogueItem from './CatalogueItem';
 import CataloguePagination from './CataloguePagination';
 import PropTypes from 'prop-types';
 import services from './services';
+import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
+
 
 
 class Catalogue extends Component {
@@ -107,6 +109,31 @@ class Catalogue extends Component {
 
     return (
       <div className="Just wrapper">
+
+        <BreadcrumbsItem
+          to='/'
+        >
+          ГЛАВНАЯ
+       </BreadcrumbsItem>
+
+       <BreadcrumbsItem
+         to='/second'
+       >
+         ВТОРИЧНАЯ
+       </BreadcrumbsItem>
+
+       <BreadcrumbsItem
+         to='/third/'
+       >
+         ТРЕТИЧНАЯ
+       </BreadcrumbsItem>
+
+       <BreadcrumbsItem
+         to='/fourth/fifth'
+       >
+         ЧЕТВЕРИЧНАЯ
+       </BreadcrumbsItem>
+
 
         {/*<!-- Breadcrumbs -->*/}
         <div className="site-path">

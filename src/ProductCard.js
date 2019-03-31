@@ -12,13 +12,15 @@ import ProductSlider from './ProductSlider';
 import ProductInfo from './ProductInfo';
 import services from './services';
 import PropTypes from 'prop-types';
+import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
 class ProductCard extends Component {
   constructor(props) {
     super(props);
     this.state= {
       mainpic: null,
-      product: null
+      product: null,
+      category: null
     };
 
     this.makeProductOverlooked = ()=>{
@@ -39,8 +41,13 @@ class ProductCard extends Component {
     this.init = (id)=>{
       services.fetchProduct(id)
         .then(productInfo=>{
-          this.setState({product:productInfo});
-          this.setState({mainpic: productInfo.images[0]});
+          this.setState({
+            product:productInfo,
+            mainpic: productInfo.images[0],
+            category: this.props.categories.find(
+              el=>el.id === productInfo.categoryId
+            )
+          });
         });
         this.makeProductOverlooked();
     }
@@ -52,8 +59,34 @@ class ProductCard extends Component {
     }
     this.zoommer = (e)=>{
       e.preventDefault();
-      this.mainpicElement.classList.toggle('zoom-out')};
-  }
+      this.mainpicElement.classList.toggle('zoom-out')
+    };
+
+    this.onClickBreadcrumbsCategory = ()=>{
+      console.log('onClickBreadcrumbsCategory() event===', );
+      let params;
+      if(this.state.product) {
+        params = [
+          ['categoryId', this.state.product.categoryId],
+        ];
+      }
+      console.log('onClickBreadcrumbsCategory() PARAMS===', params);
+      this.props.setCatalogueParams(params);
+    }
+
+    this.onClickBreadcrumbsType = ()=>{
+      let params;
+      if(this.state.product) {
+        params = [
+          ['categoryId', this.state.product.categoryId],
+          ['type', this.state.product.type]
+        ];
+      }
+      this.props.setCatalogueParams(params);
+    }
+    // ??? Я выбирал между двумя альтернативами: 1) сделать хлебные крошки так, чтобы они выводили параметры фильтра в url страниы 2) сделать хлебные крошки так, чтобы они имели onclick-слушатели и слушатели уже запускали фильтрацию на странице КАТАЛОГ. Я быврал второй вариант, т к код уже имел для этого необходимые методы. Делают ли воодще на практике так - навешивают на хлебные крошки onclick-слушатели?
+
+  }//END constructor
   shouldComponentUpdate(nextProps, nextState){
     if(this.props.match.params.id !== nextProps.match.params.id) {
       this.init(+nextProps.match.params.id);
@@ -63,20 +96,45 @@ class ProductCard extends Component {
     if(this.state !== nextState) return true;
   }
   render() {
+    console.log('ProductCard render() state===', this.state);
+
+    // ??? Ниже есть элемент <BreadcrumbsItem/> - это компонент-посредник, он принимает атрибудты и передает их в элемент, которых будут отрендерин в качесвте хлебной-крошки-ссылки. Этот комопонент-посредник передает любые атрибуты в конечный элемент. Я передавал туда атрибут 'data-category'. Отрисованный элемент <a> получал этот дата-атрибут и показывал его в свойстве 'dataset'.  Но почему то когда я обращался к <a> как к 'event.target.dataset.category' выводилось undefined - то есть не читалось именно последнее свойство в записи - '.category'. Почему так?
     return (
       <div>
-        <div className="site-path">
-          <ul className="site-path__items">
-            <li className="site-path__item"><a href="index.html">Главная</a></li>
-            <li className="site-path__item"><a href="#">Женская обувь</a></li>
-            <li className="site-path__item"><a href="#">Ботинки</a></li>
-            <li className="site-path__item"><a href="#">Ботинки женские</a></li>
-          </ul>
-        </div>
+
+        <BreadcrumbsItem
+          to='/'
+          className='site-path__item'
+        >
+          Главная
+        </BreadcrumbsItem>
+
+        <BreadcrumbsItem
+         to='/catalogue'
+         className='site-path__item'
+         onClick={this.onClickBreadcrumbsCategory}
+        >
+         {this.state.product && this.state.category.title}
+        </BreadcrumbsItem>
+
+        <BreadcrumbsItem
+         to='/catalogue/'
+         className='site-path__item'
+         onClick={this.onClickBreadcrumbsType}
+        >
+         {this.state.product && this.state.product.type}
+        </BreadcrumbsItem>
+
+        <BreadcrumbsItem
+          to='/fourth/fifth'
+        >
+         {this.state.product && this.state.product.title}
+        </BreadcrumbsItem>
+
 
         <main className="product-card">
               <section className="product-card-content">
-                  <h2 className="section-name">Ботинки женские</h2>
+                  <h2 className="section-name">{this.state.product && this.state.product.title}</h2>
                   <section className="product-card-content__main-screen">
 
                       {/*<!-- Слайдер выбранного товара -->*/}
@@ -109,7 +167,9 @@ class ProductCard extends Component {
 }
 
 ProductCard.propTypes = {
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  categories: PropTypes.array.isRequired,
+  setCatalogueParams: PropTypes.func
 };
 
 export default ProductCard;

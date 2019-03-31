@@ -1,9 +1,14 @@
 // That's developping chronic.
 /*
 
+=======31/03/19
+
+
+
+77. Хлебные крошки in <ProductCard/>
 =======30/03/19
-
-
+76. Хлебные крошки
+75. installed "react-through" and react-breadcrumbs-dynamic
 74. <HeaderCartItem/>
 =======28/03/19
 73. make <HeaderCartItem/>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { HashRouter } from 'react-router-dom';
 import Main from './Main';
@@ -13,7 +13,8 @@ import Favorite from './Favorite';
 import ProductCard from './ProductCard';
 import Order from './Order';
 import JSONproducts from './data/products.json';
-import createHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createBrowserHistory';
+import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
 class App extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class App extends Component {
       products: ''
     };
     this.setCatalogueParams = (params)=>{
+      console.log('setCatalogueParams() params===', params);
       this.setState({catalogueParams: params});
       createHistory().push('/catalogue');
     }
@@ -45,6 +47,25 @@ class App extends Component {
     return (
       <div className="App">
         <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
+
+        <Breadcrumbs
+          item={Link}
+          container={'div'}
+          containerProps={{
+            className: 'site-path__items'
+          }}
+
+
+          finalItem={'span'}
+          finalProps={{
+            className: 'site-path__item',
+            // style: {color: 'red'}
+          }}
+
+
+
+        />
+
         <Switch>
           <Route exact path='/'>
             <Main />
@@ -55,7 +76,10 @@ class App extends Component {
             <Favorite />
           </Route>
           <Route exact path='/product-card/:id' render={(props) => (
-<ProductCard {...props}/>
+<ProductCard {...props}
+categories={this.state.categories}
+setCatalogueParams={this.setCatalogueParams}
+/>
 )}/>
           <Route exact path='/order' render={(props) => (
 <Order {...props} />
