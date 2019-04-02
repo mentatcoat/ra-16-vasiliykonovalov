@@ -1,9 +1,12 @@
 // That's developping chronic.
 /*
 
+=======02/04/19
+
+
+!!! Breadcrumbs надо рендерить условно без главной страницы
+79. Исправил App.js переход в /catalogue при клике в <Header/>
 =======31/03/19
-
-
 78. Breadcrumbs is done
 !!! Исправить Sidebar css положение, и Заголовок категории в <Catalogue/>
 77. Хлебные крошки in <ProductCard/>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { HashRouter } from 'react-router-dom';
 import Main from './Main';
@@ -13,10 +13,10 @@ import Favorite from './Favorite';
 import ProductCard from './ProductCard';
 import Order from './Order';
 import JSONproducts from './data/products.json';
-import createHistory from 'history/createBrowserHistory';
+// import createHistory from 'history/createBrowserHistory';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
-class App extends Component {
+class AppComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,12 @@ class App extends Component {
     this.setCatalogueParams = (params)=>{
       console.log('setCatalogueParams() params===', params);
       this.setState({catalogueParams: params});
-      createHistory().push('/catalogue');
+
+      // createHistory().push('/catalogue');
+      // ??? заменил предыдущую строчку на следующую:
+      this.props.history.push('/catalogue');
+      // ??? это ты подразумевал "сделай чрез router"?
+
     }
     services.fetchCategories()
       .then(data=>{
@@ -43,7 +48,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('App render() state===', this.state);
+    console.log('App render() props===', this.props);
     return (
       <div className="App">
         <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
@@ -86,5 +91,7 @@ setCatalogueParams={this.setCatalogueParams}
     );
   }
 }
+
+const App = withRouter(AppComponent);
 
 export default App;
