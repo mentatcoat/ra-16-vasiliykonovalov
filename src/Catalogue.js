@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
@@ -109,6 +109,20 @@ class Catalogue extends Component {
 
     return (
       <div className="just-wrapper">
+
+        <Breadcrumbs
+          item={Link}
+          container={'div'}
+          containerProps={{
+            className: 'site-path__items'
+          }}
+          finalItem={'span'}
+          finalProps={{
+            className: 'site-path__item',
+            onClick: null
+            // style: {color: 'red'}
+          }}
+        />
 
         <BreadcrumbsItem
           to='/'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
@@ -101,6 +101,20 @@ class ProductCard extends Component {
     // ??? Ниже есть элемент <BreadcrumbsItem/> - это компонент-посредник, он принимает атрибудты и передает их в элемент, которых будут отрендерин в качесвте хлебной-крошки-ссылки. Этот комопонент-посредник передает любые атрибуты в конечный элемент. Я передавал туда атрибут 'data-category'. Отрисованный элемент <a> получал этот дата-атрибут и показывал его в свойстве 'dataset'.  Но почему то когда я обращался к <a> как к 'event.target.dataset.category' выводилось undefined - то есть не читалось именно последнее свойство в записи - '.category'. Почему так?
     return (
       <div>
+
+        <Breadcrumbs
+          item={Link}
+          container={'div'}
+          containerProps={{
+            className: 'site-path__items'
+          }}
+          finalItem={'span'}
+          finalProps={{
+            className: 'site-path__item',
+            onClick: null
+            // style: {color: 'red'}
+          }}
+        />
 
         <BreadcrumbsItem
           to='/'

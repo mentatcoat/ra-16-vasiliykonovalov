@@ -114,6 +114,20 @@ class Order extends Component {
     return (
         <div className="wrapper order-wrapper">
 
+          <Breadcrumbs
+            item={Link}
+            container={'div'}
+            containerProps={{
+              className: 'site-path__items'
+            }}
+            finalItem={'span'}
+            finalProps={{
+              className: 'site-path__item',
+              onClick: null
+              // style: {color: 'red'}
+            }}
+          />
+
           <BreadcrumbsItem
             to='/'
             className='site-path__item'

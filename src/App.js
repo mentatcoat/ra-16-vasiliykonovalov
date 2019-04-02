@@ -53,20 +53,6 @@ class AppComponent extends Component {
       <div className="App">
         <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
 
-        <Breadcrumbs
-          item={Link}
-          container={'div'}
-          containerProps={{
-            className: 'site-path__items'
-          }}
-          finalItem={'span'}
-          finalProps={{
-            className: 'site-path__item',
-            onClick: null
-            // style: {color: 'red'}
-          }}
-        />
-
         <Switch>
           <Route exact path='/'>
             <Main />
