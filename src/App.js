@@ -13,7 +13,6 @@ import Favorite from './Favorite';
 import ProductCard from './ProductCard';
 import Order from './Order';
 import JSONproducts from './data/products.json';
-// import createHistory from 'history/createBrowserHistory';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
 class AppComponent extends Component {
@@ -25,7 +24,6 @@ class AppComponent extends Component {
       products: ''
     };
     this.setCatalogueParams = (params)=>{
-      console.log('setCatalogueParams() params===', params);
       this.setState({catalogueParams: params});
       if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
       // createHistory().push('/catalogue');
@@ -52,7 +50,6 @@ class AppComponent extends Component {
   }
 
   render() {
-    console.log('App render() props===', this.props);
     return (
       <div className="App">
         <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />

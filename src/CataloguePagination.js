@@ -11,7 +11,6 @@ import CatalogueItem from './CatalogueItem';
 import PropTypes from 'prop-types';
 import services from './services';
 
-
 class CataloguePagination extends Component {
   constructor(props) {
     super(props);

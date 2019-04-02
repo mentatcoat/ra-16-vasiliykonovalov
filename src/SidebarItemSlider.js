@@ -13,7 +13,6 @@ import services from './services';
 class SidebarItemSlider extends Component {
   constructor(props) {
     super(props);
-
     this.slider = null;
     this.state = {
       isShown: false,

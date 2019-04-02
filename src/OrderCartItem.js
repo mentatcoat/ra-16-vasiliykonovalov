@@ -18,9 +18,7 @@ class OrderCartItem extends Component {
     this.changeAmount = (step)=>{
       let result = this.state.amount + step;
       if(result < 0) result = 0;
-
       this.setState({amount: result});
-      // исправил тут:
       this.props.counter({[this.props.unique]:+this.props.product.price * +result});
       this.fetchUpdateItemAmount(localStorage.cartId, {id: this.props.item.id, size: this.props.item.size, amount: +result});
     }
@@ -32,8 +30,6 @@ class OrderCartItem extends Component {
 
 
   render() {
-    console.log('OrderCartItem render() props===', this.props);
-
     return (
               <div className="order-basket__item-list">
 

@@ -5,7 +5,6 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-product-card.css';
 import './css/style-order.css';
-
 import OverlookedSlider from './OverlookedSlider';
 import SimilarSlider from './SimilarSlider';
 import ProductSlider from './ProductSlider';
@@ -63,14 +62,12 @@ class ProductCard extends Component {
     };
 
     this.onClickBreadcrumbsCategory = ()=>{
-      console.log('onClickBreadcrumbsCategory() event===', );
       let params;
       if(this.state.product) {
         params = [
           ['categoryId', this.state.product.categoryId],
         ];
       }
-      console.log('onClickBreadcrumbsCategory() PARAMS===', params);
       this.props.setCatalogueParams(params);
     }
 
@@ -96,8 +93,6 @@ class ProductCard extends Component {
     if(this.state !== nextState) return true;
   }
   render() {
-    console.log('ProductCard render() state===', this.state);
-
     // ??? Ниже есть элемент <BreadcrumbsItem/> - это компонент-посредник, он принимает атрибудты и передает их в элемент, которых будут отрендерин в качесвте хлебной-крошки-ссылки. Этот комопонент-посредник передает любые атрибуты в конечный элемент. Я передавал туда атрибут 'data-category'. Отрисованный элемент <a> получал этот дата-атрибут и показывал его в свойстве 'dataset'.  Но почему то когда я обращался к <a> как к 'event.target.dataset.category' выводилось undefined - то есть не читалось именно последнее свойство в записи - '.category'. Почему так?
     return (
       <div>
@@ -112,7 +107,6 @@ class ProductCard extends Component {
           finalProps={{
             className: 'site-path__item',
             onClick: null
-            // style: {color: 'red'}
           }}
         />
 

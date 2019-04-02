@@ -23,7 +23,6 @@ class Header extends Component {
       products: null
     };
 
-
     this.loadProducts = ()=>{
       let productsArray = [];
       this.state.items.forEach(item=>{
@@ -56,7 +55,6 @@ class Header extends Component {
     this.loadItems();
 
     this.resetBasketPanel = ()=>{
-      console.log('resetBasketPanel()');
       this.loadItems();
     };
     services.resetBasketPanel = this.resetBasketPanel;
@@ -100,11 +98,7 @@ class Header extends Component {
     services.openBasketPanel = this.openBasketPanel;
   }
 
-
   render() {
-    console.log('HEADER render() state===', this.state);
-
-
     if(!this.props.categories) return null;
     let isItemsShown = false;
     if(this.state.items && this.state.products) {
@@ -187,7 +181,6 @@ class Header extends Component {
                   <div className={`basket-dropped__product-list product-list ${this.state.items.length>3 ? 'basket-dropped__product-list-scroll' : ''}`}>
 
                   {this.state.items.map((item, index)=>{
-                    console.log('map => <HeaderCartItem/> this.state.products===', this.state.products);
                     return <HeaderCartItem key={`${item.id}` + `${item.size}`} item={item} product={this.state.products[index]} items={this.state.items} />;
                   }
                   )}

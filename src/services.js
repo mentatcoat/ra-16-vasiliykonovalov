@@ -147,7 +147,6 @@ function fetchCreateCart(cartObj) {
 
 function fetchGetCart(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
-  // if(id) {
     return new Promise((resolve, reject)=>{
       if(!id) reject();
       // ??? верно ли применен reject() выше - в случае когда не передан аргумент в функцию? (Если не возвращать rejectedPromise то вылетет ошибка).
@@ -160,21 +159,15 @@ function fetchGetCart(id) {
           return res.json();
         })
         .then(data=> {
-          console.log('fetchGetCart data===', data);
           if(data.status === 'error') reject();
           resolve(data.data);
         })
         .catch((err) => {
         });
     });
-
-  // }
-
-
 }
 
 function fetchUpdateProduct(cartId, item) {
-  console.log('fetchUpdateProduct() args===', arguments);
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
   if(cartId && item) {
     url = url + cartId;

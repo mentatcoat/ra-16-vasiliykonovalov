@@ -16,10 +16,8 @@ import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 class Catalogue extends Component {
   constructor(props) {
     super(props);
-    console.log('Catalogue props===', props);
     this.state = {
       catalogueParams: this.props.catalogueParams,
-
       isShownSidebar: true,
       categories: this.props.categories,
       sortedProducts: '',
@@ -33,7 +31,6 @@ class Catalogue extends Component {
 
       services.fetchProducts(params)
         .then(data=>{
-
           this.setState({
             sortedProducts: data.data,
             sortedProductsAmount: data.goods,
@@ -59,7 +56,6 @@ class Catalogue extends Component {
     this.init();
 
     this.resetFilter = ()=>{
-      console.log('RESET Sidebar()');
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
       services.headerParam = '';
       // ??? строчка выше быстро делает ремаунт <CatalogueSidebar/> рендер которого зависит от стейт, сбрасываются все настройки фильтра находящегося в этом компоненте. Здоровый подход?.
@@ -112,8 +108,6 @@ class Catalogue extends Component {
   // }
 
   render() {
-    console.log('Catalogue render() props===', this.props);
-    console.log('Catalogue render() state===', this.state);
 
     let categoryIdPair, categoryTitle;
 
@@ -134,7 +128,6 @@ class Catalogue extends Component {
           finalProps={{
             className: 'site-path__item',
             onClick: null
-            // style: {color: 'red'}
           }}
         />
 

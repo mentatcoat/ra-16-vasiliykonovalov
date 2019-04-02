@@ -9,7 +9,6 @@ import './css/style-catalogue.css';
 class SidebarItemCatalogue extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isShown: false,
       value: ''

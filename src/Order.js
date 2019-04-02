@@ -4,14 +4,12 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
-
 import OrderCart from './OrderCart';
 import OrderForm from './OrderForm';
 import services from './services';
 import JSONproducts from './data/products.json';
 import PropTypes from 'prop-types';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
-
 
 class Order extends Component {
   constructor(props) {
@@ -31,7 +29,6 @@ class Order extends Component {
 
     this.getCartProductsInfo = ()=>{
       const array = [];
-      console.log('getCartProductsInfo() state===', this.state);
       this.state.cart.products.forEach(
         product=>{
           array.push(services.fetchProduct(
@@ -53,8 +50,6 @@ class Order extends Component {
 
     this.submitCreateOrder = (event) => {
       event.preventDefault();
-      console.log('submitCreateOrder() event===', event);
-      console.log('submitCreateOrder() event===', event.target);
 
       let form = event.target;
 
@@ -65,10 +60,8 @@ class Order extends Component {
         address: form.address.value,
         phone: form.phone.value,
       };
-      console.log('submitCreateOrder() orderInfo===', orderInfo);
       services.fetchCreateOrder(orderInfo)
         .then(data=>{
-          console.log('createdOrder() data===', data);
           if(data.status === 'ok') {
             this.setState({
               isDone: true,
@@ -95,8 +88,6 @@ class Order extends Component {
   }
 
   render() {
-    console.log('Order render() state===', this.state);
-
     let paymentType;
     switch(this.state.paymentType) {
       case 'onlineСard':
@@ -124,7 +115,6 @@ class Order extends Component {
             finalProps={{
               className: 'site-path__item',
               onClick: null
-              // style: {color: 'red'}
             }}
           />
 

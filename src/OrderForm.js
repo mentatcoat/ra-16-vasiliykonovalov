@@ -4,7 +4,6 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
-
 import OrderCart from './OrderCart';
 import services from './services';
 import JSONproducts from './data/products.json';
@@ -26,11 +25,7 @@ class OrderForm extends Component {
 
   }
 
-
-
   render() {
-
-
     return (
       <div className="order-process__confirmed">
         <form onSubmit={this.props.onsubmit} onChange={this.onChangeForm}>

@@ -4,7 +4,6 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
-
 import OrderCartItem from './OrderCartItem';
 import services from './services';
 import JSONproducts from './data/products.json';
@@ -40,8 +39,6 @@ class OrderCart extends Component {
   }
 
   render() {
-    console.log('OrderCart render() props===', this.props);
-
     let cartItems = [];
 
     cartItems = this.props.items.map(

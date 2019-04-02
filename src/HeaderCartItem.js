@@ -11,18 +11,15 @@ import PropTypes from 'prop-types';
 
 class HeaderCartItem extends Component {
   constructor(props) {
-    //props: item product
     super(props);
     this.state = {
     };
 
     this.removeItem = ()=>{
-      console.log('removeItem() clicked');
       let item = this.props.item;
       item.amount = 0;
       services.fetchUpdateProduct(localStorage.cartId, item)
         .then(data=> {
-          console.log('removeItem() data===', data);
           if(this.props.items.length === 1) delete localStorage.cartId;
           services.resetBasketPanel();
         }
@@ -31,14 +28,12 @@ class HeaderCartItem extends Component {
   }
 
   render() {
-    console.log('HeaderCartItem render() props===', this.props);
     let amountString = '';
     let priceString = this.props.product.price.toLocaleString() + ' ';
     if(this.props.item.amount > 1) {
       amountString = this.props.item.amount > 1 ? `, ${this.props.item.amount} шт` : '';
       priceString = (this.props.product.price * this.props.item.amount).toLocaleString() + ' ';
     }
-
 
     return (
       <div className="product-list__item">

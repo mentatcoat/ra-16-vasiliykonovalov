@@ -10,7 +10,6 @@ import services from './services';
 class SidebarItemSeason extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isShown: false,
       value: ''

@@ -31,13 +31,11 @@ class ProductInfo extends Component {
       });
     }
 
-
     this.clickInBasket = ()=> {
       if(!this.state.chosenSize) {
         this.setState({buttonTitle: 'Выберите размер!'});
         return;
       }
-      // здесь функция создания Корзины
       let productObj = {
         id: this.product.id,
         size: this.state.chosenSize,
@@ -78,7 +76,6 @@ class ProductInfo extends Component {
       e.preventDefault();
       this.setState({chosenSize: +e.target.textContent});
       this.setState({buttonTitle: 'В корзину'});
-
     }
     this.basketAmountChange = (step)=>{
       let result = this.state.chosenAmount + step;
@@ -96,7 +93,6 @@ class ProductInfo extends Component {
     }
     return true;
   }
-
 
   render() {
     return (
