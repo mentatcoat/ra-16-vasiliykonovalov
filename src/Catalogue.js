@@ -13,13 +13,13 @@ import PropTypes from 'prop-types';
 import services from './services';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
-
-
 class Catalogue extends Component {
   constructor(props) {
     super(props);
     console.log('Catalogue props===', props);
     this.state = {
+      catalogueParams: this.props.catalogueParams,
+
       isShownSidebar: true,
       categories: this.props.categories,
       sortedProducts: '',
@@ -43,15 +43,20 @@ class Catalogue extends Component {
         });
     };
 
-    if(this.props.catalogueParams) this.getSortedProducts(this.props.catalogueParams);
-
     this.getCurrentCategoryId = (catalogueParams)=>{
       if(!catalogueParams) return;
       this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
     };
-    this.getCurrentCategoryId(this.props.catalogueParams);
 
-    services.getCategoryMaxPrice(this.categoryId);
+    // ??? Вместо shouldComponentUpdate который ниже закомментен сделал эту функцию init() и функцию this.setStateCatalogueParams, которая доступна их services, чтобы менять state этого компонента. Правильно ли так делать? Могу ли распространить подобный подход "обновлять state через services" на другие компоненты с shouldComponentUpdate?
+    this.init = ()=>{
+      if(this.state.catalogueParams) {
+        this.getSortedProducts(this.state.catalogueParams);
+        this.getCurrentCategoryId(this.state.catalogueParams);
+        services.getCategoryMaxPrice(this.categoryId);
+      }
+    }
+    this.init();
 
     this.resetFilter = ()=>{
       console.log('RESET Sidebar()');
@@ -64,6 +69,13 @@ class Catalogue extends Component {
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar}));
     };
     services.clearFilterForm = this.clearFilterForm;
+
+    this.setStateCatalogueParams = (params)=>{
+      this.setState({
+        catalogueParams: params
+      }, this.init);
+    }
+    services.setStateCatalogueParams = this.setStateCatalogueParams;
 
     this.onChangeFilter = (e)=>{
 
@@ -81,29 +93,31 @@ class Catalogue extends Component {
 
       if(services.headerParam) paramsArray.push(services.headerParam);
       paramsArray.push(['categoryId', this.categoryId]);
-      this.props.setCatalogueParams(paramsArray);
+      this.setStateCatalogueParams(paramsArray);
     }
   }//END constructor
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
-    if(nextProps &&  nextProps !== this.props) {
-      this.getCurrentCategoryId(nextProps.catalogueParams);
-
-      services.getCategoryMaxPrice(this.categoryId);
-
-      this.getSortedProducts(nextProps.catalogueParams);
-      // ??? это зачем то заправшивается 2 раза - почему?
-      return true;
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
+  //   if(nextProps &&  nextProps !== this.props) {
+  //     this.getCurrentCategoryId(nextProps.catalogueParams);
+  //
+  //     services.getCategoryMaxPrice(this.categoryId);
+  //
+  //     this.getSortedProducts(nextProps.catalogueParams);
+  //     // ??? это зачем то заправшивается 2 раза - почему?
+  //     return true;
+  //   }
+  //   return true;
+  // }
 
   render() {
+    console.log('Catalogue render() props===', this.props);
+    console.log('Catalogue render() state===', this.state);
 
     let categoryIdPair, categoryTitle;
 
-    if(this.props.categories && this.props.catalogueParams) {
+    if(this.props.categories && this.state.catalogueParams && this.categoryId) {
       categoryTitle = this.props.categories.find(el=>+el.id===+this.categoryId).title;
     }
 
@@ -191,7 +205,8 @@ class Catalogue extends Component {
 }
 
 Catalogue.propTypes = {
-  catalogueParams : PropTypes.object.isRequired
+  catalogueParams : PropTypes.object,
+  categories : PropTypes.array
 };
 
 export default Catalogue;

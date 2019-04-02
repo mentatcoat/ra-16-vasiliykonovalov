@@ -263,6 +263,7 @@ function debounce(callback, delay) {
   };
 };
 
+services.setStateCatalogueParams;
 services.openBasketPanel;
 services.resetBasketPanel = '';
 services.cartTotal = '';

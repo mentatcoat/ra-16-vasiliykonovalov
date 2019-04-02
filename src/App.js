@@ -27,7 +27,7 @@ class AppComponent extends Component {
     this.setCatalogueParams = (params)=>{
       console.log('setCatalogueParams() params===', params);
       this.setState({catalogueParams: params});
-
+      if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
       // createHistory().push('/catalogue');
       // ??? заменил предыдущую строчку на следующую:
       this.props.history.push('/catalogue');
@@ -40,6 +40,10 @@ class AppComponent extends Component {
           categories: data.data,
           // ниже ставим Первую категорию, она нужна на случай reload <Catalogue/> page, чтобы экран не был без товаров
           catalogueParams: [['categoryId', data.data[0].id]]
+        },
+        ()=>{
+          if(services.setStateCatalogueParams) services.setStateCatalogueParams(this.state.catalogueParams);
+          // без этого не будет работать каталог, когда загружаешь сразу страницу каталога
         });
 
     });
