@@ -3,6 +3,7 @@
 
 =======06/04/19
 
+83. after review - Catalogue.initCatalogue
 82. cleaning after review
 =======02/04/19
 81. remove shouldComponentUpdate in <Catalogue/>

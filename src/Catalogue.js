@@ -46,14 +46,8 @@ class Catalogue extends Component {
     };
 
     // ??? Вместо shouldComponentUpdate который ниже закомментен сделал эту функцию init() и функцию this.setStateCatalogueParams, которая доступна из services, чтобы менять state этого компонента. Правильно ли так делать? Могу ли распространить подобный подход "обновлять state через services" на другие компоненты с shouldComponentUpdate?
-    this.init = ()=>{
-      if(this.state.catalogueParams) {
-        this.getSortedProducts(this.state.catalogueParams);
-        this.getCurrentCategoryId(this.state.catalogueParams);
-        services.getCategoryMaxPrice(this.categoryId);
-      }
-    }
-    this.init();
+
+    this.initCatalogue();
 
     this.resetFilter = ()=>{
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
@@ -68,7 +62,7 @@ class Catalogue extends Component {
     this.setStateCatalogueParams = (params)=>{
       this.setState({
         catalogueParams: params
-      }, this.init);
+      }, this.initCatalogue);
     }
     services.setStateCatalogueParams = this.setStateCatalogueParams;
 
@@ -91,6 +85,14 @@ class Catalogue extends Component {
       this.setStateCatalogueParams(paramsArray);
     }
   }//END constructor
+
+  initCatalogue() {
+    if(this.state.catalogueParams) {
+      this.getSortedProducts(this.state.catalogueParams);
+      this.getCurrentCategoryId(this.state.catalogueParams);
+      services.getCategoryMaxPrice(this.categoryId);
+    }
+  }
 
   render() {
 
