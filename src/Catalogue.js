@@ -45,7 +45,7 @@ class Catalogue extends Component {
       this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
     };
 
-    // ??? Вместо shouldComponentUpdate который ниже закомментен сделал эту функцию init() и функцию this.setStateCatalogueParams, которая доступна их services, чтобы менять state этого компонента. Правильно ли так делать? Могу ли распространить подобный подход "обновлять state через services" на другие компоненты с shouldComponentUpdate?
+    // ??? Вместо shouldComponentUpdate который ниже закомментен сделал эту функцию init() и функцию this.setStateCatalogueParams, которая доступна из services, чтобы менять state этого компонента. Правильно ли так делать? Могу ли распространить подобный подход "обновлять state через services" на другие компоненты с shouldComponentUpdate?
     this.init = ()=>{
       if(this.state.catalogueParams) {
         this.getSortedProducts(this.state.catalogueParams);
@@ -58,7 +58,6 @@ class Catalogue extends Component {
     this.resetFilter = ()=>{
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
       services.headerParam = '';
-      // ??? строчка выше быстро делает ремаунт <CatalogueSidebar/> рендер которого зависит от стейт, сбрасываются все настройки фильтра находящегося в этом компоненте. Здоровый подход?.
     };
 
     this.clearFilterForm = ()=>{
@@ -92,20 +91,6 @@ class Catalogue extends Component {
       this.setStateCatalogueParams(paramsArray);
     }
   }//END constructor
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
-  //   if(nextProps &&  nextProps !== this.props) {
-  //     this.getCurrentCategoryId(nextProps.catalogueParams);
-  //
-  //     services.getCategoryMaxPrice(this.categoryId);
-  //
-  //     this.getSortedProducts(nextProps.catalogueParams);
-  //     // ??? это зачем то заправшивается 2 раза - почему?
-  //     return true;
-  //   }
-  //   return true;
-  // }
 
   render() {
 

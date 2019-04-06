@@ -26,11 +26,7 @@ class AppComponent extends Component {
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
       if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
-      // createHistory().push('/catalogue');
-      // ??? заменил предыдущую строчку на следующую:
       this.props.history.push('/catalogue');
-      // ??? это ты подразумевал "сделай чрез router"?
-
     }
     services.fetchCategories()
       .then(data=>{

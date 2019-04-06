@@ -1,9 +1,10 @@
 // That's developping chronic.
 /*
 
+=======06/04/19
+
+82. cleaning after review
 =======02/04/19
-
-
 81. remove shouldComponentUpdate in <Catalogue/>
 80. fixed Breadcrumbs- надо рендерить без главной страницы
 79. Исправил App.js переход в /catalogue при клике в <Header/>
