@@ -36,7 +36,11 @@ class Catalogue extends Component {
             sortedProductsAmount: data.goods,
             currentPage: data.page,
             pagesAmount: data.pages,
-        });
+        }
+        ,
+        services.initCataloguePagination && services.initCataloguePagination(data.page, data.pages)
+
+      );
         });
     };
 
@@ -169,7 +173,7 @@ class Catalogue extends Component {
 
             {/*<!-- Пагинация под каталогом -->*/}
 
-            <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeFilter={this.onChangeFilter}/>
+            {this.state.sortedProducts && <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeFilter={this.onChangeFilter}/>}
 
           </section>
 

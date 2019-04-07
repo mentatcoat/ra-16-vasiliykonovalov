@@ -1,8 +1,11 @@
 // That's developping chronic.
 /*
 
-=======06/04/19
+=======07/04/19
 
+85. after review - rm all shouldComponentUpdate
+=======06/04/19
+84. after review - CataloguePagination rm shouldComponentUpdate
 83. after review - Catalogue.initCatalogue
 82. cleaning after review
 =======02/04/19

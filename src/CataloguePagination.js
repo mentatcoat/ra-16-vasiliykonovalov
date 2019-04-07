@@ -49,17 +49,27 @@ class CataloguePagination extends Component {
     }
     this.clickNextPage = this.clickPage.bind(null,null, 1);
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
+
+    this.initCataloguePagination = (page, pages)=>{
+      console.log('initCataloguePagination()');
+      this.setState({
+            pagesAmount: pages,
+            currentPage: page
+          });
+    }
+    services.initCataloguePagination = this.initCataloguePagination;
+
   }//END constructor
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if(nextProps !== this.props) {
-      this.setState({
-        pagesAmount: nextProps.pagesAmount,
-        currentPage: nextProps.currentPage
-      });
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if(nextProps !== this.props) {
+  //     this.setState({
+  //       pagesAmount: nextProps.pagesAmount,
+  //       currentPage: nextProps.currentPage
+  //     });
+  //   }
+  //   return true;
+  // }
 
 
   render() {

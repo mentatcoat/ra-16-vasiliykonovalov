@@ -7,6 +7,7 @@ import './css/style-order.css';
 import './css/style-product-card.css';
 import products from './data/products.json';
 import PropTypes from 'prop-types';
+import services from './services';
 
 class ProductSlider extends Component {
   constructor(props) {
@@ -17,12 +18,14 @@ class ProductSlider extends Component {
       first: 0
     }
 
-    this.init = (props)=>{
-      this.pics = props.product.images;
+    this.initProductSlider = (product)=>{
+      console.log('initProductSlider()');
+      this.pics = product.images;
       this.setState({
         first: 0
       });
     };
+    services.initProductSlider = this.initProductSlider;
 
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;
@@ -39,14 +42,14 @@ class ProductSlider extends Component {
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if( nextProps !== this.props) {
-      this.init(nextProps);
-      return true;
-    }
-    return true;
-
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if( nextProps !== this.props) {
+  //     this.initProductSlider(nextProps.product);
+  //     return true;
+  //   }
+  //   return true;
+  //
+  // }
 
   render() {
     if(this.pics.length < 2) return null;

@@ -256,6 +256,9 @@ function debounce(callback, delay) {
   };
 };
 
+services.initCataloguePagination;
+services.initProductSlider;
+services.initProductInfo;
 services.setStateCatalogueParams;
 services.openBasketPanel;
 services.resetBasketPanel = '';
