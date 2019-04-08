@@ -7,7 +7,8 @@ services.categoryMaxPrice = '100000';
 // https://neto-api.herokuapp.com/bosa-noga
 
 //!!! нужно этот массив задавать пустым:
-if(!localStorage.favorites) localStorage.favorites = JSON.stringify([]);
+// if(!localStorage.favorites) localStorage.favorites = JSON.stringify([]);
+if(localStorage.favorites) localStorage.favorites = JSON.stringify([20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39]);
 
 function twinkleBasketPic() {
   services.basketTwinklePic.textContent = localStorage.cartProductsAmount;
@@ -69,6 +70,7 @@ function fetchFeatured(callback) {
 }
 
 function fetchProducts(params) {
+  console.log('fetchProducts() params===', params);
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products';
   if(params) {
     url = url + '?';
@@ -87,6 +89,7 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
+        console.log('fetchProducts() data===', data);
         resolve(data);
       })
       .catch((err) => {
@@ -256,10 +259,12 @@ function debounce(callback, delay) {
   };
 };
 
+services.initFavoritePagination;
 services.initCataloguePagination;
 services.initProductSlider;
 services.initProductInfo;
 services.setStateCatalogueParams;
+
 services.openBasketPanel;
 services.resetBasketPanel = '';
 services.cartTotal = '';
@@ -269,10 +274,14 @@ services.filterForm = '';
 services.headerParam = '';
 services.headerParamInput = '';
 services.getCategoryMaxPrice = getCategoryMaxPrice;
+
 services.isFavorite = isFavorite;
+services.toggleFavorite = toggleFavorite;
+
 services.basketTwinklePic = {};
 services.twinkleBasketPic = twinkleBasketPic;
-services.toggleFavorite = toggleFavorite;
+
+
 services.fetchCategories = fetchCategories;
 services.fetchProducts = fetchProducts;
 services.fetchFeatured = fetchFeatured;

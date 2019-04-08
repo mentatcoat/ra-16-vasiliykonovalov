@@ -3,6 +3,7 @@
 
 =======07/04/19
 
+86. week-4 func - <FavoritePagination/>
 85. after review - rm all shouldComponentUpdate
 =======06/04/19
 84. after review - CataloguePagination rm shouldComponentUpdate
