@@ -1,8 +1,13 @@
 // That's developping chronic.
 /*
 
-=======07/04/19
+=======09/04/19
 
+
+89. week-4 func - <Favorite/> footer stick bottom,
+88. week-4 func - <Favorite/> arrow in item,
+87. week-4 func - <Favorite/> click heart rm item
+=======07/04/19
 86. week-4 func - <FavoritePagination/>
 85. after review - rm all shouldComponentUpdate
 =======06/04/19

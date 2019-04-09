@@ -4,6 +4,7 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
+import './css/style-favorite.css';
 import services from './services';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
@@ -34,6 +35,8 @@ class FavoriteItem extends Component {
       e.preventDefault();
       services.toggleFavorite(this.product.id);
       this.setState({isFavorite: this.isFavorite()});
+
+      services.initFavorite();
     };
 
   }//END constructor
@@ -47,7 +50,7 @@ class FavoriteItem extends Component {
 
         <img className="item-pic-view" src={this.props.product.images[this.state.currentImage]} alt={this.props.product.title}/>
 
-          <div onClick={this.toggleFavorite} className={`product-catalogue__product_favorite${this.isFavorite() ? '-chosen' : ''}`}>
+          <div onClick={this.toggleFavorite} className={`product-catalogue__product_favorite`}>
             <p></p>
           </div>
           {this.state.isArrows && <div onClick={this.clickPrev} className="arrow arrow_left"></div>}

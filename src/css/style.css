@@ -1121,3 +1121,17 @@ li a:hover {
     transform: translate(0, 160%);
   }
 }
+
+.App {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 334px; /* height of your footer */
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

@@ -100,6 +100,7 @@ class Favorite extends Component {
 
       this.getAllProducts(paramsArray);
     };
+    services.initFavorite = this.initFavorite;
 
     this.initFavorite();
   }// END constructor
