@@ -23,6 +23,21 @@ class AppComponent extends Component {
       catalogueParams: '',
       products: ''
     };
+
+    // this.togglePreloader = ()=>{
+    //   console.log('App.togglePreloader() state===', this.state);
+    //   this.setState({
+    //     isPreloader: !this.state.isPreloader
+    //   }
+    //   ,
+    //   ()=>
+    //   console.log('App.togglePreloader() after state===', this.state)
+    //   );
+    //
+    // };
+    // // ??? Я изначально менял класс hidden на div.preloader. Почему-то ref не успевал прописать дом-элемент прелоадера. В итоге я сделал функцию меняюую state с целью показа прелоадера. Что лучше? И почему ref отрисовывал дом-элемент расположенный в самом верху верстки позже чем рендерился компонент из середины верстки <NewDeals/>?
+    // services.togglePreloader = this.togglePreloader;
+
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
       if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
@@ -41,13 +56,37 @@ class AppComponent extends Component {
         });
 
     });
-    services.fetchProducts().then((data)=>this.setState({products: data.data}));
+    // services.fetchProducts().then((data)=>this.setState({products: data.data}));
+
 
   }
 
+  componentDidMount() {
+    this.preloaderOn = ()=>{
+      services.preloaderElement.classList.remove('hidden');
+    };
+    this.preloaderOff = ()=>{
+      services.preloaderElement.classList.add('hidden');
+    };
+    // ??? Я изначально менял класс hidden на div.preloader. Почему-то ref не успевал прописать дом-элемент прелоадера. В итоге я сделал функцию меняюую state с целью показа прелоадера. Что лучше? И почему ref отрисовывал дом-элемент расположенный в самом верху верстки позже чем рендерился компонент из середины верстки <NewDeals/>?
+    // ??? изза множества вызовов setState для смены статуса прелоадера React выбросил исключение сообщася, что глубина апдейтов достигнута. Это как расценивать? Как признак чего в моем коде?
+    /*
+    Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+    */
+    services.preloaderOn = this.preloaderOn;
+    services.preloaderOff = this.preloaderOff;
+  }
+
   render() {
+    console.log('App render() state===', this.state);
+
     return (
       <div className="App">
+        <div ref={el=>services.preloaderElement=el} className={`preloader_wrapper`}>
+          <div className="preloader">
+            <hr/><hr/><hr/><hr/>
+          </div>
+        </div>
         <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
 
         <Switch>

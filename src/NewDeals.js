@@ -17,9 +17,13 @@ class NewDeals extends Component {
       filtered: []
     };
     this.activeProduct;
-    services.fetchFeatured((data)=>{
-      this.setState({featured: data.data},this.categoriseFeatured);
-    });
+    services.fetchFeatured()
+      .then(
+        (data)=>{
+          this.setState({
+            featured: data.data}
+            ,this.categoriseFeatured);
+      });
     services.fetchCategories()
       .then((data)=>{
       this.setState({categories: data.data});

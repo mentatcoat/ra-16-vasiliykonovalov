@@ -54,8 +54,10 @@ function fetchCategories() {
       });
   });
 }
-function fetchFeatured(callback) {
-  fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
+function fetchFeatured() {
+  services.preloaderOn && services.preloaderOn();
+  return new Promise((resolve, reject)=>{
+    fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
     .then((res) => {
       return res;
     })
@@ -63,10 +65,12 @@ function fetchFeatured(callback) {
       return res.json();
     })
     .then(data=> {
-      if(callback) callback(data);
+      services.preloaderOff && services.preloaderOff();
+      resolve(data);
     })
     .catch((err) => {
     });
+  });
 }
 
 function fetchProducts(params) {
@@ -81,6 +85,7 @@ function fetchProducts(params) {
     );
   }
   return new Promise((resolve,reject)=>{
+    services.preloaderOn && services.preloaderOn();
     fetch(url)
       .then((res) => {
         return res;
@@ -90,6 +95,7 @@ function fetchProducts(params) {
       })
       .then(data=> {
         console.log('fetchProducts() data===', data);
+        services.preloaderOff && services.preloaderOff();
         resolve(data);
       })
       .catch((err) => {
@@ -100,6 +106,7 @@ function fetchProducts(params) {
 function fetchProduct(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products/';
   if(id) {
+    services.preloaderOn && services.preloaderOn();
     return new Promise((resolve, reject)=>{
 
       url = url + id;
@@ -111,6 +118,7 @@ function fetchProduct(id) {
           return res.json();
         })
         .then(data=> {
+          services.preloaderOff && services.preloaderOff();
           resolve(data.data);
         })
         .catch((err) => {
@@ -204,6 +212,7 @@ function fetchCreateOrder(info) {
   if(info) {
 
     return new Promise((resolve, reject)=>{
+      services.preloaderOn && services.preloaderOn();
       const request = fetch(url, {
         body: JSON.stringify(info),
         credentials: 'same-origin',
@@ -220,6 +229,8 @@ function fetchCreateOrder(info) {
         return res.json();
       })
       .then(data=> {
+        // ??? ничего проще не придумал чем ставить функции вкл и выкл Прелоудера перед промисом и в .then. Так нормально?
+        services.preloaderOff && services.preloaderOff();
         resolve(data);
       })
       .catch((err) => {
@@ -259,6 +270,9 @@ function debounce(callback, delay) {
   };
 };
 
+services.preloaderOn;
+services.preloaderOff;
+services.preloaderElement;
 services.initFavorite;
 services.initFavoritePagination;
 services.initCataloguePagination;

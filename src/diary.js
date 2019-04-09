@@ -4,6 +4,7 @@
 =======09/04/19
 
 
+90. week-4 func - preloader
 89. week-4 func - <Favorite/> footer stick bottom,
 88. week-4 func - <Favorite/> arrow in item,
 87. week-4 func - <Favorite/> click heart rm item
