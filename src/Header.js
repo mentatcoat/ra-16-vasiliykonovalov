@@ -14,6 +14,7 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSearchOpen: false,
       panelView: null,
       chosenCategory: '',
       isCategoriesOpen: false,
@@ -22,6 +23,8 @@ class Header extends Component {
       items: null,
       products: null
     };
+    this.searchHiddenElement;
+    this.searchFieldElement;
 
     this.loadProducts = ()=>{
       let productsArray = [];
@@ -58,6 +61,23 @@ class Header extends Component {
       this.loadItems();
     };
     services.resetBasketPanel = this.resetBasketPanel;
+
+    this.onSubmitHeaderSearch = (e)=>{
+      e.preventDefault();
+      console.log('onSubmitHeaderSearch()');
+      this.searchHiddenElement.value = e.target.elements[0].value.trim();
+
+      let params = [[ 'search', this.searchHiddenElement.value]];
+      this.props.setCatalogueParams(params);
+    };
+
+    // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.
+
+
+
+
+
+
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
       if(services.clearFilterForm) services.clearFilterForm();
@@ -96,6 +116,25 @@ class Header extends Component {
       });
     };
     services.openBasketPanel = this.openBasketPanel;
+
+
+
+
+
+
+
+
+    this.openSearchForm = ()=>{
+      console.log('openSearchForm() searchHiddenElement===', this.searchHiddenElement);
+      if(this.state.isSearchOpen) {
+        this.searchHiddenElement.value = '';
+        this.searchFieldElement.value = '';
+      }
+      this.setState({
+        isSearchOpen: !this.state.isSearchOpen
+      });
+    };
+
   }
 
   render() {
@@ -145,8 +184,7 @@ class Header extends Component {
             </div>
             <div className="header-main__profile">
               <div className="header-main__pics">
-                <div className="header-main__pic header-main__pic_search">
-
+                <div className={`header-main__pic header-main__pic_search ${this.state.isSearchOpen ? 'header-main__pic_search_is-hidden' : ''}`} onClick={this.openSearchForm}>
                 </div>
                 <div className="header-main__pic_border"></div>
                 <div onClick={this.clickProfile} className="header-main__pic header-main__pic_profile">
@@ -158,10 +196,11 @@ class Header extends Component {
                   <div className={`header-main__pic_basket_menu ${this.state.panelView === 'basket' && 'header-main__pic_basket_menu_is-active'}`}></div>
                 </div>
               </div>
-              <form className="header-main__search" action="#">
-                <input placeholder="Поиск"/>
+              <form className={`header-main__search ${this.state.isSearchOpen ? 'header-main__search_active' : ''}`} onSubmit={this.onSubmitHeaderSearch}>
+                <input ref={el=>this.searchFieldElement=el} placeholder="Поиск"/>
                 <i className="fa fa-search" aria-hidden="true"></i>
               </form>
+              <input form='filterForm' ref={el=>this.searchHiddenElement=el} name='search' type='hidden'  />
             </div>
 
           </div>

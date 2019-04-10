@@ -2,7 +2,7 @@
 
 let services = {};
 let global = 123; //временный вспомогательный объект для разработки
-services.categoryMaxPrice = '100000';
+services.categoryMaxPrice = 100000;
 
 // https://neto-api.herokuapp.com/bosa-noga
 
@@ -250,6 +250,7 @@ function getCategoryMaxPrice(categoryIdNumber) {
 ).then(data=>{
     let result = data.data[0].price;
     result = Math.ceil(result/100) * 100;
+    console.log('!!!!!!!getCategoryMaxPrice() result===',result);
     services.categoryMaxPrice = result;
   });
 }
@@ -269,6 +270,8 @@ function debounce(callback, delay) {
     }, delay);
   };
 };
+
+services.onChangeFilter;
 
 services.preloaderOn;
 services.preloaderOff;

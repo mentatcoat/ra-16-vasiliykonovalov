@@ -97,9 +97,12 @@ class SidebarItemSlider extends Component {
   }//END constructor
 
   componentDidUpdate() {
+
     if(this.state.isShown && this.shouldCreateSlider) {
         this.slider = document.getElementById('priceSlider');
 
+      console.log('Slider services.categoryMaxPrice===', services.categoryMaxPrice);
+      // let maximum = services.categoryMaxPrice || 100000;
       noUiSlider.create(this.slider, {
           start: [0, services.categoryMaxPrice],
           connect: [false, true, false],

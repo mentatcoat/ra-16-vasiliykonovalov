@@ -22,6 +22,7 @@ class CatalogueSidebar extends Component {
 
     this.brand;
     this.submitBrand = (e)=>{
+      console.log('submitBrand() on form "brand"');
       e.preventDefault();
       this.brand.value = e.target.elements[0].value;
       this.props.onChangeFilter();

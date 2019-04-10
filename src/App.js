@@ -39,6 +39,7 @@ class AppComponent extends Component {
     // services.togglePreloader = this.togglePreloader;
 
     this.setCatalogueParams = (params)=>{
+      console.log('setCatalogueParams() params===', params);
       this.setState({catalogueParams: params});
       if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
       this.props.history.push('/catalogue');
@@ -60,6 +61,8 @@ class AppComponent extends Component {
 
 
   }
+
+  // ??? Так уж получилось что я использовал class-component. Было ли это уместно, или значительную часть компонентов можно/нужно делать с помощью functional-component?
 
   componentDidMount() {
     this.preloaderOn = ()=>{

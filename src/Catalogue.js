@@ -23,7 +23,8 @@ class Catalogue extends Component {
       sortedProducts: '',
       sortedProductsAmount: null,
       currentPage: '',
-      pagesAmount: ''
+      pagesAmount: '',
+      isSearchMode: this.props.catalogueParams && this.props.catalogueParams.find(el=>el[0]==='search') ? true : false
     };
     this.categoryId;
 
@@ -46,6 +47,7 @@ class Catalogue extends Component {
 
     this.getCurrentCategoryId = (catalogueParams)=>{
       if(!catalogueParams) return;
+      if(catalogueParams.find(el=>el[0]==='categoryId'))
       this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
     };
 
@@ -54,6 +56,7 @@ class Catalogue extends Component {
     this.initCatalogue();
 
     this.resetFilter = ()=>{
+      services.filterForm.elements['search'].value = '';
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
       services.headerParam = '';
     };
@@ -65,7 +68,8 @@ class Catalogue extends Component {
 
     this.setStateCatalogueParams = (params)=>{
       this.setState({
-        catalogueParams: params
+        catalogueParams: params,
+        isSearchMode: params.find(el=>el[0]==='search') ? true : false
       }, this.initCatalogue);
     }
     services.setStateCatalogueParams = this.setStateCatalogueParams;
@@ -86,8 +90,32 @@ class Catalogue extends Component {
 
       if(services.headerParam) paramsArray.push(services.headerParam);
       paramsArray.push(['categoryId', this.categoryId]);
+      console.log('onChangeFilter() paramsArray===', paramsArray);
       this.setStateCatalogueParams(paramsArray);
     }
+    services.onChangeFilter = this.onChangeFilter;
+
+
+    // setTimeout(
+    //   ()=>{
+    //     console.log('SEARCH fetch started');
+    //     let params = [['search','туфли']];
+    //     services.fetchProducts(params)
+    //       .then(data=>
+    //         console.log('SEARCH got data===', data)
+    //
+    //
+    //       );
+    //   }
+    //
+    //   ,3000
+    // );
+
+
+
+
+
+
   }//END constructor
 
   initCatalogue() {
@@ -99,8 +127,10 @@ class Catalogue extends Component {
   }
 
   render() {
+    console.log('Catalogue render() catalogueParams===', this.state.catalogueParams);
 
     let categoryIdPair, categoryTitle;
+    categoryTitle = 'Категория не задана';
 
     if(this.props.categories && this.state.catalogueParams && this.categoryId) {
       categoryTitle = this.props.categories.find(el=>+el.id===+this.categoryId).title;
@@ -129,12 +159,22 @@ class Catalogue extends Component {
           Главная
         </BreadcrumbsItem>
 
+        {this.state.isSearchMode
+        ?
+        <BreadcrumbsItem
+         to='/catalogue'
+         className='site-path__item'
+        >
+         Результаты поиска
+        </BreadcrumbsItem>
+        :
         <BreadcrumbsItem
          to='/catalogue'
          className='site-path__item'
         >
          {categoryTitle}
         </BreadcrumbsItem>
+        }
 
         {/*<!-- Тело каталога с сайдбаром -->*/}
         <main className="product-catalogue">
@@ -146,7 +186,7 @@ class Catalogue extends Component {
             {/*<!-- Голова каталога с названием раздела и сортировкой -->*/}
             <section className="product-catalogue__head">
               <div className="product-catalogue__section-title">
-                <h2 className="section-name">{categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
+                <h2 className="section-name">{this.state.isSearchMode ? 'Результаты поиска' : categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
               </div>
 
               <div className="product-catalogue__sort-by">
