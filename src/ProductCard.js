@@ -196,7 +196,7 @@ class ProductCard extends Component {
 
         <main className="product-card">
               <section className="product-card-content">
-                  <h2 className="section-name">{this.state.product && this.state.product.title}</h2>
+                  <h2 className="product-card_section-name">{this.state.product && this.state.product.title}</h2>
                   <section className="product-card-content__main-screen">
 
                       {/*<!-- Слайдер выбранного товара -->*/}

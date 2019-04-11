@@ -250,7 +250,7 @@ function getCategoryMaxPrice(categoryIdNumber) {
 ).then(data=>{
     let result = data.data[0].price;
     result = Math.ceil(result/100) * 100;
-    console.log('!!!!!!!getCategoryMaxPrice() result===',result);
+    console.log('getCategoryMaxPrice() result===',result);
     services.categoryMaxPrice = result;
   });
 }
