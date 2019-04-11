@@ -40,7 +40,7 @@ class Order extends Component {
         .then(results=>{
           this.setState({cartProductsInfo: results});
         });
-    };//END getCartProductsInfo
+    };
 
     services.fetchGetCart(localStorage.cartId)
       .then((data)=> {
@@ -146,8 +146,6 @@ class Order extends Component {
           >
            Заказ принят
           </BreadcrumbsItem>}
-
-
 
           <section className="order-process">
             {!this.state.isDone && <h2 className="order-process__title">Оформление заказа</h2>}

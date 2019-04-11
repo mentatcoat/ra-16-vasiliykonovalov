@@ -5,6 +5,7 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
+import PropTypes from 'prop-types';
 
 class SidebarItemHeelSize extends Component {
   constructor(props) {
@@ -60,5 +61,9 @@ class SidebarItemHeelSize extends Component {
     );
   }
 }
+
+SidebarItemHeelSize.propTypes = {
+  onChangeFilter: PropTypes.func.isRequired
+};
 
 export default SidebarItemHeelSize;

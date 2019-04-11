@@ -13,16 +13,15 @@ import SidebarItemSlider from './SidebarItemSlider';
 import SidebarItemSize from './SidebarItemSize';
 import SidebarItemHeelSize from './SidebarItemHeelSize';
 import services from './services';
+import PropTypes from 'prop-types';
 
 class CatalogueSidebar extends Component {
   constructor(props) {
     super(props);
     this.formElement;
     this.state={reset: true};
-
     this.brand;
     this.submitBrand = (e)=>{
-      console.log('submitBrand() on form "brand"');
       e.preventDefault();
       this.brand.value = e.target.elements[0].value;
       this.props.onChangeFilter();
@@ -81,5 +80,10 @@ class CatalogueSidebar extends Component {
     );
   }
 }
+
+CatalogueSidebar.propTypes = {
+  onChangeFilter: PropTypes.func.isRequired,
+  resetFilter: PropTypes.func.isRequired
+};
 
 export default CatalogueSidebar;

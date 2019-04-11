@@ -5,6 +5,7 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
+import PropTypes from 'prop-types';
 
 class SidebarItemCatalogue extends Component {
   constructor(props) {
@@ -62,5 +63,9 @@ class SidebarItemCatalogue extends Component {
           );
   }
 }
+
+SidebarItemCatalogue.propTypes = {
+  onChangeFilter: PropTypes.func.isRequired
+};
 
 export default SidebarItemCatalogue;

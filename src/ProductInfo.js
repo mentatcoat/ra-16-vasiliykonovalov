@@ -23,7 +23,6 @@ class ProductInfo extends Component {
 
     // функция объявлена в конструкторе для сохранения контекста:
     this.initProductInfo = (productInfo)=>{
-      console.log('initProductInfo() productInfo===', productInfo);
       this.product = productInfo;
       this.setState({
         chosenSize: '',
@@ -89,25 +88,6 @@ class ProductInfo extends Component {
     this.basketAmountPlus = this.basketAmountChange.bind(this, 1);
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
   }
-
-  // initProductInfo() {
-  //   console.log('initProductInfo() props===', this.props);
-  //   this.product = this.props.product;
-  //   this.setState({
-  //     chosenSize: '',
-  //     chosenAmount: 1,
-  //     isFavorite: this.isFavorite(),
-  //     buttonTitle: 'В корзину'
-  //   });
-  // }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if(nextProps !== this.props) {
-  //     this.initProductInfo(nextProps);
-  //     return true;
-  //   }
-  //   return true;
-  // }
 
   render() {
     return (

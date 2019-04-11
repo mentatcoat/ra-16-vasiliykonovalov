@@ -26,22 +26,7 @@ class AppComponent extends Component {
       products: ''
     };
 
-    // this.togglePreloader = ()=>{
-    //   console.log('App.togglePreloader() state===', this.state);
-    //   this.setState({
-    //     isPreloader: !this.state.isPreloader
-    //   }
-    //   ,
-    //   ()=>
-    //   console.log('App.togglePreloader() after state===', this.state)
-    //   );
-    //
-    // };
-    // // ??? Я изначально менял класс hidden на div.preloader. Почему-то ref не успевал прописать дом-элемент прелоадера. В итоге я сделал функцию меняюую state с целью показа прелоадера. Что лучше? И почему ref отрисовывал дом-элемент расположенный в самом верху верстки позже чем рендерился компонент из середины верстки <NewDeals/>?
-    // services.togglePreloader = this.togglePreloader;
-
     this.setCatalogueParams = (params)=>{
-      console.log('setCatalogueParams() params===', params);
       this.setState({catalogueParams: params});
       if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
       this.props.history.push('/catalogue');
@@ -59,9 +44,6 @@ class AppComponent extends Component {
         });
 
     });
-    // services.fetchProducts().then((data)=>this.setState({products: data.data}));
-
-
   }
 
   // ??? Так уж получилось что я использовал class-component. Было ли это уместно, или значительную часть компонентов можно/нужно делать с помощью functional-component?
@@ -83,7 +65,6 @@ class AppComponent extends Component {
   }
 
   render() {
-    console.log('App render() state===', this.state);
 
     return (
       <div className="App">

@@ -53,6 +53,9 @@ class HeaderCartItem extends Component {
 }
 
 HeaderCartItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  product: PropTypes.object.isRequired,
+  items: PropTypes.array.isRequired
 };
 
 export default HeaderCartItem;

@@ -64,7 +64,6 @@ class Header extends Component {
 
     this.onSubmitHeaderSearch = (e)=>{
       e.preventDefault();
-      console.log('onSubmitHeaderSearch()');
       this.searchHiddenElement.value = e.target.elements[0].value.trim();
 
       let params = [[ 'search', this.searchHiddenElement.value]];
@@ -72,11 +71,6 @@ class Header extends Component {
     };
 
     // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.
-
-
-
-
-
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
@@ -117,15 +111,7 @@ class Header extends Component {
     };
     services.openBasketPanel = this.openBasketPanel;
 
-
-
-
-
-
-
-
     this.openSearchForm = ()=>{
-      console.log('openSearchForm() searchHiddenElement===', this.searchHiddenElement);
       if(this.state.isSearchOpen) {
         this.searchHiddenElement.value = '';
         this.searchFieldElement.value = '';

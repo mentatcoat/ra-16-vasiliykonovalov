@@ -3,7 +3,8 @@
 
 =======11/04/19
 
-
+96. cleaned code 
+95. fixed propTypes and marks in code
 94. fixed Sizes filter in <Catalogue/>
 REAL possible sizes 8,10,12,14,15,16,18,20
 93. fixed css - sidebar Style in <Catalogue/>
@@ -53,20 +54,19 @@ REAL possible sizes 8,10,12,14,15,16,18,20
 63. realize СБРОС фильтра с перемаунтом Sidebar и перерисовкой всех продуктов.
 Надо сделать СБРОСИТЬ - желательно перерисовать весь sidebar
 62. сделал brand.
-!!! фильтр по РАЗМЕР не дает результатов, видимо захардкодены нереальные размеры, при этомнегде получать разымеры.
 61. realize <SidebarItemSlider put price in catalogueParams
 60. <SidebarItemSlider debounced-вызов сбора формы
 59. Заменил в fetchProducts params - теперь это массив.
 
 =======20/03/19
 58. realize all els <CatalogueSidebar/>, need to bind with FORM
-57. !!!Запросы к серверу по женской обуви выдают размеры каблука 1-10.
+57. !!Запросы к серверу по женской обуви выдают размеры каблука 1-10.
 
 ИДЕЯ: CatalogueSidebar получает catalogueParams и обновляется - сбрасывает всю форму?
 
 
 56. realize SidebarItemSlider
-!catalogueParams в App.js при загрузке categories выставляется на первую пришедшую категорию
+!!catalogueParams в App.js при загрузке categories выставляется на первую пришедшую категорию
 =======18/03/19
 55. discounted
 54. realize <SidebarItemSeason
@@ -76,7 +76,7 @@ REAL possible sizes 8,10,12,14,15,16,18,20
 50. <Catalogue/> название категории, кол-во товаров
 =======17/03/19
 49. realize <CatalogueItem >
-! размеры не приходят с fetchProducts - сервер не создает такое свойство, сбил болванку
+!! размеры не приходят с fetchProducts - сервер не создает такое свойство, сбил болванку
 48. realize <Catalogue
 =======16/03/19
 47. сделал "В корзину". Если нет размера, то сервер не добавляет в корзину.
@@ -110,7 +110,7 @@ services.twinkleBasketPic = twinkleBasketPic;
 30. <Order> <OrdrCart> <OrderCartItem>
 29. изменил класс basket-item__quantity__incart добавил incart , чтобы небыло конфликта классов
 28. in <ProductInfo   basketAmountChange()
-27. в <ProductInfo  isAvailable !у них ошибка 'avalible'
+27. в <ProductInfo  isAvailable !!у них ошибка 'avalible'
 =======01/03/19
 СДЕЛАТЬ "в наличии"
 26. <ProductInfoSizes >
@@ -118,7 +118,7 @@ services.twinkleBasketPic = twinkleBasketPic;
 24. связка Main pic и ProductSlider. Увеличение main pic.
 23. подстановка Main pic в ProductCard
 22. <ProductSlider/>
-!!! в products.json в товаре id 20 удвоил количество фото
+!! в products.json в товаре id 20 удвоил количество фото
 21. <ProductCard/>
 20. сделал <Favorite/>
 19. Исправил <OverlookedSlider/> - при снижении количества картинокю.

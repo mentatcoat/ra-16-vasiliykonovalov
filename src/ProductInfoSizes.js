@@ -34,7 +34,7 @@ class ProductInfoSizes extends Component {
 }
 
 ProductInfoSizes.propTypes = {
-  chosenSize: PropTypes.number,
+  chosenSize: PropTypes.number.isRequired,
   sizes: PropTypes.array.isRequired,
   onclick: PropTypes.func.isRequired
 };

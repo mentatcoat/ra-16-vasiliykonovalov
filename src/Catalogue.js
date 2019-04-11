@@ -90,33 +90,11 @@ class Catalogue extends Component {
 
       if(services.headerParam) paramsArray.push(services.headerParam);
       paramsArray.push(['categoryId', this.categoryId]);
-      console.log('onChangeFilter() paramsArray===', paramsArray);
       this.setStateCatalogueParams(paramsArray);
     }
     services.onChangeFilter = this.onChangeFilter;
 
-
-    // setTimeout(
-    //   ()=>{
-    //     console.log('SEARCH fetch started');
-    //     let params = [['search','туфли']];
-    //     services.fetchProducts(params)
-    //       .then(data=>
-    //         console.log('SEARCH got data===', data)
-    //
-    //
-    //       );
-    //   }
-    //
-    //   ,3000
-    // );
-
-
-
-
-
-
-  }//END constructor
+  }
 
   initCatalogue() {
     if(this.state.catalogueParams) {
@@ -127,8 +105,6 @@ class Catalogue extends Component {
   }
 
   render() {
-    console.log('Catalogue render() catalogueParams===', this.state.catalogueParams);
-
     let categoryIdPair, categoryTitle;
     categoryTitle = 'Категория не задана';
 
@@ -227,10 +203,11 @@ class Catalogue extends Component {
     );
   }
 }
-
+// ??? Пожалуй не нужно в PropTypes указывать props которые придут от Route - history, location, match. Ведь с ними невозможно напутать. Или желательно их тоже указывать?
 Catalogue.propTypes = {
-  catalogueParams : PropTypes.object,
-  categories : PropTypes.array
+  catalogueParams : PropTypes.array.isRequired,
+  categories : PropTypes.array,
+  setCatalogueParams: PropTypes.func.isRequired
 };
 
 export default Catalogue;

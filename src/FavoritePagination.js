@@ -20,14 +20,6 @@ class FavoritePagination extends Component {
       currentPage: this.props.currentPage
     };
     this.counter;
-    // this.clickArrow = (step)=>{
-    //   let delta = this.state.first + step;
-    //   if(delta > this.state.filtered.length - 1) delta = 0;
-    //   if(delta < 0) delta = this.state.filtered.length - 1;
-    //   this.setState({first: delta});
-    // }
-    // this.clickNext = this.clickArrow.bind(this,1);
-    // this.clickPrev = this.clickArrow.bind(this,-1);
     this.routIndex = ()=> {
       if (this.counter > this.state.pagesAmount) this.counter = 0;
       return this.counter++;
@@ -51,7 +43,6 @@ class FavoritePagination extends Component {
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
 
     this.initFavoritePagination = (page, pages)=>{
-      console.log('initCataloguePagination()');
       this.setState({
             pagesAmount: pages,
             currentPage: page
@@ -59,18 +50,7 @@ class FavoritePagination extends Component {
     }
     services.initFavoritePagination = this.initFavoritePagination;
 
-  }//END constructor
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if(nextProps !== this.props) {
-  //     this.setState({
-  //       pagesAmount: nextProps.pagesAmount,
-  //       currentPage: nextProps.currentPage
-  //     });
-  //   }
-  //   return true;
-  // }
-
+  }
 
   render() {
     let toShowAmount = this.state.pagesAmount - this.state.currentPage + 1;
@@ -108,6 +88,8 @@ class FavoritePagination extends Component {
 }
 
 FavoritePagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  pagesAmount: PropTypes.number.isRequired, onChangeCurrentPage: PropTypes.func.isRequired
 };
 
 export default FavoritePagination;

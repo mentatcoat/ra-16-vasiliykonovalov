@@ -51,7 +51,6 @@ class CataloguePagination extends Component {
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
 
     this.initCataloguePagination = (page, pages)=>{
-      console.log('initCataloguePagination()');
       this.setState({
             pagesAmount: pages,
             currentPage: page
@@ -59,18 +58,7 @@ class CataloguePagination extends Component {
     }
     services.initCataloguePagination = this.initCataloguePagination;
 
-  }//END constructor
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if(nextProps !== this.props) {
-  //     this.setState({
-  //       pagesAmount: nextProps.pagesAmount,
-  //       currentPage: nextProps.currentPage
-  //     });
-  //   }
-  //   return true;
-  // }
-
+  }
 
   render() {
     let toShowAmount = this.state.pagesAmount - this.state.currentPage + 1;
@@ -108,6 +96,9 @@ class CataloguePagination extends Component {
 }
 
 CataloguePagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  pagesAmount: PropTypes.number.isRequired,
+  onChangeFilter: PropTypes.func.isRequired
 };
 
 export default CataloguePagination;

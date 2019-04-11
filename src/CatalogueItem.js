@@ -36,7 +36,7 @@ class CatalogueItem extends Component {
       this.setState({isFavorite: this.isFavorite()});
     };
 
-  }//END constructor
+  }
 
   render() {
 
@@ -69,6 +69,7 @@ class CatalogueItem extends Component {
 }
 
 CatalogueItem.propTypes = {
+  product: PropTypes.object.isRequired
 };
 
 export default CatalogueItem;

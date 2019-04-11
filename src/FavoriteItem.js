@@ -39,7 +39,7 @@ class FavoriteItem extends Component {
       services.initFavorite();
     };
 
-  }//END constructor
+  }
 
   render() {
 
@@ -72,7 +72,7 @@ class FavoriteItem extends Component {
 }
 
 FavoriteItem.propTypes = {
-  product: PropTypes.object
+  product: PropTypes.object.isRequired
 };
 
 export default FavoriteItem;

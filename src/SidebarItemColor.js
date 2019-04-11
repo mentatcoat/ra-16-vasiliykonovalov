@@ -5,6 +5,7 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
+import PropTypes from 'prop-types';
 
 class SidebarItemColor extends Component {
   constructor(props) {
@@ -59,5 +60,9 @@ class SidebarItemColor extends Component {
       );
   }
 }
+
+SidebarItemColor.propTypes = {
+  onChangeFilter: PropTypes.func.isRequired
+};
 
 export default SidebarItemColor;

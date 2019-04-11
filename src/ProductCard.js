@@ -38,39 +38,7 @@ class ProductCard extends Component {
       }
     };
 
-
-    // this.initProductCard = (id)=>{
-    //   console.log('init() in ProductCard');
-    //   services.fetchProduct(id)
-    //     .then(productInfo=>{
-    //       this.setState({
-    //         product:productInfo,
-    //         mainpic: productInfo.images[0],
-    //         category: this.props.categories.find(
-    //           el=>el.id === productInfo.categoryId
-    //         )
-    //       });
-    //     });
-    //     this.makeProductOverlooked();
-    // }
-
     this.initProductCard(+this.props.match.params.id);
-
-    // ??? Так как нельзя использовать shouldComponentUpdate я решил использовать history.listen ниже. Верный такой подход?
-
-    // this.props.history.listen((location, action)=>{
-    //   console.log('history.listen loc===', location);
-    //   console.log('history.listen act ===', action);
-    //   console.log('history.listen param ===', this.props.match.params.id);
-    //
-    //
-    //
-    //   this.initProductCard(+this.props.match.params.id);
-    //
-    //
-    // }
-
-    // );
 
     this.mainpicElement;
     this.pushMainpic = (event)=> {
@@ -103,19 +71,9 @@ class ProductCard extends Component {
     }
     // ??? Я выбирал между двумя альтернативами: 1) сделать хлебные крошки так, чтобы они выводили параметры фильтра в url страниы 2) сделать хлебные крошки так, чтобы они имели onclick-слушатели и слушатели уже запускали фильтрацию на странице КАТАЛОГ. Я быврал второй вариант, т к код уже имел для этого необходимые методы. Делают ли воодще на практике так - навешивают на хлебные крошки onclick-слушатели?
 
-  }//END constructor
-
-  // shouldComponentUpdate(nextProps, nextState){
-  //   if(this.props.match.params.id !== nextProps.match.params.id) {
-  //     this.init(+nextProps.match.params.id);
-  //     // ??? Правильно ли использовать подобныеы init() функции, которые при обновлении props обновляют ключевые параметры компонента?
-  //     return true;
-  //   }
-  //   if(this.state !== nextState) return true;
-  // }
+  }
 
   initProductCard(id) {
-    console.log('init() in ProductCard id===', id);
     services.fetchProduct(id)
       .then(productInfo=>{
         this.setState({
@@ -136,16 +94,11 @@ class ProductCard extends Component {
   }
 
   render() {
-    console.log('ProductCard render() props===', this.props);
-    console.log('ProductCard render() state===', this.state);
-    console.log('ProductCard render() history.listen===', this.props.history.listen);
-
     // ??? это верный подход для перезагрузки стейта компонента?
     if(+this.props.match.params.id !== this.state.productId) {
       this.initProductCard(+this.props.match.params.id);
 
     }
-
 
     // ??? Ниже есть элемент <BreadcrumbsItem/> - это компонент-посредник, он принимает атрибудты и передает их в элемент, который будет отрендерен в качесвте хлебной-крошки-ссылки. Этот комопонент-посредник передает любые атрибуты в конечный элемент. Я передавал туда атрибут 'data-category'. Отрисованный элемент <a> получал этот дата-атрибут и показывал его в свойстве 'dataset'.  Но почему то когда я обращался к <a> как к 'event.target.dataset.category' выводилось undefined - то есть не читалось именно последнее свойство в записи - '.category'. Почему так?
     return (

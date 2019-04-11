@@ -56,5 +56,8 @@ class Sales extends Component {
     )
   }
 }
+// ??? писать ли вообще пустые propTypes для самодокументации?
+Sales.propTypes = {
+};
 
 export default Sales;

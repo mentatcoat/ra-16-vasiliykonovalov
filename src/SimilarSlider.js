@@ -50,7 +50,7 @@ class SimilarSlider extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  }//END constructor
+  }
 
   render() {
     if(this.state.filtered.length === 0) return null;

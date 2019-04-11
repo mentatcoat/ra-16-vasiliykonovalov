@@ -74,7 +74,7 @@ class OrderForm extends Component {
 }
 
 OrderForm.propTypes = {
-  onsubmit: PropTypes.func
+  onsubmit: PropTypes.func.isRequired
 };
 
 export default OrderForm;

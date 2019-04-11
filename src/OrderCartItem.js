@@ -26,7 +26,7 @@ class OrderCartItem extends Component {
     this.changeAmountPlus = this.changeAmount.bind(this, 1);
     this.changeAmountMinus = this.changeAmount.bind(this, -1);
 
-  }//END constructor
+  }
 
 
   render() {
@@ -62,6 +62,7 @@ class OrderCartItem extends Component {
 }
 
 OrderCartItem.propTypes = {
+  unique: PropTypes.string.isRequired,
   product: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   counter: PropTypes.func.isRequired

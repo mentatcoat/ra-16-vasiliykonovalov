@@ -19,7 +19,6 @@ class ProductSlider extends Component {
     }
 
     this.initProductSlider = (product)=>{
-      console.log('initProductSlider()');
       this.pics = product.images;
       this.setState({
         first: 0
@@ -41,15 +40,6 @@ class ProductSlider extends Component {
       return this.counter++;
     };
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if( nextProps !== this.props) {
-  //     this.initProductSlider(nextProps.product);
-  //     return true;
-  //   }
-  //   return true;
-  //
-  // }
 
   render() {
     if(this.pics.length < 2) return null;
@@ -83,7 +73,7 @@ class ProductSlider extends Component {
 
 ProductSlider.propTypes = {
   product: PropTypes.object.isRequired,
-  onclick: PropTypes.func
+  onclick: PropTypes.func.isRequired
 };
 
 export default ProductSlider;
