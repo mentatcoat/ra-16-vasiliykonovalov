@@ -4,6 +4,8 @@
 =======11/04/19
 
 
+94. fixed Sizes filter in <Catalogue/>
+REAL possible sizes 8,10,12,14,15,16,18,20
 93. fixed css - sidebar Style in <Catalogue/>
 92. fixed css - title <Catalogue/>
 =======10/04/19
