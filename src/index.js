@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import {ThroughProvider} from 'react-through';
 
 ReactDOM.render(
-  <BrowserRouter  >
+  <BrowserRouter basename={process.env.PUBLIC_URL} >
     <ThroughProvider>
       <App />
     </ThroughProvider>
