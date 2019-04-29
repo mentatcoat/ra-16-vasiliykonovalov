@@ -21,8 +21,9 @@ class ProductInfo extends Component {
       buttonTitle: 'В корзину'
     };
 
-    this.init = (props)=>{
-      this.product = props.product;
+    // функция объявлена в конструкторе для сохранения контекста:
+    this.initProductInfo = (productInfo)=>{
+      this.product = productInfo;
       this.setState({
         chosenSize: '',
         chosenAmount: 1,
@@ -31,13 +32,13 @@ class ProductInfo extends Component {
       });
     }
 
+    services.initProductInfo = this.initProductInfo;
 
     this.clickInBasket = ()=> {
       if(!this.state.chosenSize) {
         this.setState({buttonTitle: 'Выберите размер!'});
         return;
       }
-      // здесь функция создания Корзины
       let productObj = {
         id: this.product.id,
         size: this.state.chosenSize,
@@ -49,6 +50,7 @@ class ProductInfo extends Component {
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=data.data.products.length;
               services.twinkleBasketPic();
+              services.resetBasketPanel();
             }
 
           });
@@ -58,6 +60,7 @@ class ProductInfo extends Component {
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=1;
               services.twinkleBasketPic();
+              services.resetBasketPanel();
             }
           });
       }
@@ -76,7 +79,6 @@ class ProductInfo extends Component {
       e.preventDefault();
       this.setState({chosenSize: +e.target.textContent});
       this.setState({buttonTitle: 'В корзину'});
-
     }
     this.basketAmountChange = (step)=>{
       let result = this.state.chosenAmount + step;
@@ -86,15 +88,6 @@ class ProductInfo extends Component {
     this.basketAmountPlus = this.basketAmountChange.bind(this, 1);
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if(nextProps !== this.props) {
-      this.init(nextProps);
-      return true;
-    }
-    return true;
-  }
-
 
   render() {
     return (

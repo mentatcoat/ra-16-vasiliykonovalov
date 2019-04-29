@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
+import PropTypes from 'prop-types';
 
 class Subscribe extends Component {
   constructor(props) {
@@ -57,5 +58,8 @@ class Subscribe extends Component {
     )
   }
 }
+
+Subscribe.propTypes = {
+};
 
 export default Subscribe;

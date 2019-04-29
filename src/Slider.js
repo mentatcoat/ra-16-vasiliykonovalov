@@ -44,4 +44,7 @@ class Slider extends Component {
   }
 }
 
+Slider.propTypes = {
+};
+
 export default Slider;

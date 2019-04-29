@@ -991,8 +991,12 @@ li a:hover {
   flex: 1;
   max-height: 135px;
   padding-right: 25px;
+}
+
+.basket-dropped__product-list-scroll {
   overflow-y: auto;
 }
+
 .basket-dropped__order-button {
   padding: 9px 41px;
   font-size: 18px;
@@ -1027,6 +1031,12 @@ li a:hover {
   height: 39px;
   background-color: #ffffff;
 }
+
+.product-list__pic img {
+  height: 100%;
+  width: 100%;
+}
+
 .product-list__product {
   margin: 0 20px;
   font-weight: 300;
@@ -1110,4 +1120,18 @@ li a:hover {
   75% {
     transform: translate(0, 160%);
   }
+}
+
+.App {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 334px; /* height of your footer */
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

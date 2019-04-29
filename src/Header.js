@@ -7,16 +7,71 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import logotype from './img/header-logo.png';
 import services from './services';
+import HeaderCartItem from './HeaderCartItem';
 import PropTypes from 'prop-types';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSearchOpen: false,
       panelView: null,
       chosenCategory: '',
-      isCategoriesOpen: false
+      isCategoriesOpen: false,
+      cartId: null,
+      changer: true,
+      items: null,
+      products: null
     };
+    this.searchHiddenElement;
+    this.searchFieldElement;
+
+    this.loadProducts = ()=>{
+      let productsArray = [];
+      this.state.items.forEach(item=>{
+        productsArray.push(services.fetchProduct(item.id));
+      });
+      Promise.all(productsArray)
+        .then(products=>{
+          this.setState({
+            products: products
+          });
+        });
+    };
+
+    this.loadItems = ()=>{
+      if(localStorage.cartId) {
+        services.fetchGetCart(localStorage.cartId)
+          .then(data=>{
+            this.setState({
+              items: data.products
+            }, this.loadProducts);
+        });
+      } else {
+        this.setState({
+          items: null,
+          products: null
+        });
+      }
+    };
+
+    this.loadItems();
+
+    this.resetBasketPanel = ()=>{
+      this.loadItems();
+    };
+    services.resetBasketPanel = this.resetBasketPanel;
+
+    this.onSubmitHeaderSearch = (e)=>{
+      e.preventDefault();
+      this.searchHiddenElement.value = e.target.elements[0].value.trim();
+
+      let params = [[ 'search', this.searchHiddenElement.value]];
+      this.props.setCatalogueParams(params);
+    };
+
+    // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.
+
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
       if(services.clearFilterForm) services.clearFilterForm();
@@ -48,10 +103,32 @@ class Header extends Component {
     };
     this.clickBasket = this.clickPictogram.bind(this, 'basket');
     this.clickProfile = this.clickPictogram.bind(this, 'profile');
+
+    this.openBasketPanel = ()=>{
+      this.setState({
+        panelView: 'basket'
+      });
+    };
+    services.openBasketPanel = this.openBasketPanel;
+
+    this.openSearchForm = ()=>{
+      if(this.state.isSearchOpen) {
+        this.searchHiddenElement.value = '';
+        this.searchFieldElement.value = '';
+      }
+      this.setState({
+        isSearchOpen: !this.state.isSearchOpen
+      });
+    };
+
   }
 
   render() {
     if(!this.props.categories) return null;
+    let isItemsShown = false;
+    if(this.state.items && this.state.products) {
+      if (this.state.items.length === this.state.products.length) isItemsShown = true;
+    }
 
     return (
       <header className="header">
@@ -93,8 +170,7 @@ class Header extends Component {
             </div>
             <div className="header-main__profile">
               <div className="header-main__pics">
-                <div className="header-main__pic header-main__pic_search">
-
+                <div className={`header-main__pic header-main__pic_search ${this.state.isSearchOpen ? 'header-main__pic_search_is-hidden' : ''}`} onClick={this.openSearchForm}>
                 </div>
                 <div className="header-main__pic_border"></div>
                 <div onClick={this.clickProfile} className="header-main__pic header-main__pic_profile">
@@ -106,10 +182,11 @@ class Header extends Component {
                   <div className={`header-main__pic_basket_menu ${this.state.panelView === 'basket' && 'header-main__pic_basket_menu_is-active'}`}></div>
                 </div>
               </div>
-              <form className="header-main__search" action="#">
-                <input placeholder="Поиск"/>
+              <form className={`header-main__search ${this.state.isSearchOpen ? 'header-main__search_active' : ''}`} onSubmit={this.onSubmitHeaderSearch}>
+                <input ref={el=>this.searchFieldElement=el} placeholder="Поиск"/>
                 <i className="fa fa-search" aria-hidden="true"></i>
               </form>
+              <input form='filterForm' ref={el=>this.searchHiddenElement=el} name='search' type='hidden'  />
             </div>
 
           </div>
@@ -123,60 +200,20 @@ class Header extends Component {
                 <a href="#">Выйти</a>
               </div>
               <div className={`hidden-panel__basket basket-dropped ${this.state.panelView==='basket' && 'hidden-panel__basket_visible'}`}>
-                <div className="basket-dropped__title">В вашей корзине:</div>
-                <div className="basket-dropped__product-list product-list">
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
+                <div className="basket-dropped__title">{localStorage.cartId ? 'В вашей корзине:' : 'В корзине пока ничего нет. Не знаете, с чего начать? Посмотрите наши новинки!'}</div>
 
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <div className="product-list__item">
-                    <a className="product-list__pic">
-                      <img src="img/product-list__pic_1.jpg" alt="product"/> </a>
-                    <a href="#" className="product-list__product">Ботинки женские, Baldinini</a>
-                    <div className="product-list__fill"></div>
-                    <div className="product-list__price">12 360
-                      <i className="fa fa-rub" aria-hidden="true"></i>
-                    </div>
-                    <div className="product-list__delete">
-                      <i className="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </div>
+                {isItemsShown &&
+                  <div className={`basket-dropped__product-list product-list ${this.state.items.length>3 ? 'basket-dropped__product-list-scroll' : ''}`}>
 
-                </div>
-                <Link to="/order" className="basket-dropped__order-button" href="order.html">Оформить заказ</Link>
+                  {this.state.items.map((item, index)=>{
+                    return <HeaderCartItem key={`${item.id}` + `${item.size}`} item={item} product={this.state.products[index]} items={this.state.items} />;
+                  }
+                  )}
+                  </div>
+                }
+
+                {localStorage.cartId && <Link to="/order" className="basket-dropped__order-button"
+                onClick={this.clickBasket} >Оформить заказ</Link>}
               </div>
             </div>
           </div>

@@ -609,7 +609,7 @@ li.active {
   vertical-align: top;
   border-radius: 15px;
   box-shadow: 3px 3px 15px #D4E4E6;
-
+  margin-left: 120px;
   display: inline-block;
 }
 

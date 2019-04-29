@@ -5,11 +5,11 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
+import PropTypes from 'prop-types';
 
 class SidebarItemReason extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isShown: false,
       value: ''
@@ -61,5 +61,9 @@ class SidebarItemReason extends Component {
     );
   }
 }
+
+SidebarItemReason.propTypes = {
+  onChangeFilter: PropTypes.func.isRequired
+};
 
 export default SidebarItemReason;

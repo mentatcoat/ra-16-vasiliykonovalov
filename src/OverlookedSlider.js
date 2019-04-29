@@ -33,7 +33,7 @@ class OverlookedSlider extends Component {
         .then(results=>{
           this.setState({filtered: results});
         });
-    };//END getProductsInfo()
+    };
     this.getProductsInfo();
 
     this.counter;

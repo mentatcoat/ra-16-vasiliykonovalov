@@ -6,11 +6,11 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
 import services from './services';
+import PropTypes from 'prop-types';
 
 class SidebarItemSeason extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isShown: false,
       value: ''
@@ -61,5 +61,9 @@ class SidebarItemSeason extends Component {
     );
   }
 }
+
+SidebarItemSeason.propTypes = {
+  onChangeFilter: PropTypes.func.isRequired
+};
 
 export default SidebarItemSeason;

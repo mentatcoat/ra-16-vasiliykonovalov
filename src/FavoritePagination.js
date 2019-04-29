@@ -11,7 +11,7 @@ import CatalogueItem from './CatalogueItem';
 import PropTypes from 'prop-types';
 import services from './services';
 
-class CataloguePagination extends Component {
+class FavoritePagination extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,14 +20,6 @@ class CataloguePagination extends Component {
       currentPage: this.props.currentPage
     };
     this.counter;
-    this.clickArrow = (step)=>{
-      let delta = this.state.first + step;
-      if(delta > this.state.filtered.length - 1) delta = 0;
-      if(delta < 0) delta = this.state.filtered.length - 1;
-      this.setState({first: delta});
-    }
-    this.clickNext = this.clickArrow.bind(this,1);
-    this.clickPrev = this.clickArrow.bind(this,-1);
     this.routIndex = ()=> {
       if (this.counter > this.state.pagesAmount) this.counter = 0;
       return this.counter++;
@@ -36,27 +28,27 @@ class CataloguePagination extends Component {
       if(!e) {
         this.setState({
           currentPage: this.state.currentPage+step
-        }, this.props.onChangeFilter);
+        }, ()=> this.props.onChangeCurrentPage(this.state.currentPage));
         window.scrollTo(0,0);
         return;
       }
       if(e.target.tagName === 'A') {
         this.setState({
           currentPage: +e.target.textContent
-        }, this.props.onChangeFilter);
+        }, ()=> this.props.onChangeCurrentPage(this.state.currentPage));
         window.scrollTo(0,0);
       }
     }
     this.clickNextPage = this.clickPage.bind(null,null, 1);
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
 
-    this.initCataloguePagination = (page, pages)=>{
+    this.initFavoritePagination = (page, pages)=>{
       this.setState({
             pagesAmount: pages,
             currentPage: page
           });
     }
-    services.initCataloguePagination = this.initCataloguePagination;
+    services.initFavoritePagination = this.initFavoritePagination;
 
   }
 
@@ -95,10 +87,9 @@ class CataloguePagination extends Component {
   }
 }
 
-CataloguePagination.propTypes = {
+FavoritePagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
-  pagesAmount: PropTypes.number.isRequired,
-  onChangeFilter: PropTypes.func.isRequired
+  pagesAmount: PropTypes.number.isRequired, onChangeCurrentPage: PropTypes.func.isRequired
 };
 
-export default CataloguePagination;
+export default FavoritePagination;

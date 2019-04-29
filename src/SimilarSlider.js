@@ -11,10 +11,8 @@ import JSONproducts from './data/products.json';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-
 class SimilarSlider extends Component {
   constructor(props) {
-    console.log('SimilarSlider got props===', props);
     super(props);
     this.state = {
       type: this.props.product.type,
@@ -32,7 +30,6 @@ class SimilarSlider extends Component {
 
       services.fetchProducts(params)
         .then(data=>{
-          console.log('fetch similarProducts===', data.data.slice());
           let duplicate = data.data.findIndex(el=>el.id===this.state.id);
           if(duplicate !== -1) data.data.splice(duplicate, 1);
           this.setState({filtered: data.data.slice(-10)});
@@ -53,7 +50,7 @@ class SimilarSlider extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  }//END constructor
+  }
 
   render() {
     if(this.state.filtered.length === 0) return null;

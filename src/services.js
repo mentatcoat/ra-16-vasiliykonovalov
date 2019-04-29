@@ -2,11 +2,11 @@
 
 let services = {};
 let global = 123; //временный вспомогательный объект для разработки
-services.categoryMaxPrice = '100000';
+services.categoryMaxPrice = 100000;
 
 // https://neto-api.herokuapp.com/bosa-noga
 
-//!!! нужно этот массив задавать пустым:
+//!! нужно этот массив задавать пустым:
 if(!localStorage.favorites) localStorage.favorites = JSON.stringify([]);
 
 function twinkleBasketPic() {
@@ -53,8 +53,10 @@ function fetchCategories() {
       });
   });
 }
-function fetchFeatured(callback) {
-  fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
+function fetchFeatured() {
+  services.preloaderOn && services.preloaderOn();
+  return new Promise((resolve, reject)=>{
+    fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
     .then((res) => {
       return res;
     })
@@ -62,10 +64,12 @@ function fetchFeatured(callback) {
       return res.json();
     })
     .then(data=> {
-      if(callback) callback(data);
+      services.preloaderOff && services.preloaderOff();
+      resolve(data);
     })
     .catch((err) => {
     });
+  });
 }
 
 function fetchProducts(params) {
@@ -79,6 +83,7 @@ function fetchProducts(params) {
     );
   }
   return new Promise((resolve,reject)=>{
+    services.preloaderOn && services.preloaderOn();
     fetch(url)
       .then((res) => {
         return res;
@@ -87,6 +92,7 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
+        services.preloaderOff && services.preloaderOff();
         resolve(data);
       })
       .catch((err) => {
@@ -97,6 +103,7 @@ function fetchProducts(params) {
 function fetchProduct(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products/';
   if(id) {
+    services.preloaderOn && services.preloaderOn();
     return new Promise((resolve, reject)=>{
 
       url = url + id;
@@ -108,6 +115,7 @@ function fetchProduct(id) {
           return res.json();
         })
         .then(data=> {
+          services.preloaderOff && services.preloaderOff();
           resolve(data.data);
         })
         .catch((err) => {
@@ -145,32 +153,35 @@ function fetchCreateCart(cartObj) {
   }
 }
 
-function fetchGetCart(id, callback) {
+function fetchGetCart(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
-  if(id) {
-    url = url + id;
-    fetch(url)
-      .then((res) => {
-        return res;
-      })
-      .then(res => {
-        return res.json();
-      })
-      .then(data=> {
-        if(callback) callback(data);
-      })
-      .catch((err) => {
-      });
-  }
+    return new Promise((resolve, reject)=>{
+      if(!id) reject();
+      // ??? верно ли применен reject() выше - в случае когда не передан аргумент в функцию? (Если не возвращать rejectedPromise то вылетет ошибка).
+      url = url + id;
+      fetch(url)
+        .then((res) => {
+          return res;
+        })
+        .then(res => {
+          return res.json();
+        })
+        .then(data=> {
+          if(data.status === 'error') reject();
+          resolve(data.data);
+        })
+        .catch((err) => {
+        });
+    });
 }
 
-function fetchUpdateProduct(cartId, product) {
+function fetchUpdateProduct(cartId, item) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/cart/';
-  if(cartId && product) {
+  if(cartId && item) {
     url = url + cartId;
     return new Promise((resolve,reject)=>{
       const request = fetch(url, {
-        body: JSON.stringify(product),
+        body: JSON.stringify(item),
         credentials: 'same-origin',
         method: 'POST',
         headers: {
@@ -196,25 +207,33 @@ function fetchUpdateProduct(cartId, product) {
 function fetchCreateOrder(info) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/order';
   if(info) {
-    const request = fetch(url, {
-      body: JSON.stringify(info),
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json'
-      },
-    }
-    )
-    .then((res) => {
-      return res;
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(data=> {
-    })
-    .catch((err) => {
+
+    return new Promise((resolve, reject)=>{
+      services.preloaderOn && services.preloaderOn();
+      const request = fetch(url, {
+        body: JSON.stringify(info),
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+      }
+      )
+      .then((res) => {
+        return res;
+      })
+      .then(res => {
+        return res.json();
+      })
+      .then(data=> {
+        // ??? ничего проще не придумал чем ставить функции вкл и выкл Прелоудера перед промисом и в .then. Так нормально?
+        services.preloaderOff && services.preloaderOff();
+        resolve(data);
+      })
+      .catch((err) => {
+      });
     });
+
   }
 }
 
@@ -239,25 +258,44 @@ function isFavorite() {
 
 function debounce(callback, delay) {
   let timeout;
-  return () => {
+  return (arg1, arg2) => {
     clearTimeout(timeout);
     timeout = setTimeout(function() {
       timeout = null;
-      callback();
+      callback(arg1, arg2);
     }, delay);
   };
 };
 
+services.onChangeFilter;
+
+services.preloaderOn;
+services.preloaderOff;
+services.preloaderElement;
+services.initFavorite;
+services.initFavoritePagination;
+services.initCataloguePagination;
+services.initProductSlider;
+services.initProductInfo;
+services.setStateCatalogueParams;
+
+services.openBasketPanel;
+services.resetBasketPanel = '';
+services.cartTotal = '';
 services.clearFilterForm = '';
 services.debounce = debounce;
 services.filterForm = '';
 services.headerParam = '';
 services.headerParamInput = '';
 services.getCategoryMaxPrice = getCategoryMaxPrice;
+
 services.isFavorite = isFavorite;
+services.toggleFavorite = toggleFavorite;
+
 services.basketTwinklePic = {};
 services.twinkleBasketPic = twinkleBasketPic;
-services.toggleFavorite = toggleFavorite;
+
+
 services.fetchCategories = fetchCategories;
 services.fetchProducts = fetchProducts;
 services.fetchFeatured = fetchFeatured;

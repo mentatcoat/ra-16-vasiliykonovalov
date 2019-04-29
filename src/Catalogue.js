@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
@@ -11,19 +11,20 @@ import CatalogueItem from './CatalogueItem';
 import CataloguePagination from './CataloguePagination';
 import PropTypes from 'prop-types';
 import services from './services';
-
+import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
 class Catalogue extends Component {
   constructor(props) {
     super(props);
-    console.log('Catalogue props===', props);
     this.state = {
+      catalogueParams: this.props.catalogueParams,
       isShownSidebar: true,
       categories: this.props.categories,
       sortedProducts: '',
       sortedProductsAmount: null,
       currentPage: '',
-      pagesAmount: ''
+      pagesAmount: '',
+      isSearchMode: this.props.catalogueParams && this.props.catalogueParams.find(el=>el[0]==='search') ? true : false
     };
     this.categoryId;
 
@@ -31,37 +32,47 @@ class Catalogue extends Component {
 
       services.fetchProducts(params)
         .then(data=>{
-
           this.setState({
             sortedProducts: data.data,
             sortedProductsAmount: data.goods,
             currentPage: data.page,
             pagesAmount: data.pages,
-        });
+        }
+        ,
+        services.initCataloguePagination && services.initCataloguePagination(data.page, data.pages)
+
+      );
         });
     };
-
-    if(this.props.catalogueParams) this.getSortedProducts(this.props.catalogueParams);
 
     this.getCurrentCategoryId = (catalogueParams)=>{
       if(!catalogueParams) return;
+      if(catalogueParams.find(el=>el[0]==='categoryId'))
       this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
     };
-    this.getCurrentCategoryId(this.props.catalogueParams);
 
-    services.getCategoryMaxPrice(this.categoryId);
+    // ??? Вместо shouldComponentUpdate который ниже закомментен сделал эту функцию init() и функцию this.setStateCatalogueParams, которая доступна из services, чтобы менять state этого компонента. Правильно ли так делать? Могу ли распространить подобный подход "обновлять state через services" на другие компоненты с shouldComponentUpdate?
+
+    this.initCatalogue();
 
     this.resetFilter = ()=>{
-      console.log('RESET Sidebar()');
+      services.filterForm.elements['search'].value = '';
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
       services.headerParam = '';
-      // ??? строчка выше быстро делает ремаунт <CatalogueSidebar/> рендер которого зависит от стейт, сбрасываются все настройки фильтра находящегося в этом компоненте. Здоровый подход?.
     };
 
     this.clearFilterForm = ()=>{
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar}));
     };
     services.clearFilterForm = this.clearFilterForm;
+
+    this.setStateCatalogueParams = (params)=>{
+      this.setState({
+        catalogueParams: params,
+        isSearchMode: params.find(el=>el[0]==='search') ? true : false
+      }, this.initCatalogue);
+    }
+    services.setStateCatalogueParams = this.setStateCatalogueParams;
 
     this.onChangeFilter = (e)=>{
 
@@ -79,43 +90,67 @@ class Catalogue extends Component {
 
       if(services.headerParam) paramsArray.push(services.headerParam);
       paramsArray.push(['categoryId', this.categoryId]);
-      this.props.setCatalogueParams(paramsArray);
+      this.setStateCatalogueParams(paramsArray);
     }
-  }//END constructor
+    services.onChangeFilter = this.onChangeFilter;
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('SHOULDUPDATE Catalogue  nextProps===', nextProps);
-    if(nextProps &&  nextProps !== this.props) {
-      this.getCurrentCategoryId(nextProps.catalogueParams);
+  }
 
+  initCatalogue() {
+    if(this.state.catalogueParams) {
+      this.getSortedProducts(this.state.catalogueParams);
+      this.getCurrentCategoryId(this.state.catalogueParams);
       services.getCategoryMaxPrice(this.categoryId);
-
-      this.getSortedProducts(nextProps.catalogueParams);
-      // ??? это зачем то заправшивается 2 раза - почему?
-      return true;
     }
-    return true;
   }
 
   render() {
-
     let categoryIdPair, categoryTitle;
+    categoryTitle = 'Категория не задана';
 
-    if(this.props.categories && this.props.catalogueParams) {
+    if(this.props.categories && this.state.catalogueParams && this.categoryId) {
       categoryTitle = this.props.categories.find(el=>+el.id===+this.categoryId).title;
     }
 
     return (
-      <div className="Just wrapper">
+      <div className="just-wrapper">
 
-        {/*<!-- Breadcrumbs -->*/}
-        <div className="site-path">
-          <ul className="site-path__items">
-            <li className="site-path__item"><a href="index.html">Главная</a></li>
-            <li className="site-path__item"><a href="#">Женская обувь</a></li>
-          </ul>
-        </div>
-        {/* //////done////// */}
+        <Breadcrumbs
+          item={Link}
+          container={'div'}
+          containerProps={{
+            className: 'site-path__items'
+          }}
+          finalItem={'span'}
+          finalProps={{
+            className: 'site-path__item',
+            onClick: null
+          }}
+        />
+
+        <BreadcrumbsItem
+          to='/'
+          className='site-path__item'
+        >
+          Главная
+        </BreadcrumbsItem>
+
+        {this.state.isSearchMode
+        ?
+        <BreadcrumbsItem
+         to='/catalogue'
+         className='site-path__item'
+        >
+         Результаты поиска
+        </BreadcrumbsItem>
+        :
+        <BreadcrumbsItem
+         to='/catalogue'
+         className='site-path__item'
+        >
+         {categoryTitle}
+        </BreadcrumbsItem>
+        }
 
         {/*<!-- Тело каталога с сайдбаром -->*/}
         <main className="product-catalogue">
@@ -127,7 +162,7 @@ class Catalogue extends Component {
             {/*<!-- Голова каталога с названием раздела и сортировкой -->*/}
             <section className="product-catalogue__head">
               <div className="product-catalogue__section-title">
-                <h2 className="section-name">{categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
+                <h2 className="section-name">{this.state.isSearchMode ? 'Результаты поиска' : categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
               </div>
 
               <div className="product-catalogue__sort-by">
@@ -154,7 +189,7 @@ class Catalogue extends Component {
 
             {/*<!-- Пагинация под каталогом -->*/}
 
-            <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeFilter={this.onChangeFilter}/>
+            {this.state.sortedProducts && <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeFilter={this.onChangeFilter}/>}
 
           </section>
 
@@ -168,9 +203,11 @@ class Catalogue extends Component {
     );
   }
 }
-
+// ??? Пожалуй не нужно в PropTypes указывать props которые придут от Route - history, location, match. Ведь с ними невозможно напутать. Или желательно их тоже указывать?
 Catalogue.propTypes = {
-  catalogueParams : PropTypes.object.isRequired
+  catalogueParams : PropTypes.array.isRequired,
+  categories : PropTypes.array,
+  setCatalogueParams: PropTypes.func.isRequired
 };
 
 export default Catalogue;

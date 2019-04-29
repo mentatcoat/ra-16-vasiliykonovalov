@@ -9,11 +9,11 @@ import './css/style-new-nouislider.css';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import services from './services';
+import PropTypes from 'prop-types';
 
 class SidebarItemSlider extends Component {
   constructor(props) {
     super(props);
-
     this.slider = null;
     this.state = {
       isShown: false,
@@ -95,9 +95,10 @@ class SidebarItemSlider extends Component {
             valueLarge: "value-large",
             valueSub: "value-sub"
         };
-  }//END constructor
+  }
 
   componentDidUpdate() {
+
     if(this.state.isShown && this.shouldCreateSlider) {
         this.slider = document.getElementById('priceSlider');
 
@@ -116,7 +117,7 @@ class SidebarItemSlider extends Component {
       this.shouldCreateSlider = false;
     }
 
-  }//END componentDidUpdate
+  }
 
   render() {
     return (
@@ -150,5 +151,9 @@ class SidebarItemSlider extends Component {
     );
   }
 }
+
+SidebarItemSlider.propTypes = {
+  onChangeFilter: PropTypes.func.isRequired
+};
 
 export default SidebarItemSlider;
