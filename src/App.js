@@ -15,8 +15,6 @@ import Order from './Order';
 import JSONproducts from './data/products.json';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
-// ??? Верно ли я понимаю, что когда каждый модуль имеет свои подключенные css-файлы, этот модуль в итоге передает эти стили в общий котёл, когда этот модуль импортируется в общее дерево модулей приложения. И с тем же успехом можно сразу подключить один общий файл css в корень приложения?
-
 class AppComponent extends Component {
   constructor(props) {
     super(props);
@@ -46,8 +44,7 @@ class AppComponent extends Component {
     });
   }
 
-  // ??? Так уж получилось что я использовал class-component. Было ли это уместно, или значительную часть компонентов можно/нужно делать с помощью functional-component?
-
+  
   componentDidMount() {
     this.preloaderOn = ()=>{
       services.preloaderElement.classList.remove('hidden');
