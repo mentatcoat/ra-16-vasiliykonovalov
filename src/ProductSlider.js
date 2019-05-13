@@ -18,12 +18,6 @@ class ProductSlider extends Component {
       first: 0
     }
 
-    this.initProductSlider = (product)=>{
-      this.pics = product.images;
-      this.setState({
-        first: 0
-      });
-    };
     services.initProductSlider = this.initProductSlider;
 
     this.clickArrow = (step)=>{
@@ -39,6 +33,13 @@ class ProductSlider extends Component {
       if (this.counter > this.pics.length - 1) this.counter = 0;
       return this.counter++;
     };
+  }
+
+  initProductSlider = (product)=>{
+    this.pics = product.images;
+    this.setState({
+      first: 0
+    });
   }
 
   render() {

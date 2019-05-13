@@ -42,14 +42,15 @@ class FavoritePagination extends Component {
     this.clickNextPage = this.clickPage.bind(null,null, 1);
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
 
-    this.initFavoritePagination = (page, pages)=>{
-      this.setState({
-            pagesAmount: pages,
-            currentPage: page
-          });
-    }
     services.initFavoritePagination = this.initFavoritePagination;
 
+  }
+
+  initFavoritePagination = (page, pages)=>{
+    this.setState({
+          pagesAmount: pages,
+          currentPage: page
+        });
   }
 
   render() {

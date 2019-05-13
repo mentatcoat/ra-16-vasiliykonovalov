@@ -21,17 +21,6 @@ class ProductInfo extends Component {
       buttonTitle: 'В корзину'
     };
 
-    // функция объявлена в конструкторе для сохранения контекста:
-    this.initProductInfo = (productInfo)=>{
-      this.product = productInfo;
-      this.setState({
-        chosenSize: '',
-        chosenAmount: 1,
-        isFavorite: this.isFavorite(),
-        buttonTitle: 'В корзину'
-      });
-    }
-
     services.initProductInfo = this.initProductInfo;
 
     this.clickInBasket = ()=> {
@@ -87,6 +76,16 @@ class ProductInfo extends Component {
     }
     this.basketAmountPlus = this.basketAmountChange.bind(this, 1);
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
+  }
+
+  initProductInfo = (productInfo)=>{
+    this.product = productInfo;
+    this.setState({
+      chosenSize: '',
+      chosenAmount: 1,
+      isFavorite: this.isFavorite(),
+      buttonTitle: 'В корзину'
+    });
   }
 
   render() {

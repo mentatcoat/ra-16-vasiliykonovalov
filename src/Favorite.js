@@ -82,20 +82,22 @@ class Favorite extends Component {
         });
     };
 
-    this.initFavorite = ()=>{
-      let paramsArray = [];
-      if(!this.sortingSelectElement) {
-        paramsArray.push(['sortBy', 'price']);
-      } else {
-        paramsArray.push(['sortBy', this.sortingSelectElement.value]);
-      }
-
-      this.getAllProducts(paramsArray);
-    };
     services.initFavorite = this.initFavorite;
 
     this.initFavorite();
   }
+
+  initFavorite = ()=>{
+    let paramsArray = [];
+    if(!this.sortingSelectElement) {
+      paramsArray.push(['sortBy', 'price']);
+    } else {
+      paramsArray.push(['sortBy', this.sortingSelectElement.value]);
+    }
+
+    this.getAllProducts(paramsArray);
+  };
+
 
   render() {
     let isThereFavorites = this.state.favoriteProducts && this.state.favoriteProducts.length > 0;

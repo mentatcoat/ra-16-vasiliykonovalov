@@ -50,14 +50,15 @@ class CataloguePagination extends Component {
     this.clickNextPage = this.clickPage.bind(null,null, 1);
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
 
-    this.initCataloguePagination = (page, pages)=>{
-      this.setState({
-            pagesAmount: pages,
-            currentPage: page
-          });
-    }
     services.initCataloguePagination = this.initCataloguePagination;
 
+  }
+
+  initCataloguePagination = (page, pages)=>{
+    this.setState({
+          pagesAmount: pages,
+          currentPage: page
+        });
   }
 
   render() {

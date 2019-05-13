@@ -69,7 +69,7 @@ class ProductCard extends Component {
       }
       this.props.setCatalogueParams(params);
     }
-    
+
   }
 
   initProductCard(id) {

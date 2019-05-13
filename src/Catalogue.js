@@ -51,7 +51,10 @@ class Catalogue extends Component {
       this.categoryId = catalogueParams.find(el=>el[0]==='categoryId')[1];
     };
 
+//  Прошлый вопрос:
     // ??? Вместо shouldComponentUpdate который ниже закомментен сделал эту функцию init() и функцию this.setStateCatalogueParams, которая доступна из services, чтобы менять state этого компонента. Правильно ли так делать? Могу ли распространить подобный подход "обновлять state через services" на другие компоненты с shouldComponentUpdate?
+
+// Выше вопрос, после которого ты рекомендовал в initCatalogue() применить Promise.all , чтобы сократить вызов setState() до одного раза, но там setState() итак используется 1 раз (только в функции this.getSortedProducts() ), поэтому считаю что не надо переделывать. Если это принципиально в этом модуле - дай знать.
 
     this.initCatalogue();
 
