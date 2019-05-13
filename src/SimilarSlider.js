@@ -50,7 +50,22 @@ class SimilarSlider extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
+
+    services.initSimilarSlider = this.initSimilarSlider;
   }
+
+  initSimilarSlider = (productInfo) => {
+    this.setState({
+      type: productInfo.type,
+      color: productInfo.color,
+      id: productInfo.id,
+      filtered: [],
+      first: 0
+    },
+      this.getSimilarProducts
+    );
+  }
+
 
   render() {
     if(this.state.filtered.length === 0) return null;

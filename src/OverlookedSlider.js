@@ -49,6 +49,12 @@ class OverlookedSlider extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
+
+    // this.clickPicture = (e) =>{
+    //   e.preventDefault();
+    //   if
+    //
+    // };
   }
 
   render() {

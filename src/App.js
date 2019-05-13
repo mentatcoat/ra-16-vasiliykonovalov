@@ -44,7 +44,7 @@ class AppComponent extends Component {
     });
   }
 
-  
+
   componentDidMount() {
     this.preloaderOn = ()=>{
       services.preloaderElement.classList.remove('hidden');
@@ -81,12 +81,18 @@ class AppComponent extends Component {
           <Route exact path='/favorite'>
             <Favorite />
           </Route>
-          <Route exact path='/product-card/:id' render={(props) => (
-<ProductCard {...props}
-categories={this.state.categories}
-setCatalogueParams={this.setCatalogueParams}
-/>
-)}/>
+          <Route exact path='/product-card/:id' render={(props) =>
+            {
+              // ??? Правильно ли здесь использовать фукнцию services.initProductCard? Я меняю таким образом state в <ProductCard/>, который уже отображен на странице.
+              if(services.initProductCard) services.initProductCard(props.match.params.id);
+              return (
+                <ProductCard {...props}
+                categories={this.state.categories}
+                setCatalogueParams={this.setCatalogueParams}
+                />
+              );}
+            }
+            />
           <Route exact path='/order' render={(props) => (
 <Order {...props} />
 )}/>

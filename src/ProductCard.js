@@ -70,9 +70,11 @@ class ProductCard extends Component {
       this.props.setCatalogueParams(params);
     }
 
+    services.initProductCard = this.initProductCard;
+
   }
 
-  initProductCard(id) {
+  initProductCard = (id) => {
     services.fetchProduct(id)
       .then(productInfo=>{
         this.setState({
@@ -87,17 +89,14 @@ class ProductCard extends Component {
         services.initProductInfo && services.initProductInfo(productInfo)
         ,
         services.initProductSlider && services.initProductSlider(productInfo)
+        ,
+        services.initSimilarSlider && services.initSimilarSlider(productInfo)
       );
       });
     this.makeProductOverlooked();
   }
 
   render() {
-    // ??? это верный подход для перезагрузки стейта компонента?
-    if(+this.props.match.params.id !== this.state.productId) {
-      this.initProductCard(+this.props.match.params.id);
-
-    }
 
     // ??? Ниже есть элемент <BreadcrumbsItem/> - это компонент-посредник, он принимает атрибудты и передает их в элемент, который будет отрендерен в качесвте хлебной-крошки-ссылки. Этот комопонент-посредник передает любые атрибуты в конечный элемент. Я передавал туда атрибут 'data-category'. Отрисованный элемент <a> получал этот дата-атрибут и показывал его в свойстве 'dataset'.  Но почему то когда я обращался к <a> как к 'event.target.dataset.category' выводилось undefined - то есть не читалось именно последнее свойство в записи - '.category'. Почему так?
     return (
