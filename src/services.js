@@ -272,6 +272,7 @@ services.onChangeFilter;
 services.preloaderOn;
 services.preloaderOff;
 services.preloaderElement;
+
 services.initFavorite;
 services.initProductCard;
 services.initSimilarSlider;

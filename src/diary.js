@@ -3,7 +3,7 @@
 
 =======11/04/19
 
-96. cleaned code 
+96. cleaned code
 95. fixed propTypes and marks in code
 94. fixed Sizes filter in <Catalogue/>
 REAL possible sizes 8,10,12,14,15,16,18,20
@@ -134,7 +134,6 @@ services.twinkleBasketPic = twinkleBasketPic;
 12. сделал AboutUs.js
 11. сделал <Sales /> -
 10. сделал <Slider /> и обернул slider.js в функцию и экспортировал, чтобы в Slider запускался этот код в didMount()
-??? так вообще стоит делать или это фейл?
 9. services.fetchCreateOrder
 8. services.fetchUpdateProduct = fetchUpdateProduct;
 7. services.fetchGetCart = fetchGetCart;

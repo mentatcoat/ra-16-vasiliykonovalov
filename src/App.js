@@ -21,7 +21,8 @@ class AppComponent extends Component {
     this.state = {
       categories: null,
       catalogueParams: '',
-      products: ''
+      products: '',
+      // isPreloader: false - не рабочий вариант усл. рендеринга
     };
 
     this.setCatalogueParams = (params)=>{
@@ -46,14 +47,15 @@ class AppComponent extends Component {
 
 
   componentDidMount() {
+    //??? Вот этот подход с включением-выключением статуса Прелоудера в state этого компонента сразу вызывает ошибку "Maximum update depth exceeded". Оставляю переключение через смену класса "hidden" - так работает быстро и эффективно.
     this.preloaderOn = ()=>{
+      // this.setState({isPreloader: true}); - этот подход вызывает ошибку максимума
       services.preloaderElement.classList.remove('hidden');
     };
     this.preloaderOff = ()=>{
+      // this.setState({isPreloader: false}); - этот подход вызывает ошибку максимума
       services.preloaderElement.classList.add('hidden');
     };
-    // ??? Я изначально менял класс hidden на div.preloader. Почему-то ref не успевал прописать дом-элемент прелоадера. В итоге я сделал функцию меняюую state с целью показа прелоадера. Что лучше? И почему ref отрисовывал дом-элемент расположенный в самом верху верстки позже чем рендерился компонент из середины верстки <NewDeals/>?
-    // ??? изза множества вызовов setState для смены статуса прелоадера React выбросил исключение сообщася, что глубина апдейтов достигнута. Это как расценивать? Как признак чего в моем коде?
     /*
     Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
     */
@@ -65,6 +67,7 @@ class AppComponent extends Component {
 
     return (
       <div className="App">
+        {/*{this.state.isPreloader &&   - вот такой подход условного рендеринга не работоспособен*/}
         <div ref={el=>services.preloaderElement=el} className={`preloader_wrapper`}>
           <div className="preloader">
             <hr/><hr/><hr/><hr/>
