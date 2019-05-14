@@ -5,6 +5,7 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
 import services from './services';
+import helpers from './helpers';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
 import PropTypes from 'prop-types';
@@ -13,7 +14,7 @@ class CatalogueItem extends Component {
   constructor(props) {
     super(props);
     this.product = this.props.product;
-    this.isFavorite = services.isFavorite;
+    this.isFavorite = helpers.isFavorite;
     this.state = {
       isFavorite: this.isFavorite(),
       images: this.props.product.images,
@@ -32,7 +33,7 @@ class CatalogueItem extends Component {
 
     this.toggleFavorite = (e)=>{
       e.preventDefault();
-      services.toggleFavorite(this.product.id);
+      helpers.toggleFavorite(this.product.id);
       this.setState({isFavorite: this.isFavorite()});
     };
 

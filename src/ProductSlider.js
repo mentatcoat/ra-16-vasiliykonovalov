@@ -8,6 +8,7 @@ import './css/style-product-card.css';
 import products from './data/products.json';
 import PropTypes from 'prop-types';
 import services from './services';
+import helpers from './helpers';
 
 class ProductSlider extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class ProductSlider extends Component {
       first: 0
     }
 
-    services.initProductSlider = this.initProductSlider;
+    helpers.initProductSlider = this.initProductSlider;
 
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;

@@ -7,13 +7,14 @@ import './css/style-order.css';
 import './css/style-product-card.css';
 import ProductInfoSizes from './ProductInfoSizes';
 import services from './services';
+import helpers from './helpers';
 import PropTypes from 'prop-types';
 
 class ProductInfo extends Component {
   constructor(props) {
     super(props);
     this.product = this.props.product;
-    this.isFavorite = services.isFavorite;
+    this.isFavorite = helpers.isFavorite;
     this.state= {
       chosenSize: '',
       chosenAmount: 1,
@@ -21,7 +22,7 @@ class ProductInfo extends Component {
       buttonTitle: 'В корзину'
     };
 
-    services.initProductInfo = this.initProductInfo;
+    helpers.initProductInfo = this.initProductInfo;
 
     this.clickInBasket = ()=> {
       if(!this.state.chosenSize) {
@@ -38,8 +39,8 @@ class ProductInfo extends Component {
           .then(data=>{
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=data.data.products.length;
-              services.twinkleBasketPic();
-              services.resetBasketPanel();
+              helpers.twinkleBasketPic();
+              helpers.resetBasketPanel();
             }
 
           });
@@ -48,14 +49,14 @@ class ProductInfo extends Component {
           .then(data=>{
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=1;
-              services.twinkleBasketPic();
-              services.resetBasketPanel();
+              helpers.twinkleBasketPic();
+              helpers.resetBasketPanel();
             }
           });
       }
     };
     this.toggleFavorite = ()=>{
-      services.toggleFavorite(this.product.id);
+      helpers.toggleFavorite(this.product.id);
       this.setState({isFavorite: this.isFavorite()});
     };
     this.isAvailable = ()=> {

@@ -10,6 +10,7 @@ import SimilarSlider from './SimilarSlider';
 import ProductSlider from './ProductSlider';
 import ProductInfo from './ProductInfo';
 import services from './services';
+import helpers from './helpers';
 import PropTypes from 'prop-types';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
@@ -70,7 +71,7 @@ class ProductCard extends Component {
       this.props.setCatalogueParams(params);
     }
 
-    services.initProductCard = this.initProductCard;
+    helpers.initProductCard = this.initProductCard;
 
   }
 
@@ -86,11 +87,11 @@ class ProductCard extends Component {
           )
         }
         ,
-        services.initProductInfo && services.initProductInfo(productInfo)
+        helpers.initProductInfo && helpers.initProductInfo(productInfo)
         ,
-        services.initProductSlider && services.initProductSlider(productInfo)
+        helpers.initProductSlider && helpers.initProductSlider(productInfo)
         ,
-        services.initSimilarSlider && services.initSimilarSlider(productInfo)
+        helpers.initSimilarSlider && helpers.initSimilarSlider(productInfo)
       );
       });
     this.makeProductOverlooked();

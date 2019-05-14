@@ -9,6 +9,7 @@ import './css/style-catalogue.css';
 import './css/style-favorite.css';
 import PropTypes from 'prop-types';
 import services from './services';
+import helpers from './helpers';
 import FavoriteItem from './FavoriteItem';
 import FavoritePagination from './FavoritePagination';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
@@ -44,7 +45,7 @@ class Favorite extends Component {
         pagesAmount: Math.ceil(filtered.length / 12)
       }
       ,
-      services.initFavoritePagination && services.initFavoritePagination(1, this.state.pagesAmount)
+      helpers.initFavoritePagination && helpers.initFavoritePagination(1, this.state.pagesAmount)
 
     );
     };
@@ -82,7 +83,7 @@ class Favorite extends Component {
         });
     };
 
-    services.initFavorite = this.initFavorite;
+    helpers.initFavorite = this.initFavorite;
 
     this.initFavorite();
   }

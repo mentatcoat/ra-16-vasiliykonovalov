@@ -9,6 +9,8 @@ import './css/style-new-nouislider.css';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import services from './services';
+import helpers from './helpers';
+import temps from './temps';
 import PropTypes from 'prop-types';
 
 class SidebarItemSlider extends Component {
@@ -22,7 +24,7 @@ class SidebarItemSlider extends Component {
       maxPrice: '50 000'
     };
     this.shouldCreateSlider = true;
-    this.debouncedOnChangeFilter = services.debounce( this.props.onChangeFilter, 2000);
+    this.debouncedOnChangeFilter = helpers.debounce( this.props.onChangeFilter, 2000);
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
@@ -37,7 +39,7 @@ class SidebarItemSlider extends Component {
         this.setState({
           isShown: !this.state.isShown,
           minPrice : '0',
-          maxPrice: services.categoryMaxPrice.toLocaleString()
+          maxPrice: temps.categoryMaxPrice.toLocaleString()
         });
       } else {
       }
@@ -103,11 +105,11 @@ class SidebarItemSlider extends Component {
         this.slider = document.getElementById('priceSlider');
 
       noUiSlider.create(this.slider, {
-          start: [0, services.categoryMaxPrice],
+          start: [0, temps.categoryMaxPrice],
           connect: [false, true, false],
           range: {
               'min': 0,
-              'max': services.categoryMaxPrice
+              'max': temps.categoryMaxPrice
           },
           step: 100,
           cssClasses: this.noUiSliderClasses

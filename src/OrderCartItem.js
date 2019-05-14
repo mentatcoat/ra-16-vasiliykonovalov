@@ -5,6 +5,7 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
 import services from './services';
+import helpers from './helpers';
 import PropTypes from 'prop-types';
 
 class OrderCartItem extends Component {
@@ -13,7 +14,7 @@ class OrderCartItem extends Component {
     this.state = {
       amount: this.props.item.amount
     };
-    this.fetchUpdateItemAmount = services.debounce(services.fetchUpdateProduct, 1500);
+    this.fetchUpdateItemAmount = helpers.debounce(services.fetchUpdateProduct, 1500);
 
     this.changeAmount = (step)=>{
       let result = this.state.amount + step;

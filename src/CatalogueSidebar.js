@@ -13,6 +13,7 @@ import SidebarItemSlider from './SidebarItemSlider';
 import SidebarItemSize from './SidebarItemSize';
 import SidebarItemHeelSize from './SidebarItemHeelSize';
 import services from './services';
+import temps from './temps';
 import PropTypes from 'prop-types';
 
 class CatalogueSidebar extends Component {
@@ -29,7 +30,7 @@ class CatalogueSidebar extends Component {
 
     this.reset = (e)=> {
       e.preventDefault();
-      for (let elem of services.filterForm.elements) {
+      for (let elem of temps.filterForm.elements) {
         elem.value = '';
       }
     }
@@ -37,7 +38,7 @@ class CatalogueSidebar extends Component {
 
   render() {
     return (
-          <form  ref={el=>services.filterForm = el}  id="filterForm" className="sidebar">
+          <form  ref={el=>temps.filterForm = el}  id="filterForm" className="sidebar">
 
             <SidebarItemCatalogue onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-1"></div>

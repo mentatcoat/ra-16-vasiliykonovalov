@@ -6,6 +6,7 @@ import './css/style.css';
 import './css/style-order.css';
 import OrderCartItem from './OrderCartItem';
 import services from './services';
+import temps from './temps';
 import JSONproducts from './data/products.json';
 import PropTypes from 'prop-types';
 
@@ -19,7 +20,7 @@ class OrderCart extends Component {
     this.totalCollector = {};
     this.countOrderCart = (summObj) => {
       Object.assign(this.totalCollector, summObj);
-      this.total = services.cartTotal = Object.values(this.totalCollector).reduce(
+      this.total = temps.cartTotal = Object.values(this.totalCollector).reduce(
         (memo, value)=>{
           return memo+value;
         },0

@@ -7,6 +7,8 @@ import './css/style-order.css';
 import OrderCart from './OrderCart';
 import OrderForm from './OrderForm';
 import services from './services';
+import helpers from './helpers';
+import temps from './temps';
 import JSONproducts from './data/products.json';
 import PropTypes from 'prop-types';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
@@ -65,7 +67,7 @@ class Order extends Component {
           if(data.status === 'ok') {
             this.setState({
               isDone: true,
-              total: services.cartTotal,
+              total: temps.cartTotal,
               paymentType: form.paid.value,
               name: form.name.value,
               address: form.address.value,
@@ -73,7 +75,7 @@ class Order extends Component {
               email: form.email.value
             });
             delete localStorage.cartId;
-            services.resetBasketPanel();
+            helpers.resetBasketPanel();
           }
         });
     };
@@ -127,7 +129,7 @@ class Order extends Component {
           <BreadcrumbsItem
            to='/order'
            className='site-path__item'
-           onClick={services.openBasketPanel}
+           onClick={helpers.openBasketPanel}
           >
            Корзина
           </BreadcrumbsItem>

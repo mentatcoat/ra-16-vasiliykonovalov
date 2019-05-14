@@ -7,6 +7,7 @@ import './css/style-catalogue.css';
 import './css/style-product-card.css';
 import './css/style-order.css';
 import services from './services';
+import helpers from './helpers';
 import JSONproducts from './data/products.json';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -51,7 +52,7 @@ class SimilarSlider extends Component {
       return this.counter++;
     };
 
-    services.initSimilarSlider = this.initSimilarSlider;
+    helpers.initSimilarSlider = this.initSimilarSlider;
   }
 
   initSimilarSlider = (productInfo) => {

@@ -7,6 +7,7 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import logotype from './img/header-logo.png';
 import services from './services';
+import helpers from './helpers';
 import PropTypes from 'prop-types';
 
 class HeaderCartItem extends Component {
@@ -21,7 +22,7 @@ class HeaderCartItem extends Component {
       services.fetchUpdateProduct(localStorage.cartId, item)
         .then(data=> {
           if(this.props.items.length === 1) delete localStorage.cartId;
-          services.resetBasketPanel();
+          helpers.resetBasketPanel();
         }
         );
     };

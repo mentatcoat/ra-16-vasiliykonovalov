@@ -11,6 +11,8 @@ import CatalogueItem from './CatalogueItem';
 import CataloguePagination from './CataloguePagination';
 import PropTypes from 'prop-types';
 import services from './services';
+import helpers from './helpers';
+import temps from './temps';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
 class Catalogue extends Component {
@@ -39,7 +41,7 @@ class Catalogue extends Component {
             pagesAmount: data.pages,
         }
         ,
-        services.initCataloguePagination && services.initCataloguePagination(data.page, data.pages)
+        helpers.initCataloguePagination && helpers.initCataloguePagination(data.page, data.pages)
 
       );
         });
@@ -59,15 +61,15 @@ class Catalogue extends Component {
     this.initCatalogue();
 
     this.resetFilter = ()=>{
-      services.filterForm.elements['search'].value = '';
+      temps.filterForm.elements['search'].value = '';
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
-      services.headerParam = '';
+      temps.headerParam = '';
     };
 
     this.clearFilterForm = ()=>{
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar}));
     };
-    services.clearFilterForm = this.clearFilterForm;
+    helpers.clearFilterForm = this.clearFilterForm;
 
     this.setStateCatalogueParams = (params)=>{
       this.setState({
@@ -75,27 +77,27 @@ class Catalogue extends Component {
         isSearchMode: params.find(el=>el[0]==='search') ? true : false
       }, this.initCatalogue);
     }
-    services.setStateCatalogueParams = this.setStateCatalogueParams;
+    helpers.setStateCatalogueParams = this.setStateCatalogueParams;
 
     this.onChangeFilter = (e)=>{
 
       let paramsArray = [];
 
-      let formData = new FormData(services.filterForm);
+      let formData = new FormData(temps.filterForm);
       for (const [k, v] of formData) {
-        if(services.headerParam) {
-          if(k===services.headerParam[0] && v) services.headerParam = '';
+        if(temps.headerParam) {
+          if(k===temps.headerParam[0] && v) temps.headerParam = '';
         }
         if(v) {
           paramsArray.push([k,v]);
         }
       }
 
-      if(services.headerParam) paramsArray.push(services.headerParam);
+      if(temps.headerParam) paramsArray.push(temps.headerParam);
       paramsArray.push(['categoryId', this.categoryId]);
       this.setStateCatalogueParams(paramsArray);
     }
-    services.onChangeFilter = this.onChangeFilter;
+    helpers.onChangeFilter = this.onChangeFilter;
 
   }
 
@@ -103,7 +105,7 @@ class Catalogue extends Component {
     if(this.state.catalogueParams) {
       this.getSortedProducts(this.state.catalogueParams);
       this.getCurrentCategoryId(this.state.catalogueParams);
-      services.getCategoryMaxPrice(this.categoryId);
+      helpers.getCategoryMaxPrice(this.categoryId);
     }
   }
 

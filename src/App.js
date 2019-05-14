@@ -7,6 +7,8 @@ import Main from './Main';
 import Catalogue from './Catalogue';
 import Header from './Header';
 import services from './services';
+import helpers from './helpers';
+import temps from './temps';
 import {global} from './services';
 import Footer from './Footer';
 import Favorite from './Favorite';
@@ -27,7 +29,7 @@ class AppComponent extends Component {
 
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
-      if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
+      if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(params);
       this.props.history.push('/catalogue');
     }
     services.fetchCategories()
@@ -38,7 +40,7 @@ class AppComponent extends Component {
           catalogueParams: [['categoryId', data.data[0].id]]
         },
         ()=>{
-          if(services.setStateCatalogueParams) services.setStateCatalogueParams(this.state.catalogueParams);
+          if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(this.state.catalogueParams);
           // без этого не будет работать каталог, когда загружаешь сразу страницу каталога
         });
 
@@ -50,17 +52,17 @@ class AppComponent extends Component {
     //??? Вот этот подход с включением-выключением статуса Прелоудера в state этого компонента сразу вызывает ошибку "Maximum update depth exceeded". Оставляю переключение через смену класса "hidden" - так работает быстро и эффективно.
     this.preloaderOn = ()=>{
       // this.setState({isPreloader: true}); - этот подход вызывает ошибку максимума
-      services.preloaderElement.classList.remove('hidden');
+      temps.preloaderElement.classList.remove('hidden');
     };
     this.preloaderOff = ()=>{
       // this.setState({isPreloader: false}); - этот подход вызывает ошибку максимума
-      services.preloaderElement.classList.add('hidden');
+      temps.preloaderElement.classList.add('hidden');
     };
     /*
     Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
     */
-    services.preloaderOn = this.preloaderOn;
-    services.preloaderOff = this.preloaderOff;
+    helpers.preloaderOn = this.preloaderOn;
+    helpers.preloaderOff = this.preloaderOff;
   }
 
   render() {
@@ -68,7 +70,7 @@ class AppComponent extends Component {
     return (
       <div className="App">
         {/*{this.state.isPreloader &&   - вот такой подход условного рендеринга не работоспособен*/}
-        <div ref={el=>services.preloaderElement=el} className={`preloader_wrapper`}>
+        <div ref={el=>temps.preloaderElement=el} className={`preloader_wrapper`}>
           <div className="preloader">
             <hr/><hr/><hr/><hr/>
           </div>
@@ -86,8 +88,8 @@ class AppComponent extends Component {
           </Route>
           <Route exact path='/product-card/:id' render={(props) =>
             {
-              // ??? Правильно ли здесь использовать фукнцию services.initProductCard? Я меняю таким образом state в <ProductCard/>, который уже отображен на странице.
-              if(services.initProductCard) services.initProductCard(props.match.params.id);
+              // ??? Правильно ли здесь использовать фукнцию helpers.initProductCard? Я меняю таким образом state в <ProductCard/>, который уже отображен на странице.
+              if(helpers.initProductCard) helpers.initProductCard(props.match.params.id);
               return (
                 <ProductCard {...props}
                 categories={this.state.categories}

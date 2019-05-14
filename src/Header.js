@@ -7,6 +7,8 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import logotype from './img/header-logo.png';
 import services from './services';
+import helpers from './helpers';
+import temps from './temps';
 import HeaderCartItem from './HeaderCartItem';
 import PropTypes from 'prop-types';
 
@@ -60,7 +62,7 @@ class Header extends Component {
     this.resetBasketPanel = ()=>{
       this.loadItems();
     };
-    services.resetBasketPanel = this.resetBasketPanel;
+    helpers.resetBasketPanel = this.resetBasketPanel;
 
     this.onSubmitHeaderSearch = (e)=>{
       e.preventDefault();
@@ -74,13 +76,13 @@ class Header extends Component {
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
-      if(services.clearFilterForm) services.clearFilterForm();
+      if(helpers.clearFilterForm) helpers.clearFilterForm();
 
       let params = [
         ['categoryId', this.state.chosenCategory],
         [event.currentTarget.dataset.subcategory, event.target.textContent]
       ];
-      services.headerParam = [event.currentTarget.dataset.subcategory, event.target.textContent];
+      temps.headerParam = [event.currentTarget.dataset.subcategory, event.target.textContent];
       this.props.setCatalogueParams(params);
     }
 
@@ -109,7 +111,7 @@ class Header extends Component {
         panelView: 'basket'
       });
     };
-    services.openBasketPanel = this.openBasketPanel;
+    helpers.openBasketPanel = this.openBasketPanel;
 
     this.openSearchForm = ()=>{
       if(this.state.isSearchOpen) {
@@ -178,7 +180,7 @@ class Header extends Component {
                 </div>
                 <div className="header-main__pic_border"></div>
                 <div onClick={this.clickBasket} className="header-main__pic header-main__pic_basket">
-                  <div ref={el=> services.basketTwinklePic=el} className="header-main__pic_basket_full">1</div>
+                  <div ref={el=> temps.basketTwinklePic=el} className="header-main__pic_basket_full">1</div>
                   <div className={`header-main__pic_basket_menu ${this.state.panelView === 'basket' && 'header-main__pic_basket_menu_is-active'}`}></div>
                 </div>
               </div>

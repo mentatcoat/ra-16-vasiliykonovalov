@@ -1,41 +1,16 @@
-//The module provide seirvices - object with helper and API functions
+//The module provides services fetch functions
+
+import helpers from './helpers';
+import temps from './temps';
 
 let services = {};
-let global = 123; //временный вспомогательный объект для разработки
-services.categoryMaxPrice = 100000;
+
+// ??? Я раскидал часть элементов из файла services.js. Правильно ли так делать? Итог такой: 1) в файле services остались функции касающиеся fetch API. 2) в файле helpers.js остались функции-помощники. 3) в файле temps.js остались временные вспомогательные переменные.
 
 // https://neto-api.herokuapp.com/bosa-noga
 
 //!! нужно этот массив задавать пустым:
 if(!localStorage.favorites) localStorage.favorites = JSON.stringify([]);
-
-function twinkleBasketPic() {
-  services.basketTwinklePic.textContent = localStorage.cartProductsAmount;
-  let twinklePicTop = services.basketTwinklePic.parentElement.getBoundingClientRect().top - 5;
-  if(twinklePicTop < 0) {
-    window.scrollTo(0,0);
-  }
-  var timerId = setInterval(function() {
-    services.basketTwinklePic.classList.toggle('basket-visible');
-  }, 300);
-  setTimeout(function() {
-    clearInterval(timerId);
-  }, 1500);
-  setTimeout(function() {
-    services.basketTwinklePic.classList.toggle('basket-visible');
-  }, 3000);
-}
-
-function toggleFavorite(id) {
-  id = +id;
-  let favorites = JSON.parse(localStorage.favorites);
-  if(favorites.includes(id)) {
-    favorites.splice(favorites.findIndex(el=> el===id), 1);
-  } else {
-    favorites.push(id);
-  }
-  localStorage.favorites = JSON.stringify(favorites);
-}
 
 function fetchCategories() {
   return new Promise((resolve,reject)=>{
@@ -53,8 +28,9 @@ function fetchCategories() {
       });
   });
 }
+
 function fetchFeatured() {
-  services.preloaderOn && services.preloaderOn();
+  helpers.preloaderOn && helpers.preloaderOn();
   return new Promise((resolve, reject)=>{
     fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
     .then((res) => {
@@ -64,7 +40,7 @@ function fetchFeatured() {
       return res.json();
     })
     .then(data=> {
-      services.preloaderOff && services.preloaderOff();
+      helpers.preloaderOff && helpers.preloaderOff();
       resolve(data);
     })
     .catch((err) => {
@@ -83,7 +59,7 @@ function fetchProducts(params) {
     );
   }
   return new Promise((resolve,reject)=>{
-    services.preloaderOn && services.preloaderOn();
+    helpers.preloaderOn && helpers.preloaderOn();
     fetch(url)
       .then((res) => {
         return res;
@@ -92,7 +68,7 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
-        services.preloaderOff && services.preloaderOff();
+        helpers.preloaderOff && helpers.preloaderOff();
         resolve(data);
       })
       .catch((err) => {
@@ -103,7 +79,7 @@ function fetchProducts(params) {
 function fetchProduct(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products/';
   if(id) {
-    services.preloaderOn && services.preloaderOn();
+    helpers.preloaderOn && helpers.preloaderOn();
     return new Promise((resolve, reject)=>{
 
       url = url + id;
@@ -115,7 +91,7 @@ function fetchProduct(id) {
           return res.json();
         })
         .then(data=> {
-          services.preloaderOff && services.preloaderOff();
+          helpers.preloaderOff && helpers.preloaderOff();
           resolve(data.data);
         })
         .catch((err) => {
@@ -209,7 +185,7 @@ function fetchCreateOrder(info) {
   if(info) {
 
     return new Promise((resolve, reject)=>{
-      services.preloaderOn && services.preloaderOn();
+      helpers.preloaderOn && helpers.preloaderOn();
       const request = fetch(url, {
         body: JSON.stringify(info),
         credentials: 'same-origin',
@@ -227,7 +203,7 @@ function fetchCreateOrder(info) {
       })
       .then(data=> {
         // ??? ничего проще не придумал чем ставить функции вкл и выкл Прелоудера перед промисом и в .then. Так нормально?
-        services.preloaderOff && services.preloaderOff();
+        helpers.preloaderOff && helpers.preloaderOff();
         resolve(data);
       })
       .catch((err) => {
@@ -236,68 +212,6 @@ function fetchCreateOrder(info) {
 
   }
 }
-
-function getCategoryMaxPrice(categoryIdNumber) {
-  if(!categoryIdNumber) return;
-  fetchProducts([
-    ['categoryId', categoryIdNumber],
-    ['sortBy', 'price'],
-    ['maxPrice', 1000000]
-  ]
-).then(data=>{
-    let result = data.data[0].price;
-    result = Math.ceil(result/100) * 100;
-    services.categoryMaxPrice = result;
-  });
-}
-
-function isFavorite() {
-  let favorites = JSON.parse(localStorage.favorites);
-  return favorites.includes(this.product.id);
-}
-
-function debounce(callback, delay) {
-  let timeout;
-  return (arg1, arg2) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(function() {
-      timeout = null;
-      callback(arg1, arg2);
-    }, delay);
-  };
-};
-
-services.onChangeFilter;
-
-services.preloaderOn;
-services.preloaderOff;
-services.preloaderElement;
-
-services.initFavorite;
-services.initProductCard;
-services.initSimilarSlider;
-services.initFavoritePagination;
-services.initCataloguePagination;
-services.initProductSlider;
-services.initProductInfo;
-services.setStateCatalogueParams;
-
-services.openBasketPanel;
-services.resetBasketPanel = '';
-services.cartTotal = '';
-services.clearFilterForm = '';
-services.debounce = debounce;
-services.filterForm = '';
-services.headerParam = '';
-services.headerParamInput = '';
-services.getCategoryMaxPrice = getCategoryMaxPrice;
-
-services.isFavorite = isFavorite;
-services.toggleFavorite = toggleFavorite;
-
-services.basketTwinklePic = {};
-services.twinkleBasketPic = twinkleBasketPic;
-
 
 services.fetchCategories = fetchCategories;
 services.fetchProducts = fetchProducts;
@@ -309,4 +223,3 @@ services.fetchUpdateProduct = fetchUpdateProduct;
 services.fetchCreateOrder = fetchCreateOrder;
 
 export default services;
-export {global};

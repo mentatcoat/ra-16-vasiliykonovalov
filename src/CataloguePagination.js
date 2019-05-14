@@ -10,6 +10,7 @@ import OverlookedSlider from './OverlookedSlider';
 import CatalogueItem from './CatalogueItem';
 import PropTypes from 'prop-types';
 import services from './services';
+import helpers from './helpers';
 
 class CataloguePagination extends Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class CataloguePagination extends Component {
     this.clickNextPage = this.clickPage.bind(null,null, 1);
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
 
-    services.initCataloguePagination = this.initCataloguePagination;
+    helpers.initCataloguePagination = this.initCataloguePagination;
 
   }
 
