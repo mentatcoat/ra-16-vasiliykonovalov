@@ -30,7 +30,7 @@ function fetchCategories() {
 }
 
 function fetchFeatured() {
-  helpers.preloaderOn && helpers.preloaderOn();
+  // helpers.preloaderOn && helpers.preloaderOn();
   return new Promise((resolve, reject)=>{
     fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
     .then((res) => {
@@ -40,7 +40,7 @@ function fetchFeatured() {
       return res.json();
     })
     .then(data=> {
-      helpers.preloaderOff && helpers.preloaderOff();
+      // helpers.preloaderOff && helpers.preloaderOff();
       resolve(data);
     })
     .catch((err) => {

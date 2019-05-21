@@ -11,53 +11,74 @@ class NewDeals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      featured: '',
-      categories: false,
+      // featured: '',
+      // categories: false,
+
+      //??? верно так? - оставил в state, только то что меняется: 
       chosenCategory: '',
       first: 0,
       filtered: []
     };
+
+
+    this.featured;
+    this.categories;
     this.activeProduct;
+
+    this.props.preloaderOn();
     services.fetchFeatured()
       .then(
         (data)=>{
-          this.setState({
-            featured: data.data}
-            ,this.categoriseFeatured);
+          this.props.preloaderOff();
+
+          this.featured = data.data;
+          this.categoriseFeatured();
+          // this.setState({
+            // featured: data.data}
+            // ,this.categoriseFeatured);
       });
+
     services.fetchCategories()
       .then((data)=>{
-      this.setState({categories: data.data});
-      this.setState({chosenCategory: data.data[1].id}, this.categoriseFeatured);
+        this.categories = data.data;
+        this.setState({chosenCategory: data.data[1].id});
+        this.categoriseFeatured();
+        // this.setState({categories: data.data});
     });
 
     this.clickCategory = (event)=> {
       event.preventDefault();
       this.setState({chosenCategory: event.target.dataset.id}, this.categoriseFeatured);
     };
+
     this.toggleFavorite = (event)=>{
       event.target.classList.toggle('new-deals__product_favorite_chosen')
       helpers.toggleFavorite(event.target.dataset.id);
 
     };
+
     this.categoriseFeatured = ()=>{
-      if(!this.state.featured) return;
-      this.setState({filtered: this.state.featured.filter(el=> el.categoryId == this.state.chosenCategory)});
+      if(!this.featured) return;
+      this.setState({filtered: this.featured.filter(el=> el.categoryId == this.state.chosenCategory)});
+      // this.filtered = this.featured.filter(el=> el.categoryId == this.state.chosenCategory);
     };
+
     this.counter;
+
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;
       if(delta > this.state.filtered.length - 1) delta = 0;
       if(delta < 0) delta = this.state.filtered.length - 1;
       this.setState({first: delta});
     }
+
     this.clickNext = this.clickArrow.bind(this,1);
     this.clickPrev = this.clickArrow.bind(this,-1);
     this.routIndex = ()=> {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  }
+  } //end Constructor
 
   render() {
     let favorites = JSON.parse(localStorage.favorites);
@@ -78,7 +99,7 @@ class NewDeals extends Component {
 
         <div className="new-deals__menu">
           <ul className="new-deals__menu-items">
-            {this.state.categories && this.state.categories.map(
+            {this.categories && this.categories.map(
               category=>{
                 return <li key={category.id}  className={`new-deals__menu-item ${+this.state.chosenCategory === +category.id && 'new-deals__menu-item_active'}`}>
                   <a onClick={this.clickCategory} data-id={category.id} href="#">{category.title}</a>
