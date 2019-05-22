@@ -104,7 +104,10 @@ class AppComponent extends Component {
 <Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}/>)} />
 
           <Route exact path='/favorite'>
-            <Favorite />
+            <Favorite 
+              preloaderOn={this.preloaderOn}
+              preloaderOff={this.preloaderOff}
+            />
           </Route>
 
           <Route exact path='/product-card/:id' render={(props) =>
