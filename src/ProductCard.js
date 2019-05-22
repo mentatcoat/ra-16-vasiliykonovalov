@@ -18,9 +18,9 @@ class ProductCard extends Component {
   constructor(props) {
     super(props);
     this.state= {
+      product: null,
       productId: null,
       mainpic: null,
-      product: null,
       category: null
     };
 
@@ -73,28 +73,37 @@ class ProductCard extends Component {
 
     helpers.initProductCard = this.initProductCard;
 
-  }
+  }// end Constructor
 
   initProductCard = (id) => {
+    this.props.preloaderOn();
     services.fetchProduct(id)
       .then(productInfo=>{
+        this.props.preloaderOff();
         this.setState({
-          productId: id,
           product:productInfo,
+          productId: id,
           mainpic: productInfo.images[0],
           category: this.props.categories.find(
             el=>el.id === productInfo.categoryId
           )
         }
-        ,
-        helpers.initProductInfo && helpers.initProductInfo(productInfo)
-        ,
-        helpers.initProductSlider && helpers.initProductSlider(productInfo)
-        ,
-        helpers.initSimilarSlider && helpers.initSimilarSlider(productInfo)
+        // ,
+        // helpers.initProductInfo && helpers.initProductInfo(productInfo)
+        // ,
+        // helpers.initProductSlider && helpers.initProductSlider(productInfo)
+        // ,
+        // helpers.initSimilarSlider && helpers.initSimilarSlider(productInfo)
       );
       });
     this.makeProductOverlooked();
+  }
+
+  // ??? так верно перезагружать компонент? - в мануале по React говорится что этот метод идеален для отслеживания изменения props и как следствие вызова fetch:
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if(+this.props.match.params.id !== +prevProps.match.params.id) {
+      this.initProductCard(+this.props.match.params.id);
+    }
   }
 
   render() {

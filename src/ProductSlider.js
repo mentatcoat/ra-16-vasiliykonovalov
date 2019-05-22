@@ -16,6 +16,8 @@ class ProductSlider extends Component {
     this.pushMainpic = this.props.onclick
     this.pics = this.props.product.images;
     this.state = {
+      product: this.props.product,
+      pics: this.props.product.images,
       first: 0
     }
 
@@ -23,41 +25,49 @@ class ProductSlider extends Component {
 
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;
-      if(delta > this.pics.length - 1) delta = 0;
-      if(delta < 0) delta = this.pics.length - 1;
+      if(delta > this.state.pics.length - 1) delta = 0;
+      if(delta < 0) delta = this.state.pics.length - 1;
       this.setState({first: delta});
     }
     this.clickNext = this.clickArrow.bind(this,1);
     this.clickPrev = this.clickArrow.bind(this,-1);
     this.counter;
     this.routIndex = ()=> {
-      if (this.counter > this.pics.length - 1) this.counter = 0;
+      if (this.counter > this.state.pics.length - 1) this.counter = 0;
       return this.counter++;
     };
   }
 
   initProductSlider = (product)=>{
-    this.pics = product.images;
+    // this.pics = product.images;
     this.setState({
+      product: product,
+      pics: product.images,
       first: 0
     });
   }
 
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if(this.props.product !== prevProps.product) {
+      this.initProductSlider(this.props.product);
+    }
+  }
+
   render() {
-    if(this.pics.length < 2) return null;
+    if(this.state.pics.length < 2) return null;
 
     let show = [];
-    let galleryAmount = this.pics.length;
+    let galleryAmount = this.state.pics.length;
     if(galleryAmount>3) galleryAmount = 3;
     this.counter = this.state.first;
     for(let i = 0; i<galleryAmount; i++) {
-      show.push(this.pics[this.routIndex()]);
+      show.push(this.state.pics[this.routIndex()]);
     }
 
     return (
         <section className="main-screen__favourite-product-slider">
           <div className="favourite-product-slider">
-            {this.pics.length > 3 && <div onClick={this.clickPrev} className="favourite-product-slider__arrow favourite-product-slider__arrow_up arrow-up"></div>}
+            {this.state.pics.length > 3 && <div onClick={this.clickPrev} className="favourite-product-slider__arrow favourite-product-slider__arrow_up arrow-up"></div>}
 
             {show.map(
               pic=>(
@@ -66,7 +76,7 @@ class ProductSlider extends Component {
             )
             }
 
-            {this.pics.length > 3 &&  <div onClick={this.clickNext} className="favourite-product-slider__arrow favourite-product-slider__arrow_down arrow-down"></div>}
+            {this.state.pics.length > 3 &&  <div onClick={this.clickNext} className="favourite-product-slider__arrow favourite-product-slider__arrow_down arrow-down"></div>}
           </div>
         </section>
     );

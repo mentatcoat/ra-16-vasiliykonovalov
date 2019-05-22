@@ -16,6 +16,7 @@ class SimilarSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      product: this.props.product,
       type: this.props.product.type,
       color: this.props.product.color,
       id: this.props.product.id,
@@ -57,6 +58,7 @@ class SimilarSlider extends Component {
 
   initSimilarSlider = (productInfo) => {
     this.setState({
+      product: productInfo,
       type: productInfo.type,
       color: productInfo.color,
       id: productInfo.id,
@@ -67,6 +69,13 @@ class SimilarSlider extends Component {
     );
   }
 
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if(this.props.product !== prevProps.product) {
+      this.initSimilarSlider(this.props.product);
+    }
+  }
+
+// !!! img s выпадают из рамки после рендера!!!
 
   render() {
     if(this.state.filtered.length === 0) return null;

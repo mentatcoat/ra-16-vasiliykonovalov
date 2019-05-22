@@ -115,8 +115,10 @@ class AppComponent extends Component {
 
               return (
                 <ProductCard {...props}
-                categories={this.state.categories}
-                setCatalogueParams={this.setCatalogueParams}
+                  categories={this.state.categories}
+                  setCatalogueParams={this.setCatalogueParams}
+                  preloaderOn={this.preloaderOn}
+                  preloaderOff={this.preloaderOff}
                 />
               );}
             }
