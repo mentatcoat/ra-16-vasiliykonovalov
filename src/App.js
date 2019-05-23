@@ -31,8 +31,29 @@ class AppComponent extends Component {
       categories: null,
       catalogueParams: '',
       products: '',
-      isPreloader: false
+      isPreloader: false,
+      resetBasketDate: '',
+      panelView: null
     };
+
+    //??? полагаю что мигающий кружок получаемый через  ref не нужно записывать в состояние и дергать рендер?
+    this.basketTwinklePic;
+
+    this.resetBasketPanel = () => {
+      this.setState({
+        resetBasketDate: new Date()
+      });
+    }
+
+    this.changeHeaderPanel = (view) => {
+      this.setState({
+        panelView: view
+      });
+    }
+
+
+
+
 
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
@@ -54,10 +75,33 @@ class AppComponent extends Component {
     });
   } //end Constructor
 
+  twinkleBasketPic = () => {
+    console.log('twinkleBasketPic() basketTwinklePic===', this.basketTwinklePic);
+    let pic = this.basketTwinklePic;
+    pic.textContent = localStorage.cartProductsAmount;
+    let twinklePicTop = pic.parentElement.getBoundingClientRect().top - 5;
+    if(twinklePicTop < 0) {
+      window.scrollTo(0,0);
+    }
+    var timerId = setInterval(function() {
+      pic.classList.toggle('basket-visible');
+    }, 300);
+    setTimeout(function() {
+      clearInterval(timerId);
+    }, 1500);
+    setTimeout(function() {
+      pic.classList.toggle('basket-visible');
+    }, 3000);
+  }
+
   preloaderOn = () => this.setState({isPreloader: true});
   preloaderOff = () => this.setState({isPreloader: false});
 
-
+  getBasketTwinklePic = (domEl) => {
+    console.log('getBasketTwinklePic() domEl===', domEl);
+    this.basketTwinklePic = domEl;
+// ??? эта функция будет брошена как коллбек в ref в <Header/>, чтобы получить доступ к мигающему кружку с количеством покупок. Я правильно понимаю, что именно в таких случаях и используют ref для анимаций и подобного?
+  };
 
   componentDidMount() {
     //??? Вот этот подход с включением-выключением статуса Прелоудера в state этого компонента сразу вызывает ошибку "Maximum update depth exceeded". Оставляю переключение через смену класса "hidden" - так работает быстро и эффективно.
@@ -88,7 +132,13 @@ class AppComponent extends Component {
           </div>
         </div>
 
-        <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
+        <Header
+          categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}
+          resetBasketDate={this.state.resetBasketDate}
+          panelView={this.state.panelView}
+          changeHeaderPanel={this.changeHeaderPanel}
+          getBasketTwinklePic={this.getBasketTwinklePic}
+        />
 
         <Switch>
           <Route exact path='/'>
@@ -104,7 +154,7 @@ class AppComponent extends Component {
 <Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}/>)} />
 
           <Route exact path='/favorite'>
-            <Favorite 
+            <Favorite
               preloaderOn={this.preloaderOn}
               preloaderOff={this.preloaderOff}
             />
@@ -122,13 +172,19 @@ class AppComponent extends Component {
                   setCatalogueParams={this.setCatalogueParams}
                   preloaderOn={this.preloaderOn}
                   preloaderOff={this.preloaderOff}
+                  resetBasketPanel={this.resetBasketPanel}
+                  twinkleBasketPic={this.twinkleBasketPic}
                 />
               );}
             }
             />
 
           <Route exact path='/order' render={(props) => (
-<Order {...props} />
+<Order
+  {...props}
+  resetBasketPanel={this.resetBasketPanel}
+  changeHeaderPanel={this.changeHeaderPanel}
+/>
 )}/>
         </Switch>
 

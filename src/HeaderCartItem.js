@@ -22,7 +22,7 @@ class HeaderCartItem extends Component {
       services.fetchUpdateProduct(localStorage.cartId, item)
         .then(data=> {
           if(this.props.items.length === 1) delete localStorage.cartId;
-          helpers.resetBasketPanel();
+          this.props.resetBasketPanel();
         }
         );
     };

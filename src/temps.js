@@ -2,7 +2,7 @@
 
 let temps = {};
 
-temps.basketTwinklePic = {};
+// temps.basketTwinklePic = {};
 temps.cartTotal = '';
 temps.headerParam = '';
 temps.filterForm = '';

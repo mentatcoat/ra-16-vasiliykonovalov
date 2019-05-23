@@ -170,7 +170,9 @@ class ProductCard extends Component {
                       <a href="#" onClick={this.zoommer} className="main-screen__favourite-product-pic__zoom"></a>
                     </div>
 
-                    {this.state.product && <ProductInfo product={this.state.product} />}
+                    {this.state.product && <ProductInfo product={this.state.product} resetBasketPanel={this.props.resetBasketPanel}
+                    twinkleBasketPic={this.props.twinkleBasketPic}
+                     />}
 
                     {/*тут будут два слайдера */}
 

@@ -75,7 +75,7 @@ class Order extends Component {
               email: form.email.value
             });
             delete localStorage.cartId;
-            helpers.resetBasketPanel();
+            this.props.resetBasketPanel();
           }
         });
     };
@@ -129,7 +129,7 @@ class Order extends Component {
           <BreadcrumbsItem
            to='/order'
            className='site-path__item'
-           onClick={helpers.openBasketPanel}
+           onClick={()=>this.props.changeHeaderPanel('basket')}
           >
            Корзина
           </BreadcrumbsItem>

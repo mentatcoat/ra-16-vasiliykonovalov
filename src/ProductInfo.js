@@ -40,8 +40,8 @@ class ProductInfo extends Component {
           .then(data=>{
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=data.data.products.length;
-              helpers.twinkleBasketPic();
-              helpers.resetBasketPanel();
+              this.props.twinkleBasketPic();
+              this.props.resetBasketPanel();
             }
 
           });
@@ -50,8 +50,8 @@ class ProductInfo extends Component {
           .then(data=>{
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=1;
-              helpers.twinkleBasketPic();
-              helpers.resetBasketPanel();
+              this.props.twinkleBasketPic();
+              this.props.resetBasketPanel();
             }
           });
       }
