@@ -19,18 +19,21 @@ class Catalogue extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      catalogueParams: this.props.catalogueParams,
+      catalogueParams: this.props.catalogueParams || defaultCatalogueParams,
       isShownSidebar: true,
       categories: this.props.categories,
       sortedProducts: '',
       sortedProductsAmount: null,
       currentPage: '',
       pagesAmount: '',
-      isSearchMode: this.props.catalogueParams && this.props.catalogueParams.find(el=>el[0]==='search') ? true : false
+      isSearchMode: this.props.catalogueParams.search
+
+      // this.props.catalogueParams && this.props.catalogueParams.find(el=>el[0]==='search') ? true : false
     };
     this.categoryId;
 
     this.getSortedProducts = (params)=>{
+      console.log('getSortedProducts() params===', params);
 
       services.fetchProducts(params)
         .then(data=>{
@@ -104,12 +107,21 @@ class Catalogue extends Component {
   initCatalogue() {
     if(this.state.catalogueParams) {
       this.getSortedProducts(this.state.catalogueParams);
-      this.getCurrentCategoryId(this.state.catalogueParams);
-      helpers.getCategoryMaxPrice(this.categoryId);
+      // this.getCurrentCategoryId(this.state.catalogueParams);
+      // helpers.getCategoryMaxPrice(this.categoryId);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.catalogueParams !== this.state.catalogueParams) {
+      this.setState({catalogueParams: this.props.catalogueParams},
+      () => this.initCatalogue()
+      );
     }
   }
 
   render() {
+    console.log('Catalogue render() props===', this.props);
     let categoryIdPair, categoryTitle;
     categoryTitle = 'Категория не задана';
 
@@ -209,6 +221,26 @@ class Catalogue extends Component {
   }
 }
 // ??? Пожалуй не нужно в PropTypes указывать props которые придут от Route - history, location, match. Ведь с ними невозможно напутать. Или желательно их тоже указывать?
+
+
+const defaultCatalogueParams = {
+  page: '',
+  type: '',
+  color: '',
+  size: '',
+  heelSize: '',
+  reason: '',
+  season: '',
+  brand: '',
+  minPrice: 0,
+  maxPrice: 100000,
+  discounted: '',
+  categoryId: 12,
+  sortBy: 'price',
+  search: ''
+};
+
+
 Catalogue.propTypes = {
   catalogueParams : PropTypes.array.isRequired,
   categories : PropTypes.array,

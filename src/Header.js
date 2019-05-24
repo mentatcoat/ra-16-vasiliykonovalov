@@ -76,23 +76,34 @@ class Header extends Component {
     this.onSubmitHeaderSearch = (e)=>{
       e.preventDefault();
       // this.searchHiddenElement.value = e.target.elements[0].value.trim();
+      // let params = [[ 'search', this.state.searchField.trim()]];
 
-      let params = [[ 'search', this.state.searchField.trim()]];
+      let params = {};
+      Object.assign(params, defaultCatalogueParams);
+      params.search = this.state.searchField.trim();
+
       this.props.setCatalogueParams(params);
     };
-
     // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.
-
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
       if(helpers.clearFilterForm) helpers.clearFilterForm();
 
-      let params = [
-        ['categoryId', this.state.chosenCategory],
-        [event.currentTarget.dataset.subcategory, event.target.textContent]
-      ];
-      temps.headerParam = [event.currentTarget.dataset.subcategory, event.target.textContent];
+      let params = {};
+      Object.assign(params, defaultCatalogueParams, {
+        categoryId: this.state.chosenCategory,
+        [event.currentTarget.dataset.subcategory]: event.target.textContent
+      });
+
       this.props.setCatalogueParams(params);
+
+
+      // let params = [
+      //   ['categoryId', this.state.chosenCategory],
+      //   [event.currentTarget.dataset.subcategory, event.target.textContent]
+      // ];
+      // temps.headerParam = [event.currentTarget.dataset.subcategory, event.target.textContent];
+      // this.props.setCatalogueParams(params);
     }
 
     this.clickCategory = (event)=>{
@@ -396,6 +407,23 @@ class Header extends Component {
     );
   }
 }
+
+const defaultCatalogueParams = {
+  page: '',
+  type: '',
+  color: '',
+  size: '',
+  heelSize: '',
+  reason: '',
+  season: '',
+  brand: '',
+  minPrice: 0,
+  maxPrice: 100000,
+  discounted: '',
+  categoryId: '',
+  sortBy: 'price',
+  search: ''
+};
 
 Header.propTypes = {
   categories: PropTypes.array.isRequired,

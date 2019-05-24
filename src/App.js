@@ -57,7 +57,7 @@ class AppComponent extends Component {
 
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
-      if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(params);
+      // if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(params);
       this.props.history.push('/catalogue');
     }
     services.fetchCategories()
@@ -65,12 +65,14 @@ class AppComponent extends Component {
         this.setState({
           categories: data.data,
           // ниже ставим Первую категорию, она нужна на случай reload <Catalogue/> page, чтобы экран не был без товаров
-          catalogueParams: [['categoryId', data.data[0].id]]
+          // catalogueParams: [['categoryId', data.data[0].id]]
         },
-        ()=>{
-          if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(this.state.catalogueParams);
-          // без этого не будет работать каталог, когда загружаешь сразу страницу каталога
-        });
+        // ()=>{
+        //   if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(this.state.catalogueParams);
+        //   // без этого не будет работать каталог, когда загружаешь сразу страницу каталога
+        // }
+
+      );
 
     });
   } //end Constructor
@@ -151,7 +153,8 @@ class AppComponent extends Component {
           </Route>
 
           <Route exact path='/catalogue' render={(props) => (
-<Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}/>)} />
+            <Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}/>)}
+          />
 
           <Route exact path='/favorite'>
             <Favorite

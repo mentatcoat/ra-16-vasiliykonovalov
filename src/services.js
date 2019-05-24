@@ -52,11 +52,23 @@ function fetchProducts(params) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products';
   if(params) {
     url = url + '?';
-    params.forEach(
-      param=>{
-        url = url + param[0] + '=' + param[1] + '&';
+    let paramsList = Object.keys(params);
+    paramsList.forEach(param =>{
+      if(!params[param]) {
+        return;
+      } else if (Array.isArray(params[param])) {
+        params[param].forEach(elem => {
+          url = url + param + '=' + elem + '&';
+        });
+      } else {
+        url = url + param + '=' + params[param] + '&';
       }
-    );
+    });
+    // params.forEach(
+    //   param=>{
+    //     url = url + param[0] + '=' + param[1] + '&';
+    //   }
+    // );
   }
   return new Promise((resolve,reject)=>{
     // helpers.preloaderOn && helpers.preloaderOn();
