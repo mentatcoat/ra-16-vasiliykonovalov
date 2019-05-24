@@ -67,7 +67,7 @@ class Order extends Component {
           if(data.status === 'ok') {
             this.setState({
               isDone: true,
-              total: temps.cartTotal,
+              // total: temps.cartTotal,
               paymentType: form.paid.value,
               name: form.name.value,
               address: form.address.value,
@@ -87,6 +87,10 @@ class Order extends Component {
         cartProductsInfo: null
       });
     };
+  }
+
+  updateOrderTotal = (summ) => {
+    this.setState({total: summ});
   }
 
   render() {
@@ -155,7 +159,9 @@ class Order extends Component {
             {!this.state.isDone && <h2 className="order-process__title">Оформление заказа</h2>}
 
             {this.state.cartProductsInfo && !this.state.isDone && <OrderCart
+              total={this.state.total}
               products={this.state.cartProductsInfo} items={this.state.cart.products}
+              updateOrderTotal={this.updateOrderTotal}
             />}
 
             {!this.state.isDone &&

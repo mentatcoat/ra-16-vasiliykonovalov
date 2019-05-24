@@ -14,7 +14,7 @@ class OrderCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderCartTotal: ''
+      orderCartTotal: this.props.total
     };
     // this.totalField;
     // this.total;
@@ -29,11 +29,17 @@ class OrderCart extends Component {
           return memo+value;
         },0
       );
-      this.setState({orderCartTotal: orderCartTotal});
+      // ??? то что функция ниже многократно забирает отсюда сумму и отправляет наверх в родительский компонент и там прописывает в state нормально? Далее сумма приходит сюда как новый prop и прописывается в текущем state.
+      this.props.updateOrderTotal(orderCartTotal);
+      // this.setState({orderCartTotal: orderCartTotal});
 
       // this.totalField.textContent = this.total.toLocaleString();
     };
 
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.total !== prevProps.total) this.setState({orderCartTotal: this.props.total});
   }
 
   componentDidMount() {
@@ -45,6 +51,7 @@ class OrderCart extends Component {
       }
     )
   }
+
 
   render() {
     let cartItems = [];

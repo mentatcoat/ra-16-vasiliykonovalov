@@ -21,8 +21,10 @@ class ProductCard extends Component {
       product: null,
       productId: null,
       mainpic: null,
+      isMainPicBig: false,
       category: null
     };
+    // this.mainpicElement;
 
     this.makeProductOverlooked = ()=>{
       if (!sessionStorage.overlooked) {
@@ -41,13 +43,13 @@ class ProductCard extends Component {
 
     this.initProductCard(+this.props.match.params.id);
 
-    this.mainpicElement;
     this.pushMainpic = (event)=> {
       this.setState({mainpic: event.target.src});
     }
     this.zoommer = (e)=>{
       e.preventDefault();
-      this.mainpicElement.classList.toggle('zoom-out')
+      this.setState({isMainPicBig: !this.state.isMainPicBig});
+      // this.mainpicElement.classList.toggle('zoom-out')
     };
 
     this.onClickBreadcrumbsCategory = ()=>{
@@ -71,7 +73,7 @@ class ProductCard extends Component {
       this.props.setCatalogueParams(params);
     }
 
-    helpers.initProductCard = this.initProductCard;
+    // helpers.initProductCard = this.initProductCard;
 
   }// end Constructor
 
@@ -166,7 +168,7 @@ class ProductCard extends Component {
                       {/*class .main-screen__favourite-product-pic img*/}
 
                       <div className="main-screen__favourite-product-pic">
-                      <img ref={e=>this.mainpicElement=e} className='zoom-out' src={this.state.mainpic} alt="main pic"/>
+                      <img className={this.state.isMainPicBig ? '' : 'zoom-out'} src={this.state.mainpic} alt="main pic"/>
                       <a href="#" onClick={this.zoommer} className="main-screen__favourite-product-pic__zoom"></a>
                     </div>
 

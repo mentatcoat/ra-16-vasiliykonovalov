@@ -59,7 +59,7 @@ function fetchProducts(params) {
     );
   }
   return new Promise((resolve,reject)=>{
-    helpers.preloaderOn && helpers.preloaderOn();
+    // helpers.preloaderOn && helpers.preloaderOn();
     fetch(url)
       .then((res) => {
         return res;
@@ -68,7 +68,7 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
-        helpers.preloaderOff && helpers.preloaderOff();
+        // helpers.preloaderOff && helpers.preloaderOff();
         resolve(data);
       })
       .catch((err) => {
@@ -79,7 +79,7 @@ function fetchProducts(params) {
 function fetchProduct(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products/';
   if(id) {
-    helpers.preloaderOn && helpers.preloaderOn();
+    // helpers.preloaderOn && helpers.preloaderOn();
     return new Promise((resolve, reject)=>{
 
       url = url + id;
@@ -91,7 +91,7 @@ function fetchProduct(id) {
           return res.json();
         })
         .then(data=> {
-          helpers.preloaderOff && helpers.preloaderOff();
+          // helpers.preloaderOff && helpers.preloaderOff();
           resolve(data.data);
         })
         .catch((err) => {
@@ -185,7 +185,7 @@ function fetchCreateOrder(info) {
   if(info) {
 
     return new Promise((resolve, reject)=>{
-      helpers.preloaderOn && helpers.preloaderOn();
+      // helpers.preloaderOn && helpers.preloaderOn();
       const request = fetch(url, {
         body: JSON.stringify(info),
         credentials: 'same-origin',
@@ -203,7 +203,7 @@ function fetchCreateOrder(info) {
       })
       .then(data=> {
         // ??? ничего проще не придумал чем ставить функции вкл и выкл Прелоудера перед промисом и в .then. Так нормально?
-        helpers.preloaderOff && helpers.preloaderOff();
+        // helpers.preloaderOff && helpers.preloaderOff();
         resolve(data);
       })
       .catch((err) => {

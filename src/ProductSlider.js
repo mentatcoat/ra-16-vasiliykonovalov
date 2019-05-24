@@ -21,7 +21,7 @@ class ProductSlider extends Component {
       first: 0
     }
 
-    helpers.initProductSlider = this.initProductSlider;
+    // helpers.initProductSlider = this.initProductSlider;
 
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;

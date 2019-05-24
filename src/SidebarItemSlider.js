@@ -24,7 +24,7 @@ class SidebarItemSlider extends Component {
       maxPrice: '50 000'
     };
     this.shouldCreateSlider = true;
-    this.debouncedOnChangeFilter = helpers.debounce( this.props.onChangeFilter, 2000);
+    this.debouncedOnChangeFilter = debounce( this.props.onChangeFilter, 2000);
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
@@ -156,6 +156,17 @@ class SidebarItemSlider extends Component {
 
 SidebarItemSlider.propTypes = {
   onChangeFilter: PropTypes.func.isRequired
+};
+
+function debounce(callback, delay) {
+  let timeout;
+  return (arg1, arg2) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      callback(arg1, arg2);
+    }, delay);
+  };
 };
 
 export default SidebarItemSlider;

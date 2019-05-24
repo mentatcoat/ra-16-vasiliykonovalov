@@ -53,7 +53,7 @@ class SimilarSlider extends Component {
       return this.counter++;
     };
 
-    helpers.initSimilarSlider = this.initSimilarSlider;
+    // helpers.initSimilarSlider = this.initSimilarSlider;
   }
 
   initSimilarSlider = (productInfo) => {

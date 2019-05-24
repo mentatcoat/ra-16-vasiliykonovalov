@@ -14,7 +14,7 @@ class OrderCartItem extends Component {
     this.state = {
       amount: this.props.item.amount
     };
-    this.fetchUpdateItemAmount = helpers.debounce(services.fetchUpdateProduct, 1500);
+    this.fetchUpdateItemAmount = debounce(services.fetchUpdateProduct, 1500);
 
     this.changeAmount = (step)=>{
       let result = this.state.amount + step;
@@ -67,6 +67,17 @@ OrderCartItem.propTypes = {
   product: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   counter: PropTypes.func.isRequired
+};
+
+function debounce(callback, delay) {
+  let timeout;
+  return (arg1, arg2) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      callback(arg1, arg2);
+    }, delay);
+  };
 };
 
 export default OrderCartItem;

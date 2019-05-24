@@ -19,11 +19,11 @@ class ProductInfo extends Component {
       product: this.props.product,
       chosenSize: '',
       chosenAmount: 1,
-      isFavorite: this.isFavorite(this.props.product.id),
+      isFavorite: isFavorite(this.props.product.id),
       buttonTitle: 'В корзину'
     };
 
-    helpers.initProductInfo = this.initProductInfo;
+    // helpers.initProductInfo = this.initProductInfo;
 
     this.clickInBasket = ()=> {
       if(!this.state.chosenSize) {
@@ -57,21 +57,10 @@ class ProductInfo extends Component {
       }
     };
 
-    this.toggleFavorite = (id) => {
-      id = +id;
-      let favorites = JSON.parse(localStorage.favorites);
-      if(favorites.includes(id)) {
-        favorites.splice(favorites.findIndex(el=> el===id), 1);
-      } else {
-        favorites.push(id);
-      }
-      localStorage.favorites = JSON.stringify(favorites);
-    }
-
     this.clickToggleFavorite = ()=>{
-      this.toggleFavorite(this.state.product.id);
+      toggleFavorite(this.state.product.id);
       this.setState({
-        isFavorite: this.isFavorite(this.state.product.id)
+        isFavorite: isFavorite(this.state.product.id)
       });
     };
 
@@ -95,10 +84,10 @@ class ProductInfo extends Component {
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
   }
 
-  isFavorite = (id) => {
-    let favorites = JSON.parse(localStorage.favorites);
-    return favorites.includes(id);
-  }
+  // isFavorite = (id) => {
+  //   let favorites = JSON.parse(localStorage.favorites);
+  //   return favorites.includes(id);
+  // }
 
   initProductInfo = (productInfo)=>{
     // this.product = productInfo;
@@ -106,7 +95,7 @@ class ProductInfo extends Component {
       product: productInfo,
       chosenSize: '',
       chosenAmount: 1,
-      isFavorite: this.isFavorite(productInfo.id),
+      isFavorite: isFavorite(productInfo.id),
       buttonTitle: 'В корзину'
     });
   }
@@ -176,6 +165,22 @@ class ProductInfo extends Component {
       </div>
     );
   }
+}
+
+function isFavorite(id) {
+  let favorites = JSON.parse(localStorage.favorites);
+  return favorites.includes(id);
+}
+
+function toggleFavorite(id) {
+  id = +id;
+  let favorites = JSON.parse(localStorage.favorites);
+  if(favorites.includes(id)) {
+    favorites.splice(favorites.findIndex(el=> el===id), 1);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.favorites = JSON.stringify(favorites);
 }
 
 ProductInfo.propTypes = {

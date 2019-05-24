@@ -24,16 +24,16 @@ let helpers = {};
 //   }, 3000);
 // }
 
-function toggleFavorite(id) {
-  id = +id;
-  let favorites = JSON.parse(localStorage.favorites);
-  if(favorites.includes(id)) {
-    favorites.splice(favorites.findIndex(el=> el===id), 1);
-  } else {
-    favorites.push(id);
-  }
-  localStorage.favorites = JSON.stringify(favorites);
-}
+// function toggleFavorite(id) {
+//   id = +id;
+//   let favorites = JSON.parse(localStorage.favorites);
+//   if(favorites.includes(id)) {
+//     favorites.splice(favorites.findIndex(el=> el===id), 1);
+//   } else {
+//     favorites.push(id);
+//   }
+//   localStorage.favorites = JSON.stringify(favorites);
+// }
 
 function getCategoryMaxPrice(categoryIdNumber) {
   if(!categoryIdNumber) return;
@@ -49,21 +49,21 @@ function getCategoryMaxPrice(categoryIdNumber) {
   });
 }
 
-function isFavorite() {
-  let favorites = JSON.parse(localStorage.favorites);
-  return favorites.includes(this.product.id);
-}
+// function isFavorite() {
+//   let favorites = JSON.parse(localStorage.favorites);
+//   return favorites.includes(this.product.id);
+// }
 
-function debounce(callback, delay) {
-  let timeout;
-  return (arg1, arg2) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(function() {
-      timeout = null;
-      callback(arg1, arg2);
-    }, delay);
-  };
-};
+// function debounce(callback, delay) {
+//   let timeout;
+//   return (arg1, arg2) => {
+//     clearTimeout(timeout);
+//     timeout = setTimeout(function() {
+//       timeout = null;
+//       callback(arg1, arg2);
+//     }, delay);
+//   };
+// };
 
 // helpers.resetBasketPanel = '';
 // helpers.openBasketPanel;
@@ -73,20 +73,24 @@ function debounce(callback, delay) {
 
 helpers.clearFilterForm = '';
 helpers.setStateCatalogueParams;
-helpers.initProductInfo;
-helpers.initProductSlider;
 helpers.initCataloguePagination;
-// helpers.initFavoritePagination;
-helpers.initSimilarSlider;
-helpers.initProductCard;
-// helpers.initFavorite;
-helpers.preloaderOff;
-helpers.preloaderOn;
 helpers.onChangeFilter;
-
-helpers.debounce = debounce;
-helpers.isFavorite = isFavorite;
 helpers.getCategoryMaxPrice = getCategoryMaxPrice;
-helpers.toggleFavorite = toggleFavorite;
+
+// helpers.initProductInfo;
+
+// helpers.initProductSlider;
+// helpers.initFavoritePagination;
+// helpers.initSimilarSlider;
+// helpers.initProductCard;
+// helpers.initFavorite;
+// helpers.preloaderOff;
+// helpers.preloaderOn;
+
+
+// helpers.debounce = debounce;
+// helpers.isFavorite = isFavorite;
+
+// helpers.toggleFavorite = toggleFavorite;
 
 export default helpers;

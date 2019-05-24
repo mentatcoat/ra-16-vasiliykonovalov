@@ -2,11 +2,11 @@
 
 let temps = {};
 
+// temps.preloaderElement;
 // temps.basketTwinklePic = {};
-temps.cartTotal = '';
+// temps.cartTotal = '';
 temps.headerParam = '';
 temps.filterForm = '';
-temps.preloaderElement;
 temps.categoryMaxPrice = 100000;
 
 

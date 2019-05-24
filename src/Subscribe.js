@@ -12,18 +12,18 @@ class Subscribe extends Component {
       isSubscribed: false,
       email: ''
     };
-    this.form;
-    this.onsubmit = (e)=> {
+    // this.form;
+    this.onSubmit = (e)=> {
       e.preventDefault();
       if(this.state.email==='') {
         this.setState({email: 'заполните email'})
       } else {
-        let formData = new FormData(this.form);
+        let formData = new FormData(e.currentTarget);
         this.setState({isSubscribed: true});
       }
     };
-    this.onchange = (e)=> {
-      this.setState({email: e.target.value});
+    this.onСhange = (e)=> {
+      this.setState({email: e.currentTarget.value});
     };
   }
 
@@ -35,7 +35,7 @@ class Subscribe extends Component {
 
           {this.state.isSubscribed ?
             <p>Подписка оформлена!Спасибо!</p> :
-          <form ref={el=>this.form = el} onSubmit={this.onsubmit} className="subscribe__radios" action="">
+          <form onSubmit={this.onSubmit} className="subscribe__radios" action="">
             <label className="subscribe__radio_label">
               <input className="subscribe__radio" type="radio" name="subscribe" value="women"/>
               <div className="subscribe__radio_text">Женское</div>
@@ -48,7 +48,7 @@ class Subscribe extends Component {
               <input className="subscribe__radio" type="radio" name="subscribe" value="both" defaultChecked/>
               <div className="subscribe__radio_text">Всё</div>
             </label>
-            <input onChange={this.onchange} className="subscribe__email" type="email" name="email" placeholder="Ваш e-mail" value={this.state.email}/>
+            <input onChange={this.onСhange} className="subscribe__email" type="email" name="email" placeholder="Ваш e-mail" value={this.state.email}/>
             <input className="subscribe__submit" type="submit" value="ПОДПИСАТЬСЯ"/>
           </form>
           }

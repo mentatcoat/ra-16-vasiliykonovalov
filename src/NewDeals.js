@@ -14,7 +14,7 @@ class NewDeals extends Component {
       // featured: '',
       // categories: false,
 
-      //??? верно так? - оставил в state, только то что меняется: 
+      //??? верно так? - оставил в state, только то что меняется:
       chosenCategory: '',
       first: 0,
       filtered: []
@@ -51,9 +51,9 @@ class NewDeals extends Component {
       this.setState({chosenCategory: event.target.dataset.id}, this.categoriseFeatured);
     };
 
-    this.toggleFavorite = (event)=>{
+    this.clickToggleFavorite = (event)=>{
       event.target.classList.toggle('new-deals__product_favorite_chosen')
-      helpers.toggleFavorite(event.target.dataset.id);
+      toggleFavorite(event.target.dataset.id);
 
     };
 
@@ -121,7 +121,7 @@ class NewDeals extends Component {
                 this.activeProduct = elem;
                 return (<div key={elem.id} style={{backgroundImage: `url(${elem.images[0]})`}} className="new-deals__product new-deals__product_active">
                     <Link to={`/product-card/${elem.id}`}/>
-                    <div onClick={this.toggleFavorite} data-id={elem.id} className={`new-deals__product_favorite ${favorites.includes(elem.id) && 'new-deals__product_favorite_chosen'}`}></div>
+                    <div onClick={this.clickToggleFavorite} data-id={elem.id} className={`new-deals__product_favorite ${favorites.includes(elem.id) && 'new-deals__product_favorite_chosen'}`}></div>
                   </div>);
               } else if(i===2 || i===0) {
                 return (<div key={elem.id} style={{backgroundImage: `url(${elem.images[0]})`,backgroundSize: 'contain'}} className="new-deals__product new-deals__product_first">
@@ -148,6 +148,17 @@ class NewDeals extends Component {
       </section>
     )
   }
+}
+
+function toggleFavorite(id) {
+  id = +id;
+  let favorites = JSON.parse(localStorage.favorites);
+  if(favorites.includes(id)) {
+    favorites.splice(favorites.findIndex(el=> el===id), 1);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.favorites = JSON.stringify(favorites);
 }
 
 NewDeals.propTypes = {};
