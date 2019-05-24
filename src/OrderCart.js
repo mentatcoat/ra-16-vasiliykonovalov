@@ -14,19 +14,26 @@ class OrderCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      orderCartTotal: ''
     };
-    this.totalField;
-    this.total;
-    this.totalCollector = {};
-    this.countOrderCart = (summObj) => {
-      Object.assign(this.totalCollector, summObj);
-      this.total = temps.cartTotal = Object.values(this.totalCollector).reduce(
+    // this.totalField;
+    // this.total;
+
+    // ??? эта переменая объект хранит значения стоимостей покупок, и используется для подсчета общей суммы заказа. Храню ее в this. а не в state - это соответствует react-подходу?
+    this.itemsTotalCollector = {};
+
+    this.countOrderCart = (itemSumm) => {
+      Object.assign(this.itemsTotalCollector, itemSumm);
+      let orderCartTotal = Object.values(this.itemsTotalCollector).reduce(
         (memo, value)=>{
           return memo+value;
         },0
       );
-      this.totalField.textContent = this.total.toLocaleString();
+      this.setState({orderCartTotal: orderCartTotal});
+
+      // this.totalField.textContent = this.total.toLocaleString();
     };
+
   }
 
   componentDidMount() {
@@ -45,7 +52,7 @@ class OrderCart extends Component {
     cartItems = this.props.items.map(
       item=>{
         let itemProduct = this.props.products.find(el=>+el.id === +item.id);
-        return <OrderCartItem key={item.id} unique={`${item.id}` + `${item.size}`} item={item} product={itemProduct} counter={this.countOrderCart} />;
+        return <OrderCartItem key={item.id} unique={`${item.id}` + `${item.size}`} item={item} product={itemProduct} countOrderCart={this.countOrderCart} />;
       }
     );
 
@@ -59,7 +66,16 @@ class OrderCart extends Component {
 
         </div>
 
-        <div className="order-basket__summ">Итого: <span><span ref={el=>this.totalField=el}></span> <i className="fa fa-rub" aria-hidden="true"></i></span></div>
+        <div className="order-basket__summ">
+          Итого:
+          <span>
+            <span>
+            {` ${this.state.orderCartTotal.toLocaleString()} `}
+            </span>
+            <i className="fa fa-rub" aria-hidden="true"></i>
+          </span>
+        </div>
+
       </div>
     );
   }

@@ -148,14 +148,23 @@ class Order extends Component {
            Заказ принят
           </BreadcrumbsItem>}
 
+{/* - - - -  state.isDone false: - - - - */}
+
+
           <section className="order-process">
             {!this.state.isDone && <h2 className="order-process__title">Оформление заказа</h2>}
 
-            {this.state.cartProductsInfo && !this.state.isDone && <OrderCart products={this.state.cartProductsInfo} items={this.state.cart.products} />}
+            {this.state.cartProductsInfo && !this.state.isDone && <OrderCart
+              products={this.state.cartProductsInfo} items={this.state.cart.products}
+            />}
 
-            {!this.state.isDone && <OrderForm onsubmit={this.submitCreateOrder}/>}
+            {!this.state.isDone &&
+            <OrderForm onsubmit={this.submitCreateOrder}/>}
 
             </section>
+
+{/* - - - -  state.isDone true: - - - - */}
+
 
             {this.state.isDone &&
             <section className="order-done">

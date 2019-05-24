@@ -20,7 +20,7 @@ class OrderCartItem extends Component {
       let result = this.state.amount + step;
       if(result < 0) result = 0;
       this.setState({amount: result});
-      this.props.counter({[this.props.unique]:+this.props.product.price * +result});
+      this.props.countOrderCart({[this.props.unique]:+this.props.product.price * +result});
       this.fetchUpdateItemAmount(localStorage.cartId, {id: this.props.item.id, size: this.props.item.size, amount: +result});
     }
 
