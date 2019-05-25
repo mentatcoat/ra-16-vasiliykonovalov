@@ -12,6 +12,8 @@ import temps from './temps';
 import HeaderCartItem from './HeaderCartItem';
 import PropTypes from 'prop-types';
 
+
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -79,9 +81,10 @@ class Header extends Component {
       // let params = [[ 'search', this.state.searchField.trim()]];
 
       let params = {};
-      Object.assign(params, defaultCatalogueParams);
-      params.search = this.state.searchField.trim();
-
+      Object.assign(params, defaultCatalogueParams, {
+        search :this.state.searchField.trim()
+      });
+      // params.search = this.state.searchField.trim();
       this.props.setCatalogueParams(params);
     };
     // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.

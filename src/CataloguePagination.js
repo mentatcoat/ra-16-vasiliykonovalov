@@ -37,14 +37,18 @@ class CataloguePagination extends Component {
       if(!e) {
         this.setState({
           currentPage: this.state.currentPage+step
-        }, this.props.onChangeFilter);
+        });
+        this.props.onChangeParam('page', this.state.currentPage+step);
         window.scrollTo(0,0);
         return;
       }
+
       if(e.target.tagName === 'A') {
         this.setState({
           currentPage: +e.target.textContent
-        }, this.props.onChangeFilter);
+        });
+        this.props.onChangeParam('page', +e.target.textContent);
+        // ??? ниже дергается window, а его использование как то влияет на производительность? Или не связано с DOM и можно использовать как угодно?
         window.scrollTo(0,0);
       }
     }
@@ -100,7 +104,7 @@ class CataloguePagination extends Component {
 CataloguePagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
   pagesAmount: PropTypes.number.isRequired,
-  onChangeFilter: PropTypes.func.isRequired
+  onChangeParam: PropTypes.func.isRequired
 };
 
 export default CataloguePagination;

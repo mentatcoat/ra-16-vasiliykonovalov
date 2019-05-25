@@ -15,6 +15,10 @@ import helpers from './helpers';
 import temps from './temps';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
+import isEqual from 'react-fast-compare';
+
+console.log('isEqual ===', isEqual);
+
 class Catalogue extends Component {
   constructor(props) {
     super(props);
@@ -82,6 +86,27 @@ class Catalogue extends Component {
     }
     helpers.setStateCatalogueParams = this.setStateCatalogueParams;
 
+    this.onChangeInput = (e) => {
+      console.log('e===',e.currentTarget);
+      let params = Object.assign(
+        {},
+        this.state.catalogueParams ,
+        {[e.currentTarget.name]: e.currentTarget.value} );
+      this.setState({
+        catalogueParams: params
+      });
+    }
+
+    this.onChangeParam = (paramName, paramValue) => {
+      let params = Object.assign(
+        {},
+        this.state.catalogueParams ,
+        {[paramName]: paramValue} );
+      this.setState({
+        catalogueParams: params
+      });
+    }
+
     this.onChangeFilter = (e)=>{
 
       let paramsArray = [];
@@ -113,10 +138,20 @@ class Catalogue extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.props.catalogueParams !== this.state.catalogueParams) {
+    if( this.props.catalogueParams !== prevProps.catalogueParams) {
       this.setState({catalogueParams: this.props.catalogueParams},
       () => this.initCatalogue()
       );
+    }
+
+    console.log('prev', prevState);
+    console.log('this', this.state);
+    console.log('default', defaultCatalogueParams);
+
+    if(!isEqual(this.state.catalogueParams, prevState.catalogueParams)) {
+      console.log('states is not equal');
+      this.initCatalogue();
+
     }
   }
 
@@ -184,7 +219,7 @@ class Catalogue extends Component {
 
               <div className="product-catalogue__sort-by">
                 <p className="sort-by">Сортировать</p>
-                <select onChange={this.onChangeFilter} form='filterForm' name="sortBy" id="sorting">
+                <select onChange={this.onChangeInput} value={this.state.catalogueParams.sortBy} form='filterForm' name="sortBy" id="sorting">
                   <option value="price">по цене</option>
                   <option value="popularity">по популярности</option>
                 </select>
@@ -206,7 +241,9 @@ class Catalogue extends Component {
 
             {/*<!-- Пагинация под каталогом -->*/}
 
-            {this.state.sortedProducts && <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeFilter={this.onChangeFilter}/>}
+            {this.state.sortedProducts && <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount}
+            onChangeParam={this.onChangeParam}
+            />}
 
           </section>
 
