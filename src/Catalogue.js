@@ -20,6 +20,8 @@ import SidebarItemColor from './SidebarItemColor';
 import SidebarItemReason from './SidebarItemReason';
 import SidebarItemSeason from './SidebarItemSeason';
 import SidebarItemSlider from './SidebarItemSlider';
+import SidebarItemSize from './SidebarItemSize';
+
 
 
 
@@ -284,7 +286,10 @@ class Catalogue extends Component {
           onChangeParam={this.onChangeParam}
           />
           <div className="separator-150 separator-150-1"></div>
-
+          <SidebarItemSize           onChangeParam={this.onChangeParam}
+          sizes={this.state.catalogueParams.size}
+          />
+          <div className="separator-150 separator-150-1"></div>
 
 
 
@@ -370,7 +375,7 @@ const defaultCatalogueParams = {
   page: '',
   type: '',
   color: '',
-  size: '',
+  size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
   heelSize: '',
   reason: '',
   season: '',

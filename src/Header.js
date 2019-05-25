@@ -415,7 +415,7 @@ const defaultCatalogueParams = {
   page: '',
   type: '',
   color: '',
-  size: '',
+  size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
   heelSize: '',
   reason: '',
   season: '',

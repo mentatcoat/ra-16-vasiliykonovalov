@@ -60,10 +60,20 @@ function fetchProducts(params) {
         params[param].forEach(elem => {
           url = url + param + '=' + elem + '&';
         });
+      } else if(param === 'size') {
+        // let list = Object params[param]
+        let sizes = params.size;
+        for (let size in sizes) {
+          console.log('size===', size);
+          if(sizes[size]) {
+            url = url + 'size' + '=' + size + '&';
+          }
+        }
       } else {
         url = url + param + '=' + params[param] + '&';
       }
     });
+    console.log('fetchProducts url===', url);
     // params.forEach(
     //   param=>{
     //     url = url + param[0] + '=' + param[1] + '&';

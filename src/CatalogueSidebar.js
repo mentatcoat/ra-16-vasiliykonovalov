@@ -51,8 +51,8 @@ class CatalogueSidebar extends Component {
             <div className="separator-150 separator-150-1"></div>*/}
             {/*<SidebarItemColor onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-1"></div>*/}
-            <SidebarItemSize onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
+            {/*<SidebarItemSize onChangeFilter={this.props.onChangeFilter}/>
+            <div className="separator-150 separator-150-1"></div>*/}
             <SidebarItemHeelSize onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-5"></div>
             {/*<SidebarItemReason onChangeFilter={this.props.onChangeFilter}/>
