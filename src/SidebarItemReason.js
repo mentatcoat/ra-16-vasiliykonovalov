@@ -12,18 +12,32 @@ class SidebarItemReason extends Component {
     super(props);
     this.state = {
       isShown: false,
-      value: ''
+      value: this.props.value
     };
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
       event.preventDefault();
-      this.setState({
-        value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      }, this.props.onChangeFilter);
+
+      if(this.state.value!==event.target.textContent) {
+        this.props.onChangeParam(null, 'reason', event.target.textContent);
+      } else {
+        this.props.onChangeParam(null, 'reason', '');
+      }
+
+      // this.setState({
+      //   value: this.state.value!==event.target.textContent ? event.target.textContent : ''
+      // }, this.props.onChangeFilter);
     }
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate!!!!!!!!');
+    if(this.props.value !== prevProps.value) {
+      this.setState({value: this.props.value});
     }
   }
 
@@ -41,7 +55,7 @@ class SidebarItemReason extends Component {
           {this.state.isShown &&
             <div>
 
-            <input name='reason' type='hidden' value={this.state.value} />
+            {/*<input name='reason' type='hidden' value={this.state.value} />*/}
             <ul onClick={this.clickSubcategory}>
             <li><a className={this.state.value==='Офис' && 'chosen'} href="#">Офис</a></li>
             <li><a className={this.state.value==='Вечеринка' && 'chosen'} href="#">Вечеринка</a></li>
@@ -63,7 +77,7 @@ class SidebarItemReason extends Component {
 }
 
 SidebarItemReason.propTypes = {
-  onChangeFilter: PropTypes.func.isRequired
+  onChangeParam: PropTypes.func.isRequired
 };
 
 export default SidebarItemReason;

@@ -21,12 +21,16 @@ class CatalogueSidebar extends Component {
     super(props);
     this.formElement;
     this.state={reset: true};
-    this.brand;
+    // this.brand;
+
     this.submitBrand = (e)=>{
       e.preventDefault();
-      this.brand.value = e.target.elements[0].value;
-      this.props.onChangeFilter();
-      }
+
+      this.props.onChangeParam(null,'brand', e.currentTarget.elements[0].value);
+
+      // this.brand.value = e.target.elements[0].value;
+      // this.props.onChangeFilter();
+    }
 
     this.reset = (e)=> {
       e.preventDefault();
@@ -40,24 +44,24 @@ class CatalogueSidebar extends Component {
     return (
           <form  ref={el=>temps.filterForm = el}  id="filterForm" className="sidebar">
 
-            <SidebarItemCatalogue onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemSlider onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemColor onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
+            {this.props.children}
+            {/*<SidebarItemCatalogue onChangeFilter={this.props.onChangeFilter}/>
+            <div className="separator-150 separator-150-1"></div>*/}
+            {/*<SidebarItemSlider onChangeFilter={this.props.onChangeFilter}/>
+            <div className="separator-150 separator-150-1"></div>*/}
+            {/*<SidebarItemColor onChangeFilter={this.props.onChangeFilter}/>
+            <div className="separator-150 separator-150-1"></div>*/}
             <SidebarItemSize onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-1"></div>
             <SidebarItemHeelSize onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-5"></div>
-            <SidebarItemReason onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemSeason onChangeFilter={this.props.onChangeFilter}/>
+            {/*<SidebarItemReason onChangeFilter={this.props.onChangeFilter}/>
+            <div className="separator-150 separator-150-1"></div>*/}
+            {/*<SidebarItemSeason onChangeFilter={this.props.onChangeFilter}/>*/}
 
             <div className="separator-150 separator-150-7"></div>
 
             <section className="sidebar__division">
-                <input form='filterForm' ref={el=>this.brand=el} name='brand' type='hidden'  />
                 <div className="sidebar__brand">
                   <h3>Бренд</h3>
                   <form onSubmit={this.submitBrand}  className="brand-search">
@@ -67,7 +71,10 @@ class CatalogueSidebar extends Component {
                 </div>
 
                   <label for='discounted' >
-                  <input onChange={this.props.onChangeFilter} id='discounted' value={true} type="checkbox" className="checkbox" name="discounted"/><span className="checkbox-discount"></span> <span className="text-discount">Со скидкой</span></label>
+                  <input onChange={this.props.onChangeFilter} id='discounted' checked={true} value={true} type="checkbox" className="checkbox" name="discounted"/>
+                  <span className="checkbox-discount"></span>
+                  <span className="text-discount">Со скидкой</span>
+                  </label>
 
               <div className="separator-240"></div>
             </section>

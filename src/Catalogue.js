@@ -15,6 +15,16 @@ import helpers from './helpers';
 import temps from './temps';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
+import SidebarItemCatalogue from './SidebarItemCatalogue';
+import SidebarItemColor from './SidebarItemColor';
+import SidebarItemReason from './SidebarItemReason';
+import SidebarItemSeason from './SidebarItemSeason';
+import SidebarItemSlider from './SidebarItemSlider';
+
+
+
+
+
 import isEqual from 'react-fast-compare';
 
 console.log('isEqual ===', isEqual);
@@ -30,10 +40,11 @@ class Catalogue extends Component {
       sortedProductsAmount: null,
       currentPage: '',
       pagesAmount: '',
-      isSearchMode: this.props.catalogueParams.search
+      // isSearchMode: this.props.catalogueParams.search
 
       // this.props.catalogueParams && this.props.catalogueParams.find(el=>el[0]==='search') ? true : false
     };
+    this.categoryMaxPrice;
     this.categoryId;
 
     this.getSortedProducts = (params)=>{
@@ -68,9 +79,13 @@ class Catalogue extends Component {
     this.initCatalogue();
 
     this.resetFilter = ()=>{
-      temps.filterForm.elements['search'].value = '';
-      this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
-      temps.headerParam = '';
+      this.setState({
+        catalogueParams: defaultCatalogueParams
+      });
+
+      // temps.filterForm.elements['search'].value = '';
+      // this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
+      // temps.headerParam = '';
     };
 
     this.clearFilterForm = ()=>{
@@ -80,32 +95,46 @@ class Catalogue extends Component {
 
     this.setStateCatalogueParams = (params)=>{
       this.setState({
-        catalogueParams: params,
-        isSearchMode: params.find(el=>el[0]==='search') ? true : false
+        catalogueParams: params
+        // ,
+        // isSearchMode: params.find(el=>el[0]==='search') ? true : false
       }, this.initCatalogue);
     }
     helpers.setStateCatalogueParams = this.setStateCatalogueParams;
 
-    this.onChangeInput = (e) => {
-      console.log('e===',e.currentTarget);
-      let params = Object.assign(
-        {},
-        this.state.catalogueParams ,
-        {[e.currentTarget.name]: e.currentTarget.value} );
-      this.setState({
-        catalogueParams: params
-      });
+    this.onChangeParam = (e, paramName, paramValue) => {
+      console.log('ONCHANGEPARAM()', e, paramName, paramValue);
+
+      if(paramName || paramValue) {
+
+        let params = Object.assign(
+          {},
+          this.state.catalogueParams ,
+          {[paramName]: paramValue} );
+        this.setState({
+          catalogueParams: params
+        });
+      } else {
+        let params = Object.assign(
+          {},
+          this.state.catalogueParams ,
+          {[e.currentTarget.name]: e.currentTarget.value} );
+        this.setState({
+          catalogueParams: params
+        });
+      }
+
     }
 
-    this.onChangeParam = (paramName, paramValue) => {
-      let params = Object.assign(
-        {},
-        this.state.catalogueParams ,
-        {[paramName]: paramValue} );
-      this.setState({
-        catalogueParams: params
-      });
-    }
+    // this.onChangeParam = (paramName, paramValue) => {
+    //   let params = Object.assign(
+    //     {},
+    //     this.state.catalogueParams ,
+    //     {[paramName]: paramValue} );
+    //   this.setState({
+    //     catalogueParams: params
+    //   });
+    // }
 
     this.onChangeFilter = (e)=>{
 
@@ -129,11 +158,26 @@ class Catalogue extends Component {
 
   }
 
+  getCategoryMaxPrice(categoryIdNumber) {
+    if(!categoryIdNumber) return;
+    services.fetchProducts({
+      categoryId: categoryIdNumber,
+      sortBy: 'price',
+      maxPrice: 1000000
+    }).then(data=>{
+      let result = data.data[0].price;
+      result = Math.ceil(result/100) * 100;
+      console.log('count categoryMaxPrice===', result);
+      this.setState({categoryMaxPrice: result});
+      // this.categoryMaxPrice = result;
+    });
+  }
+
   initCatalogue() {
     if(this.state.catalogueParams) {
       this.getSortedProducts(this.state.catalogueParams);
+      this.getCategoryMaxPrice(this.state.catalogueParams.categoryId);
       // this.getCurrentCategoryId(this.state.catalogueParams);
-      // helpers.getCategoryMaxPrice(this.categoryId);
     }
   }
 
@@ -160,8 +204,8 @@ class Catalogue extends Component {
     let categoryIdPair, categoryTitle;
     categoryTitle = 'Категория не задана';
 
-    if(this.props.categories && this.state.catalogueParams && this.categoryId) {
-      categoryTitle = this.props.categories.find(el=>+el.id===+this.categoryId).title;
+    if(this.props.categories && this.state.catalogueParams.categoryId) {
+      categoryTitle = this.props.categories.find(el=>+el.id===+this.state.catalogueParams.categoryId).title;
     }
 
     return (
@@ -187,7 +231,7 @@ class Catalogue extends Component {
           Главная
         </BreadcrumbsItem>
 
-        {this.state.isSearchMode
+        {this.state.catalogueParams.search
         ?
         <BreadcrumbsItem
          to='/catalogue'
@@ -207,19 +251,81 @@ class Catalogue extends Component {
         {/*<!-- Тело каталога с сайдбаром -->*/}
         <main className="product-catalogue">
 
-        {this.state.isShownSidebar && <CatalogueSidebar onChangeFilter={this.onChangeFilter} resetFilter={this.resetFilter}/>}
+        {this.state.isShownSidebar &&
+        <CatalogueSidebar
+
+          onChangeFilter={this.onChangeFilter}
+          onChangeParam={this.onChangeParam}
+          resetFilter={this.resetFilter}
+        >
+          <SidebarItemCatalogue
+          value={this.state.catalogueParams.type}
+          onChangeParam={this.onChangeParam}
+           />
+          <div className="separator-150 separator-150-1"></div>
+
+          <SidebarItemColor     value={this.state.catalogueParams.color}
+          onChangeParam={this.onChangeParam}
+          />
+          <div className="separator-150 separator-150-1"></div>
+
+          <SidebarItemReason
+          value={this.state.catalogueParams.reason}
+          onChangeParam={this.onChangeParam}
+          />
+
+          <SidebarItemSeason       value={this.state.catalogueParams.season}
+          onChangeParam={this.onChangeParam}
+          />
+          <div className="separator-150 separator-150-1"></div>
+
+          <SidebarItemSlider
+          categoryMaxPrice={this.state.categoryMaxPrice}
+          onChangeParam={this.onChangeParam}
+          />
+          <div className="separator-150 separator-150-1"></div>
+
+
+
+
+
+
+
+
+
+
+
+        </CatalogueSidebar>
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         {/*<!-- Основной контент каталога -->*/}
           <section className="product-catalogue-content">
             {/*<!-- Голова каталога с названием раздела и сортировкой -->*/}
             <section className="product-catalogue__head">
               <div className="product-catalogue__section-title">
-                <h2 className="section-name">{this.state.isSearchMode ? 'Результаты поиска' : categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
+                <h2 className="section-name">{this.state.catalogueParams.search ? 'Результаты поиска' : categoryTitle}</h2><span className="amount">{typeof this.state.sortedProductsAmount === 'number' && `${this.state.sortedProductsAmount.toLocaleString()} товара`}</span>
               </div>
 
               <div className="product-catalogue__sort-by">
                 <p className="sort-by">Сортировать</p>
-                <select onChange={this.onChangeInput} value={this.state.catalogueParams.sortBy} form='filterForm' name="sortBy" id="sorting">
+                <select onChange={this.onChangeParam} value={this.state.catalogueParams.sortBy} form='filterForm' name="sortBy" id="sorting">
                   <option value="price">по цене</option>
                   <option value="popularity">по популярности</option>
                 </select>

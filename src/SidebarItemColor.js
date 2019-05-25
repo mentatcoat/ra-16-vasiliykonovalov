@@ -12,18 +12,31 @@ class SidebarItemColor extends Component {
     super(props);
     this.state = {
       isShown: false,
-      value: ''
+      value: this.props.value
     };
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'SPAN') return;
       event.preventDefault();
-      this.setState({
-        value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      }, this.props.onChangeFilter);
+
+      if(this.state.value!==event.target.textContent) {
+        this.props.onChangeParam(null, 'color', event.target.textContent);
+      } else {
+        this.props.onChangeParam(null, 'color', '');
+      }
+
+      // this.setState({
+      //   value: this.state.value!==event.target.textContent ? event.target.textContent : ''
+      // }, this.props.onChangeFilter);
     }
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.value !== prevProps.value) {
+      this.setState({value: this.props.value});
     }
   }
 
@@ -41,7 +54,7 @@ class SidebarItemColor extends Component {
           {this.state.isShown &&
             <div>
 
-            <input name='color' type='hidden' value={this.state.value} />,
+            {/*<input name='color' type='hidden' value={this.state.value} />*/},
             <ul onClick={this.clickSubcategory}>
               <li><a className={this.state.value==='Бежевый' && 'chosen'} href="#"><div className="color beige"></div><span className="color-name">Бежевый</span></a></li>
               <li><a className={this.state.value==='Белый' && 'chosen'} href="#"><div className="color whitesnake"></div><span className="color-name">Белый</span></a></li>
@@ -62,7 +75,7 @@ class SidebarItemColor extends Component {
 }
 
 SidebarItemColor.propTypes = {
-  onChangeFilter: PropTypes.func.isRequired
+  onChangeParam: PropTypes.func.isRequired
 };
 
 export default SidebarItemColor;

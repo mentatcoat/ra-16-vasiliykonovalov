@@ -16,15 +16,17 @@ import PropTypes from 'prop-types';
 class SidebarItemSlider extends Component {
   constructor(props) {
     super(props);
-    this.slider = null;
+    this.DOMslider = null;
     this.state = {
       isShown: false,
       value: '',
       minPrice: '0',
-      maxPrice: '50 000'
+      maxPrice: '50000',
+      categoryMaxPrice: this.props.categoryMaxPrice
     };
     this.shouldCreateSlider = true;
-    this.debouncedOnChangeFilter = debounce( this.props.onChangeFilter, 2000);
+    this.debouncedOnChangeParamMin = debounce( this.props.onChangeParam, 2000);
+    this.debouncedOnChangeParamMax = debounce( this.props.onChangeParam, 2000);
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
@@ -34,16 +36,18 @@ class SidebarItemSlider extends Component {
       });
     }
     this.clickDrawer = ()=>{
+      console.log('clickDrawer() this.state.categoryMaxPrice===', this.state.categoryMaxPrice);
+      let stateMaxPrice = this.state.categoryMaxPrice;
       if (!this.state.isShown) {
         this.shouldCreateSlider = true;
         this.setState({
           isShown: !this.state.isShown,
-          minPrice : '0',
-          maxPrice: temps.categoryMaxPrice.toLocaleString()
+          // minPrice : '0',
+          // maxPrice: this.state.categoryMaxPrice
         });
       } else {
+        this.setState({isShown: !this.state.isShown});
       }
-      this.setState({isShown: !this.state.isShown});
     }
 
     this.onChangeSlider = (values)=>{
@@ -52,13 +56,19 @@ class SidebarItemSlider extends Component {
         minMax[index] = Number.parseInt(value, 10);
         return minMax[index].toLocaleString();
       });
+      // эти идут в фильтр:
       this.minPrice = minMax[0];
       this.maxPrice = minMax[1];
       this.setState({
         minPrice: values[0],
         maxPrice: values[1]
       });
-      this.debouncedOnChangeFilter();
+
+      console.log('onChangeSlider() min max===', minMax[0], minMax[1]);
+      this.debouncedOnChangeParamMin(null, 'minPrice', minMax[0]);
+      this.debouncedOnChangeParamMax(null, 'maxPrice', minMax[1]);
+
+      // this.debouncedOnChangeFilter();
     };
 
     this.noUiSliderClasses = {
@@ -99,29 +109,49 @@ class SidebarItemSlider extends Component {
         };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+    console.log('noUiSlider componentDidUpdate props', this.props);
+    console.log('noUiSlider componentDidUpdate state', this.state);
+
+    if(this.props.categoryMaxPrice !== prevProps.categoryMaxPrice) {
+      this.setState({categoryMaxPrice: this.props.categoryMaxPrice});
+    }
 
     if(this.state.isShown && this.shouldCreateSlider) {
-        this.slider = document.getElementById('priceSlider');
+        this.DOMslider = document.getElementById('priceSlider');
 
-      noUiSlider.create(this.slider, {
-          start: [0, temps.categoryMaxPrice],
+        // let minStart = +this.state.minPrice > 0 ? +this.state.minPrice : 0;
+        //
+        // // let minStart = +this.state.minPrice || 0;
+        // let maxStart = +this.state.maxPrice || this.state.categoryMaxPrice;
+
+      noUiSlider.create(this.DOMslider, {
+          start: [0, this.state.categoryMaxPrice],
           connect: [false, true, false],
           range: {
               'min': 0,
-              'max': temps.categoryMaxPrice
+              'max': this.state.categoryMaxPrice
           },
           step: 100,
           cssClasses: this.noUiSliderClasses
         }
       );
-      this.slider.noUiSlider.on('slide', this.onChangeSlider);
+      this.DOMslider.noUiSlider.on('slide', this.onChangeSlider);
       this.shouldCreateSlider = false;
     }
 
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if(this.props.value !== prevProps.value) {
+  //     this.setState({categoryMaxPrice: this.props.categoryMaxPrice});
+  //   }
+  //
+  // }
+
   render() {
+
+    console.log('noUiSlider render props===', this.props);
     return (
       <section className="sidebar__division">
 
@@ -134,15 +164,15 @@ class SidebarItemSlider extends Component {
 
           {this.state.isShown &&
             <div className="sidebar__division__noUiSlider">
-              <input name='minPrice' type="hidden" value={this.minPrice}/>
-              <input name='maxPrice' type="hidden" value={this.maxPrice}/>
+              {/*<input name='minPrice' type="hidden" value={this.minPrice}/>
+              <input name='maxPrice' type="hidden" value={this.maxPrice}/>*/}
               <section  id='priceSlider' >
               </section>
 
               <div className="counter">
                 <input form='123' name='minPrice' type="text" className="input-1" value={this.state.minPrice}/>
                 <div className="input-separator"></div>
-                <input form='123' name='maxPrice' type="text" className="input-2" value={this.state.maxPrice}/>
+                <input form='123' name='maxPrice' type="text" className="input-2" value={this.state.maxPrice || this.state.categoryMaxPrice}/>
               </div>
 
             </div>
@@ -160,11 +190,11 @@ SidebarItemSlider.propTypes = {
 
 function debounce(callback, delay) {
   let timeout;
-  return (arg1, arg2) => {
+  return (arg1, arg2, arg3) => {
     clearTimeout(timeout);
     timeout = setTimeout(function() {
       timeout = null;
-      callback(arg1, arg2);
+      callback(arg1, arg2, arg3);
     }, delay);
   };
 };
