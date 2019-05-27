@@ -32,12 +32,14 @@ class CatalogueSidebar extends Component {
       // this.props.onChangeFilter();
     }
 
-    this.reset = (e)=> {
-      e.preventDefault();
-      for (let elem of temps.filterForm.elements) {
-        elem.value = '';
-      }
-    }
+    // this.reset = (e)=> {
+    //   e.preventDefault();
+    //   for (let elem of temps.filterForm.elements) {
+    //     elem.value = '';
+    //   }
+    // }
+
+
     }
 
   render() {
@@ -53,15 +55,15 @@ class CatalogueSidebar extends Component {
             <div className="separator-150 separator-150-1"></div>*/}
             {/*<SidebarItemSize onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-1"></div>*/}
-            <SidebarItemHeelSize onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-5"></div>
+            {/*<SidebarItemHeelSize onChangeFilter={this.props.onChangeFilter}/>
+            <div className="separator-150 separator-150-5"></div>*/}
             {/*<SidebarItemReason onChangeFilter={this.props.onChangeFilter}/>
             <div className="separator-150 separator-150-1"></div>*/}
             {/*<SidebarItemSeason onChangeFilter={this.props.onChangeFilter}/>*/}
 
-            <div className="separator-150 separator-150-7"></div>
+            {/*<div className="separator-150 separator-150-7"></div>*/}
 
-            <section className="sidebar__division">
+            {/*<section className="sidebar__division">
                 <div className="sidebar__brand">
                   <h3>Бренд</h3>
                   <form onSubmit={this.submitBrand}  className="brand-search">
@@ -77,8 +79,10 @@ class CatalogueSidebar extends Component {
                   </label>
 
               <div className="separator-240"></div>
+            </section>*/}
+            <section className="sidebar__division">
+              <div className="separator-240"></div>
             </section>
-
             <section className="sidebar__division">
               <div className="drop-down">
                 <a onClick={this.props.resetFilter} ><span className="drop-down-icon"></span>Сбросить</a>

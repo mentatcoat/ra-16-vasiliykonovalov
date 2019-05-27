@@ -21,6 +21,9 @@ import SidebarItemReason from './SidebarItemReason';
 import SidebarItemSeason from './SidebarItemSeason';
 import SidebarItemSlider from './SidebarItemSlider';
 import SidebarItemSize from './SidebarItemSize';
+import SidebarItemHeelSize from './SidebarItemHeelSize';
+import SidebarItemBrand from './SidebarItemBrand';
+import SidebarItemDiscounted from './SidebarItemDiscounted';
 
 
 
@@ -172,6 +175,8 @@ class Catalogue extends Component {
       console.log('count categoryMaxPrice===', result);
       this.setState({categoryMaxPrice: result});
       // this.categoryMaxPrice = result;
+    })
+    .catch((err) => {
     });
   }
 
@@ -260,25 +265,13 @@ class Catalogue extends Component {
           onChangeParam={this.onChangeParam}
           resetFilter={this.resetFilter}
         >
+
+
+
           <SidebarItemCatalogue
           value={this.state.catalogueParams.type}
           onChangeParam={this.onChangeParam}
            />
-          <div className="separator-150 separator-150-1"></div>
-
-          <SidebarItemColor     value={this.state.catalogueParams.color}
-          onChangeParam={this.onChangeParam}
-          />
-          <div className="separator-150 separator-150-1"></div>
-
-          <SidebarItemReason
-          value={this.state.catalogueParams.reason}
-          onChangeParam={this.onChangeParam}
-          />
-
-          <SidebarItemSeason       value={this.state.catalogueParams.season}
-          onChangeParam={this.onChangeParam}
-          />
           <div className="separator-150 separator-150-1"></div>
 
           <SidebarItemSlider
@@ -286,39 +279,41 @@ class Catalogue extends Component {
           onChangeParam={this.onChangeParam}
           />
           <div className="separator-150 separator-150-1"></div>
+
+          <SidebarItemColor     value={this.state.catalogueParams.color}
+          onChangeParam={this.onChangeParam}
+          />
+          <div className="separator-150 separator-150-1"></div>
+
           <SidebarItemSize           onChangeParam={this.onChangeParam}
           sizes={this.state.catalogueParams.size}
           />
           <div className="separator-150 separator-150-1"></div>
 
+          <SidebarItemHeelSize           onChangeParam={this.onChangeParam}
+          sizes={this.state.catalogueParams.heelSize}
+          />
+          <div className="separator-150 separator-150-1"></div>
 
+          <SidebarItemReason
+          value={this.state.catalogueParams.reason}
+          onChangeParam={this.onChangeParam}
+          />
+          <div className="separator-150 separator-150-1"></div>
 
+          <SidebarItemSeason       value={this.state.catalogueParams.season}
+          onChangeParam={this.onChangeParam}
+          />
+          <div className="separator-150 separator-150-1"></div>
 
+          <SidebarItemBrand onChangeParam={this.onChangeParam} />
 
-
-
-
-
+          <SidebarItemDiscounted onChangeParam={this.onChangeParam}
+          value={this.state.catalogueParams.discounted}
+          />
 
         </CatalogueSidebar>
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         {/*<!-- Основной контент каталога -->*/}
           <section className="product-catalogue-content">
@@ -370,19 +365,19 @@ class Catalogue extends Component {
 }
 // ??? Пожалуй не нужно в PropTypes указывать props которые придут от Route - history, location, match. Ведь с ними невозможно напутать. Или желательно их тоже указывать?
 
-
+// ??? в виду того, что в ТЗ не было упоминания как получать "размеры" обуви я прописал их в catalogueParams, которые напрямую определяют какие продуты отображаются на экране. Дайте критику по "установке в начальном рендере defaultCatalogueParams" в компоненте <Catalogue/>.
 const defaultCatalogueParams = {
   page: '',
   type: '',
   color: '',
   size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
-  heelSize: '',
+  heelSize: {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false},
   reason: '',
   season: '',
   brand: '',
   minPrice: 0,
   maxPrice: 100000,
-  discounted: '',
+  discounted: false,
   categoryId: 12,
   sortBy: 'price',
   search: ''

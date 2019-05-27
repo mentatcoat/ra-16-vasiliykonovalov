@@ -60,13 +60,13 @@ function fetchProducts(params) {
         params[param].forEach(elem => {
           url = url + param + '=' + elem + '&';
         });
-      } else if(param === 'size') {
+      } else if(param === 'size' || param === 'heelSize') {
         // let list = Object params[param]
-        let sizes = params.size;
+        let sizes = params[param];
         for (let size in sizes) {
           console.log('size===', size);
           if(sizes[size]) {
-            url = url + 'size' + '=' + size + '&';
+            url = url + param + '=' + size + '&';
           }
         }
       } else {
