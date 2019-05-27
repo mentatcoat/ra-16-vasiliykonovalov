@@ -54,7 +54,7 @@ class SidebarItemColor extends Component {
           {this.state.isShown &&
             <div>
 
-            {/*<input name='color' type='hidden' value={this.state.value} />*/},
+            {/*<input name='color' type='hidden' value={this.state.value} />*/}
             <ul onClick={this.clickSubcategory}>
               <li><a className={this.state.value==='Бежевый' && 'chosen'} href="#"><div className="color beige"></div><span className="color-name">Бежевый</span></a></li>
               <li><a className={this.state.value==='Белый' && 'chosen'} href="#"><div className="color whitesnake"></div><span className="color-name">Белый</span></a></li>

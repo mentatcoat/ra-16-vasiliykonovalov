@@ -62,7 +62,7 @@ class SidebarItemSizeTable extends Component {
             </div>
           </div>
 
-          {this.state.isShown && <ul onChange={this.clickSize}>
+          {this.state.isShown && <ul className="sizes-list" onChange={this.clickSize}>
 
               {inputs}
 

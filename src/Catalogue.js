@@ -207,7 +207,7 @@ class Catalogue extends Component {
   }
 
   render() {
-    console.log('Catalogue render() props===', this.props);
+    // console.log('Catalogue render() props===!!!!!!!!', this.props);
     let categoryIdPair, categoryTitle;
     categoryTitle = 'Категория не задана';
 
