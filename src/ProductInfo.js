@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 class ProductInfo extends Component {
   constructor(props) {
     super(props);
-    // this.product = this.props.product;
-    // this.isFavorite = helpers.isFavorite;
     this.state= {
       product: this.props.product,
       chosenSize: '',
@@ -21,8 +19,6 @@ class ProductInfo extends Component {
       isFavorite: isFavorite(this.props.product.id),
       buttonTitle: 'В корзину'
     };
-
-    // helpers.initProductInfo = this.initProductInfo;
 
     this.clickInBasket = ()=> {
       if(!this.state.chosenSize) {
@@ -83,13 +79,7 @@ class ProductInfo extends Component {
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
   }
 
-  // isFavorite = (id) => {
-  //   let favorites = JSON.parse(localStorage.favorites);
-  //   return favorites.includes(id);
-  // }
-
   initProductInfo = (productInfo)=>{
-    // this.product = productInfo;
     this.setState({
       product: productInfo,
       chosenSize: '',

@@ -12,7 +12,6 @@ class Subscribe extends Component {
       isSubscribed: false,
       email: ''
     };
-    // this.form;
     this.onSubmit = (e)=> {
       e.preventDefault();
       if(this.state.email==='') {

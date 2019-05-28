@@ -50,11 +50,6 @@ class OverlookedSlider extends Component {
       return this.counter++;
     };
 
-    // this.clickPicture = (e) =>{
-    //   e.preventDefault();
-    //   if
-    //
-    // };
   }
 
   render() {

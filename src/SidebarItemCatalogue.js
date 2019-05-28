@@ -24,30 +24,20 @@ class SidebarItemCatalogue extends Component {
       } else {
         this.props.onChangeParam(null, 'type', '');
       }
-
-      // this.setState({
-      //   value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      // }, this.props.onChangeFilter );
     }
-
-
 
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
     }
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate!!!!!!!!');
     if(this.props.value !== prevProps.value) {
       this.setState({value: this.props.value});
     }
-
   }
 
   render() {
-    console.log('SidebarItemCatalogue render state===', this.state);
     return (
       <section className="sidebar__division">
 
@@ -61,7 +51,6 @@ class SidebarItemCatalogue extends Component {
                 {this.state.isShown &&
                   <div>
 
-                  {/*<input name='type' type='hidden' value={this.state.value} />,*/}
                   <ul onClick={this.clickSubcategory}>
                   <li><a className={this.state.value==='Балетки' && 'chosen'} href="#">Балетки</a></li>
                   <li><a className={this.state.value==='Босоножки и сандалии' && 'chosen'} href="#">Босоножки и сандалии</a></li>
@@ -78,7 +67,7 @@ class SidebarItemCatalogue extends Component {
                 }
 
               </div>
-              
+
             </section>
           );
   }

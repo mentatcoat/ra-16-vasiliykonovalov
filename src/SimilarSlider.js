@@ -51,8 +51,6 @@ class SimilarSlider extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-
-    // helpers.initSimilarSlider = this.initSimilarSlider;
   }
 
   initSimilarSlider = (productInfo) => {
@@ -73,8 +71,6 @@ class SimilarSlider extends Component {
       this.initSimilarSlider(this.props.product);
     }
   }
-
-// !!! img s выпадают из рамки после рендера!!!
 
   render() {
     if(this.state.filtered.length === 0) return null;

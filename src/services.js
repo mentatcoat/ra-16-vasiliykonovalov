@@ -28,7 +28,6 @@ function fetchCategories() {
 }
 
 function fetchFeatured() {
-  // helpers.preloaderOn && helpers.preloaderOn();
   return new Promise((resolve, reject)=>{
     fetch('https://neto-api.herokuapp.com/bosa-noga/featured')
     .then((res) => {
@@ -38,7 +37,6 @@ function fetchFeatured() {
       return res.json();
     })
     .then(data=> {
-      // helpers.preloaderOff && helpers.preloaderOff();
       resolve(data);
     })
     .catch((err) => {
@@ -59,7 +57,6 @@ function fetchProducts(params) {
           url = url + param + '=' + elem + '&';
         });
       } else if(param === 'size' || param === 'heelSize') {
-        // let list = Object params[param]
         let sizes = params[param];
         for (let size in sizes) {
           console.log('size===', size);
@@ -71,15 +68,8 @@ function fetchProducts(params) {
         url = url + param + '=' + params[param] + '&';
       }
     });
-    console.log('fetchProducts url===', url);
-    // params.forEach(
-    //   param=>{
-    //     url = url + param[0] + '=' + param[1] + '&';
-    //   }
-    // );
   }
   return new Promise((resolve,reject)=>{
-    // helpers.preloaderOn && helpers.preloaderOn();
     fetch(url)
       .then((res) => {
         return res;
@@ -88,7 +78,6 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
-        // helpers.preloaderOff && helpers.preloaderOff();
         resolve(data);
       })
       .catch((err) => {
@@ -99,7 +88,6 @@ function fetchProducts(params) {
 function fetchProduct(id) {
   let url = 'https://neto-api.herokuapp.com/bosa-noga/products/';
   if(id) {
-    // helpers.preloaderOn && helpers.preloaderOn();
     return new Promise((resolve, reject)=>{
 
       url = url + id;
@@ -111,7 +99,6 @@ function fetchProduct(id) {
           return res.json();
         })
         .then(data=> {
-          // helpers.preloaderOff && helpers.preloaderOff();
           resolve(data.data);
         })
         .catch((err) => {
@@ -205,7 +192,6 @@ function fetchCreateOrder(info) {
   if(info) {
 
     return new Promise((resolve, reject)=>{
-      // helpers.preloaderOn && helpers.preloaderOn();
       const request = fetch(url, {
         body: JSON.stringify(info),
         credentials: 'same-origin',
@@ -222,8 +208,6 @@ function fetchCreateOrder(info) {
         return res.json();
       })
       .then(data=> {
-        // ??? ничего проще не придумал чем ставить функции вкл и выкл Прелоудера перед промисом и в .then. Так нормально?
-        // helpers.preloaderOff && helpers.preloaderOff();
         resolve(data);
       })
       .catch((err) => {

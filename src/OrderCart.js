@@ -15,9 +15,6 @@ class OrderCart extends Component {
     this.state = {
       orderCartTotal: this.props.total
     };
-    // this.totalField;
-    // this.total;
-
     // ??? эта переменая объект хранит значения стоимостей покупок, и используется для подсчета общей суммы заказа. Храню ее в this. а не в state - это соответствует react-подходу?
     this.itemsTotalCollector = {};
 
@@ -30,9 +27,6 @@ class OrderCart extends Component {
       );
       // ??? то что функция ниже многократно забирает отсюда сумму и отправляет наверх в родительский компонент и там прописывает в state нормально? Далее сумма приходит сюда как новый prop и прописывается в текущем state.
       this.props.updateOrderTotal(orderCartTotal);
-      // this.setState({orderCartTotal: orderCartTotal});
-
-      // this.totalField.textContent = this.total.toLocaleString();
     };
 
   }

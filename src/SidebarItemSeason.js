@@ -26,9 +26,6 @@ class SidebarItemSeason extends Component {
         this.props.onChangeParam(null, 'season', '');
       }
 
-      // this.setState({
-      //   value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      // }, this.props.onChangeFilter);
     }
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
@@ -57,7 +54,6 @@ class SidebarItemSeason extends Component {
           {this.state.isShown &&
             <div>
 
-            {/*<input name='season' type='hidden' value={this.state.value} />*/}
             <ul onClick={this.clickSubcategory}>
             <li><a className={this.state.value==='Зима' && 'chosen'} href="#">Зима</a></li>
             <li><a className={this.state.value==='Весна' && 'chosen'} href="#">Весна</a></li>

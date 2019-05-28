@@ -18,14 +18,9 @@ import PropTypes from 'prop-types';
 class CatalogueSidebar extends Component {
   constructor(props) {
     super(props);
-    // this.formElement;
-    // this.state={reset: true};
-
     this.submitBrand = (e)=>{
       e.preventDefault();
-
       this.props.onChangeParam(null,'brand', e.currentTarget.elements[0].value);
-
     }
     }
 

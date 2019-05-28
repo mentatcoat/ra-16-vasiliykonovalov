@@ -49,34 +49,21 @@ class AppComponent extends Component {
       });
     }
 
-
-
-
-
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
-      // if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(params);
       this.props.history.push('/catalogue');
     }
     services.fetchCategories()
       .then(data=>{
         this.setState({
           categories: data.data,
-          // ниже ставим Первую категорию, она нужна на случай reload <Catalogue/> page, чтобы экран не был без товаров
-          // catalogueParams: [['categoryId', data.data[0].id]]
-        },
-        // ()=>{
-        //   if(helpers.setStateCatalogueParams) helpers.setStateCatalogueParams(this.state.catalogueParams);
-        //   // без этого не будет работать каталог, когда загружаешь сразу страницу каталога
-        // }
-
+        }
       );
 
     });
-  } //end Constructor
+  }
 
   twinkleBasketPic = () => {
-    console.log('twinkleBasketPic() basketTwinklePic===', this.basketTwinklePic);
     let pic = this.basketTwinklePic;
     pic.textContent = localStorage.cartProductsAmount;
     let twinklePicTop = pic.parentElement.getBoundingClientRect().top - 5;
@@ -98,7 +85,6 @@ class AppComponent extends Component {
   preloaderOff = () => this.setState({isPreloader: false});
 
   getBasketTwinklePic = (domEl) => {
-    console.log('getBasketTwinklePic() domEl===', domEl);
     this.basketTwinklePic = domEl;
 // ??? эта функция будет брошена как коллбек в ref в <Header/>, чтобы получить доступ к мигающему кружку с количеством покупок. Я правильно понимаю, что именно в таких случаях и используют ref для анимаций и подобного?
   };
@@ -144,10 +130,6 @@ class AppComponent extends Component {
 
           <Route exact path='/product-card/:id' render={(props) =>
             {
-              // ??? Правильно ли здесь использовать фукнцию helpers.initProductCard? Я меняю таким образом state в <ProductCard/>, который уже отображен на странице.
-
-              // if(helpers.initProductCard) helpers.initProductCard(props.match.params.id);
-
               return (
                 <ProductCard {...props}
                   categories={this.state.categories}

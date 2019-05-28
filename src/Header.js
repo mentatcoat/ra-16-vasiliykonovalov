@@ -10,8 +10,6 @@ import services from './services';
 import HeaderCartItem from './HeaderCartItem';
 import PropTypes from 'prop-types';
 
-
-
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -24,11 +22,8 @@ class Header extends Component {
       changer: true,
       items: null,
       products: null,
-
       searchField: ''
     };
-    // this.searchHiddenElement;
-    // this.searchFieldElement;
 
     this.onChangeSearchField = (e) => {
       this.setState({
@@ -50,7 +45,6 @@ class Header extends Component {
     };
 
     this.loadItems = ()=>{
-      console.log('loadItems()');
       if(localStorage.cartId) {
         services.fetchGetCart(localStorage.cartId)
           .then(data=>{
@@ -68,24 +62,14 @@ class Header extends Component {
 
     this.loadItems();
 
-    // this.resetBasketPanel = ()=>{
-    //   this.loadItems();
-    // };
-    // helpers.resetBasketPanel = this.resetBasketPanel;
-
     this.onSubmitHeaderSearch = (e)=>{
       e.preventDefault();
-      // this.searchHiddenElement.value = e.target.elements[0].value.trim();
-      // let params = [[ 'search', this.state.searchField.trim()]];
-
       let params = {};
       Object.assign(params, defaultCatalogueParams, {
         search :this.state.searchField.trim()
       });
-      // params.search = this.state.searchField.trim();
       this.props.setCatalogueParams(params);
     };
-    // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
 
@@ -124,7 +108,7 @@ class Header extends Component {
       });
     };
 
-  }//end Constructor
+  }
 
   componentDidUpdate = (prevProps, prevState) => {
     if(this.props.resetBasketDate !== prevProps.resetBasketDate)

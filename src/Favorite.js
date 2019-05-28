@@ -55,8 +55,6 @@ class Favorite extends Component {
       services.fetchProducts(params)
         .then(data=>{
           products = data.data;
-          console.log('FAVORITES first fetch===', data);
-
           pages = data.pages;
 
           if(pages>1) {
@@ -81,8 +79,8 @@ class Favorite extends Component {
                    this.filterFavoriteFromAll
                  );
               }
-            ); //END then
-          } // END if
+            );
+          }
           else {
             this.setState({
              favoritesIds: JSON.parse(localStorage.favorites),
@@ -96,25 +94,16 @@ class Favorite extends Component {
     };
 
     this.initFavorite();
-  }//end Constructor
+  }
 
   initFavorite = (e)=>{
-    console.log('initFavorite() e===', e);
-    // let paramsArray = [];
-    // if(!this.sortingSelectElement) {
-      // paramsArray.push(['sortBy', 'price']);
-    // } else {
-      // paramsArray.push(['sortBy', this.sortingSelectElement.value]);
-    // }
     if(!e) {
-      // paramsArray.push(  ['sortBy', this.state.sortBy]);
       this.getAllProducts({'sortBy': this.state.sortBy});
     } else {
       this.setState({
         sortBy: e.currentTarget.value
       },
       () => {
-        // paramsArray.push(['sortBy', this.state.sortBy]);
         this.getAllProducts({'sortBy': this.state.sortBy});
       }
       );

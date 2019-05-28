@@ -19,7 +19,7 @@ class SidebarItemSlider extends Component {
       isShown: false,
       value: '',
       minPrice: '0',
-      maxPrice: '50000',
+      maxPrice: '100000',
       categoryMaxPrice: this.props.categoryMaxPrice
     };
     this.shouldCreateSlider = true;
@@ -34,14 +34,10 @@ class SidebarItemSlider extends Component {
       });
     }
     this.clickDrawer = ()=>{
-      console.log('clickDrawer() this.state.categoryMaxPrice===', this.state.categoryMaxPrice);
-      // let stateMaxPrice = this.state.categoryMaxPrice;
       if (!this.state.isShown) {
         this.shouldCreateSlider = true;
         this.setState({
           isShown: !this.state.isShown,
-          // minPrice : '0',
-          // maxPrice: this.state.categoryMaxPrice
         });
       } else {
         this.setState({isShown: !this.state.isShown});
@@ -62,11 +58,9 @@ class SidebarItemSlider extends Component {
         maxPrice: values[1]
       });
 
-      console.log('onChangeSlider() min max===', minMax[0], minMax[1]);
       this.debouncedOnChangeParamMin(null, 'minPrice', minMax[0]);
       this.debouncedOnChangeParamMax(null, 'maxPrice', minMax[1]);
 
-      // this.debouncedOnChangeFilter();
     };
 
     this.noUiSliderClasses = {
@@ -111,17 +105,12 @@ class SidebarItemSlider extends Component {
     if(this.state.isShown && this.shouldCreateSlider) {
         this.DOMslider = document.getElementById('priceSlider');
 
-        // let minStart = +this.state.minPrice > 0 ? +this.state.minPrice : 0;
-        //
-        // // let minStart = +this.state.minPrice || 0;
-        // let maxStart = +this.state.maxPrice || this.state.categoryMaxPrice;
-
       noUiSlider.create(this.DOMslider, {
           start: [this.minPrice || 0, this.maxPrice || 1000000],
           connect: [false, true, false],
           range: {
               'min': 0,
-              'max': this.state.categoryMaxPrice
+              'max': this.state.categoryMaxPrice || 100000
           },
           step: 100,
           cssClasses: this.noUiSliderClasses
@@ -129,60 +118,20 @@ class SidebarItemSlider extends Component {
       );
       this.DOMslider.noUiSlider.on('slide', this.onChangeSlider);
       this.shouldCreateSlider = false;
-
     }
-
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('noUiSlider componentDidUpdate props', this.props);
-    console.log('noUiSlider componentDidUpdate state', this.state);
-
     if(this.props.categoryMaxPrice !== prevProps.categoryMaxPrice) {
       this.setState({
         maxPrice: this.props.categoryMaxPrice.toLocaleString(),
         categoryMaxPrice: this.props.categoryMaxPrice
       }, this.createSlider);
     }
-
     this.createSlider();
-    // if(this.state.isShown && this.shouldCreateSlider) {
-    //     this.DOMslider = document.getElementById('priceSlider');
-    //
-    //     // let minStart = +this.state.minPrice > 0 ? +this.state.minPrice : 0;
-    //     //
-    //     // // let minStart = +this.state.minPrice || 0;
-    //     // let maxStart = +this.state.maxPrice || this.state.categoryMaxPrice;
-    //
-    //   noUiSlider.create(this.DOMslider, {
-    //       start: [this.state.minPrice, this.state.maxPrice],
-    //       connect: [false, true, false],
-    //       range: {
-    //           'min': 0,
-    //           'max': this.state.categoryMaxPrice
-    //       },
-    //       step: 100,
-    //       cssClasses: this.noUiSliderClasses
-    //     }
-    //   );
-    //   this.DOMslider.noUiSlider.on('slide', this.onChangeSlider);
-    //   this.shouldCreateSlider = false;
-    //
-    // }
-
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if(this.props.value !== prevProps.value) {
-  //     this.setState({categoryMaxPrice: this.props.categoryMaxPrice});
-  //   }
-  //
-  // }
-
   render() {
-
-    console.log('!!!!!!!!!!!!noUiSlider render props===', this.props);
     return (
       <section className="sidebar__division">
 
@@ -195,8 +144,6 @@ class SidebarItemSlider extends Component {
 
           {this.state.isShown &&
             <div className="sidebar__division__noUiSlider">
-              {/*<input name='minPrice' type="hidden" value={this.minPrice}/>
-              <input name='maxPrice' type="hidden" value={this.maxPrice}/>*/}
               <section  id='priceSlider' >
               </section>
 

@@ -7,7 +7,6 @@ import './css/style.css';
 import './css/style-catalogue.css';
 import PropTypes from 'prop-types';
 
-
 function SizeInput(props) {
 
   return (
@@ -20,6 +19,5 @@ function SizeInput(props) {
     </li>
   );
 }
-
 
 export default SizeInput;

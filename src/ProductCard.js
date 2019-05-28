@@ -23,7 +23,6 @@ class ProductCard extends Component {
       isMainPicBig: false,
       category: null
     };
-    // this.mainpicElement;
 
     this.makeProductOverlooked = ()=>{
       if (!sessionStorage.overlooked) {
@@ -48,7 +47,6 @@ class ProductCard extends Component {
     this.zoommer = (e)=>{
       e.preventDefault();
       this.setState({isMainPicBig: !this.state.isMainPicBig});
-      // this.mainpicElement.classList.toggle('zoom-out')
     };
 
     this.onClickBreadcrumbsCategory = ()=>{
@@ -72,9 +70,7 @@ class ProductCard extends Component {
       this.props.setCatalogueParams(params);
     }
 
-    // helpers.initProductCard = this.initProductCard;
-
-  }// end Constructor
+  }
 
   initProductCard = (id) => {
     this.props.preloaderOn();
@@ -89,12 +85,6 @@ class ProductCard extends Component {
             el=>el.id === productInfo.categoryId
           )
         }
-        // ,
-        // helpers.initProductInfo && helpers.initProductInfo(productInfo)
-        // ,
-        // helpers.initProductSlider && helpers.initProductSlider(productInfo)
-        // ,
-        // helpers.initSimilarSlider && helpers.initSimilarSlider(productInfo)
       );
       });
     this.makeProductOverlooked();

@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import SidebarItemSizeTable from './SidebarItemSizeTable';
 
 function SidebarItemSize(props) {
-  console.log('SidebarItemSize props===', props);
   return <SidebarItemSizeTable
     header='Размер'
     param='size'

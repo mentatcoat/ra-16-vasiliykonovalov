@@ -25,9 +25,6 @@ class SidebarItemColor extends Component {
         this.props.onChangeParam(null, 'color', '');
       }
 
-      // this.setState({
-      //   value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      // }, this.props.onChangeFilter);
     }
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
@@ -54,7 +51,6 @@ class SidebarItemColor extends Component {
           {this.state.isShown &&
             <div>
 
-            {/*<input name='color' type='hidden' value={this.state.value} />*/}
             <ul onClick={this.clickSubcategory}>
               <li><a className={this.state.value==='Бежевый' && 'chosen'} href="#"><div className="color beige"></div><span className="color-name">Бежевый</span></a></li>
               <li><a className={this.state.value==='Белый' && 'chosen'} href="#"><div className="color whitesnake"></div><span className="color-name">Белый</span></a></li>

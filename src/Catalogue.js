@@ -22,15 +22,7 @@ import SidebarItemSize from './SidebarItemSize';
 import SidebarItemHeelSize from './SidebarItemHeelSize';
 import SidebarItemBrand from './SidebarItemBrand';
 import SidebarItemDiscounted from './SidebarItemDiscounted';
-
-
-
-
-
-
 import isEqual from 'react-fast-compare';
-
-console.log('isEqual ===', isEqual);
 
 class Catalogue extends Component {
   constructor(props) {
@@ -43,15 +35,11 @@ class Catalogue extends Component {
       sortedProductsAmount: null,
       currentPage: '',
       pagesAmount: '',
-      // isSearchMode: this.props.catalogueParams.search
-
-      // this.props.catalogueParams && this.props.catalogueParams.find(el=>el[0]==='search') ? true : false
     };
     this.categoryMaxPrice;
     this.categoryId;
 
     this.getSortedProducts = (params)=>{
-      console.log('getSortedProducts() params===', params);
 
       services.fetchProducts(params)
         .then(data=>{
@@ -61,9 +49,6 @@ class Catalogue extends Component {
             currentPage: data.page,
             pagesAmount: data.pages,
         }
-        ,
-        // helpers.initCataloguePagination && helpers.initCataloguePagination(data.page, data.pages)
-
       );
         });
     };
@@ -90,20 +75,8 @@ class Catalogue extends Component {
     this.clearFilterForm = ()=>{
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar}));
     };
-    // helpers.clearFilterForm = this.clearFilterForm;
-
-    // this.setStateCatalogueParams = (params)=>{
-    //   this.setState({
-    //     catalogueParams: params
-    //     // ,
-    //     // isSearchMode: params.find(el=>el[0]==='search') ? true : false
-    //   }, this.initCatalogue);
-    // }
-    // helpers.setStateCatalogueParams = this.setStateCatalogueParams;
 
     this.onChangeParam = (e, paramName, paramValue) => {
-      console.log('ONCHANGEPARAM()', e, paramName, paramValue);
-
       if(paramName || paramValue) {
 
         let params = Object.assign(
@@ -124,18 +97,6 @@ class Catalogue extends Component {
       }
 
     }
-
-    // this.onChangeParam = (paramName, paramValue) => {
-    //   let params = Object.assign(
-    //     {},
-    //     this.state.catalogueParams ,
-    //     {[paramName]: paramValue} );
-    //   this.setState({
-    //     catalogueParams: params
-    //   });
-    // }
-
-
   }
 
   getCategoryMaxPrice(categoryIdNumber) {
@@ -147,9 +108,7 @@ class Catalogue extends Component {
     }).then(data=>{
       let result = data.data[0].price;
       result = Math.ceil(result/100) * 100;
-      console.log('count categoryMaxPrice===', result);
       this.setState({categoryMaxPrice: result});
-      // this.categoryMaxPrice = result;
     })
     .catch((err) => {
     });
@@ -159,7 +118,6 @@ class Catalogue extends Component {
     if(this.state.catalogueParams) {
       this.getSortedProducts(this.state.catalogueParams);
       this.getCategoryMaxPrice(this.state.catalogueParams.categoryId);
-      // this.getCurrentCategoryId(this.state.catalogueParams);
     }
   }
 
@@ -169,15 +127,8 @@ class Catalogue extends Component {
       () => this.initCatalogue()
       );
     }
-
-    console.log('prev', prevState);
-    console.log('this', this.state);
-    console.log('default', defaultCatalogueParams);
-
     if(!isEqual(this.state.catalogueParams, prevState.catalogueParams)) {
-      console.log('states is not equal');
       this.initCatalogue();
-
     }
   }
 
@@ -239,8 +190,6 @@ class Catalogue extends Component {
           onChangeParam={this.onChangeParam}
           resetFilter={this.resetFilter}
         >
-
-
 
           <SidebarItemCatalogue
           value={this.state.catalogueParams.type}

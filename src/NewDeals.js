@@ -10,8 +10,6 @@ class NewDeals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // featured: '',
-      // categories: false,
 
       //??? верно так? - оставил в state, только то что меняется:
       chosenCategory: '',
@@ -32,9 +30,6 @@ class NewDeals extends Component {
 
           this.featured = data.data;
           this.categoriseFeatured();
-          // this.setState({
-            // featured: data.data}
-            // ,this.categoriseFeatured);
       });
 
     services.fetchCategories()
@@ -42,7 +37,6 @@ class NewDeals extends Component {
         this.categories = data.data;
         this.setState({chosenCategory: data.data[1].id});
         this.categoriseFeatured();
-        // this.setState({categories: data.data});
     });
 
     this.clickCategory = (event)=> {
@@ -59,7 +53,6 @@ class NewDeals extends Component {
     this.categoriseFeatured = ()=>{
       if(!this.featured) return;
       this.setState({filtered: this.featured.filter(el=> el.categoryId == this.state.chosenCategory)});
-      // this.filtered = this.featured.filter(el=> el.categoryId == this.state.chosenCategory);
     };
 
     this.counter;
@@ -77,7 +70,7 @@ class NewDeals extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  } //end Constructor
+  } 
 
   render() {
     let favorites = JSON.parse(localStorage.favorites);

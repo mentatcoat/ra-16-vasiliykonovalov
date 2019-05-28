@@ -13,7 +13,6 @@ class CatalogueItem extends Component {
   constructor(props) {
     super(props);
     this.product = this.props.product;
-    // this.isFavorite = helpers.isFavorite;
     this.state = {
       isFavorite: isFavorite(this.props.product.id),
       images: this.props.product.images,
