@@ -44,7 +44,7 @@ REAL possible sizes 8,10,12,14,15,16,18,20
 69. сделал createdOrder
 68. Отправка данных - изменение корзины при каждом обновлении количества item, срабатывает дебаунс функции fetchUpdateProduct
 сделал код OrderCaritem unique
-67. !!! ПРОБЛЕМА: потенциальная, в OrderCart собираются данные в totalCollector, в нем заказы с одним id продукта но с разными размерами перезатрутся в один продукт.
+67.  ПРОБЛЕМА: потенциальная, в OrderCart собираются данные в totalCollector, в нем заказы с одним id продукта но с разными размерами перезатрутся в один продукт.
 =======22/03/19
 66. realize WEEK-2 requirements
 65. Header subcategory => clearFilterForm

@@ -6,7 +6,6 @@ import './css/style.css';
 import './css/style-order.css';
 import OrderCartItem from './OrderCartItem';
 import services from './services';
-import temps from './temps';
 import JSONproducts from './data/products.json';
 import PropTypes from 'prop-types';
 

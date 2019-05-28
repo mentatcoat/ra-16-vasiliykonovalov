@@ -5,7 +5,6 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
 import services from './services';
-import helpers from './helpers';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
 import PropTypes from 'prop-types';

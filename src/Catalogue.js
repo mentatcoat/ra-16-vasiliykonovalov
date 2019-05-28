@@ -11,8 +11,6 @@ import CatalogueItem from './CatalogueItem';
 import CataloguePagination from './CataloguePagination';
 import PropTypes from 'prop-types';
 import services from './services';
-import helpers from './helpers';
-import temps from './temps';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
 import SidebarItemCatalogue from './SidebarItemCatalogue';
@@ -64,7 +62,7 @@ class Catalogue extends Component {
             pagesAmount: data.pages,
         }
         ,
-        helpers.initCataloguePagination && helpers.initCataloguePagination(data.page, data.pages)
+        // helpers.initCataloguePagination && helpers.initCataloguePagination(data.page, data.pages)
 
       );
         });
@@ -87,25 +85,21 @@ class Catalogue extends Component {
       this.setState({
         catalogueParams: defaultCatalogueParams
       });
-
-      // temps.filterForm.elements['search'].value = '';
-      // this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar},this.onChangeFilter));
-      // temps.headerParam = '';
     };
 
     this.clearFilterForm = ()=>{
       this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar}));
     };
-    helpers.clearFilterForm = this.clearFilterForm;
+    // helpers.clearFilterForm = this.clearFilterForm;
 
-    this.setStateCatalogueParams = (params)=>{
-      this.setState({
-        catalogueParams: params
-        // ,
-        // isSearchMode: params.find(el=>el[0]==='search') ? true : false
-      }, this.initCatalogue);
-    }
-    helpers.setStateCatalogueParams = this.setStateCatalogueParams;
+    // this.setStateCatalogueParams = (params)=>{
+    //   this.setState({
+    //     catalogueParams: params
+    //     // ,
+    //     // isSearchMode: params.find(el=>el[0]==='search') ? true : false
+    //   }, this.initCatalogue);
+    // }
+    // helpers.setStateCatalogueParams = this.setStateCatalogueParams;
 
     this.onChangeParam = (e, paramName, paramValue) => {
       console.log('ONCHANGEPARAM()', e, paramName, paramValue);
@@ -141,25 +135,6 @@ class Catalogue extends Component {
     //   });
     // }
 
-    this.onChangeFilter = (e)=>{
-
-      let paramsArray = [];
-
-      let formData = new FormData(temps.filterForm);
-      for (const [k, v] of formData) {
-        if(temps.headerParam) {
-          if(k===temps.headerParam[0] && v) temps.headerParam = '';
-        }
-        if(v) {
-          paramsArray.push([k,v]);
-        }
-      }
-
-      if(temps.headerParam) paramsArray.push(temps.headerParam);
-      paramsArray.push(['categoryId', this.categoryId]);
-      this.setStateCatalogueParams(paramsArray);
-    }
-    helpers.onChangeFilter = this.onChangeFilter;
 
   }
 
@@ -207,7 +182,6 @@ class Catalogue extends Component {
   }
 
   render() {
-    // console.log('Catalogue render() props===!!!!!!!!', this.props);
     let categoryIdPair, categoryTitle;
     categoryTitle = 'Категория не задана';
 

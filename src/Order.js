@@ -7,8 +7,6 @@ import './css/style-order.css';
 import OrderCart from './OrderCart';
 import OrderForm from './OrderForm';
 import services from './services';
-import helpers from './helpers';
-import temps from './temps';
 import JSONproducts from './data/products.json';
 import PropTypes from 'prop-types';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
@@ -67,7 +65,6 @@ class Order extends Component {
           if(data.status === 'ok') {
             this.setState({
               isDone: true,
-              // total: temps.cartTotal,
               paymentType: form.paid.value,
               name: form.name.value,
               address: form.address.value,

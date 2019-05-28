@@ -4,7 +4,6 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import services from './services';
-import helpers from './helpers';
 import PropTypes from 'prop-types';
 
 class NewDeals extends Component {

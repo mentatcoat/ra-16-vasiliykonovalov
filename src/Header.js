@@ -7,8 +7,6 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import logotype from './img/header-logo.png';
 import services from './services';
-import helpers from './helpers';
-import temps from './temps';
 import HeaderCartItem from './HeaderCartItem';
 import PropTypes from 'prop-types';
 
@@ -90,7 +88,6 @@ class Header extends Component {
     // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
-      if(helpers.clearFilterForm) helpers.clearFilterForm();
 
       let params = {};
       Object.assign(params, defaultCatalogueParams, {
@@ -99,14 +96,6 @@ class Header extends Component {
       });
 
       this.props.setCatalogueParams(params);
-
-
-      // let params = [
-      //   ['categoryId', this.state.chosenCategory],
-      //   [event.currentTarget.dataset.subcategory, event.target.textContent]
-      // ];
-      // temps.headerParam = [event.currentTarget.dataset.subcategory, event.target.textContent];
-      // this.props.setCatalogueParams(params);
     }
 
     this.clickCategory = (event)=>{
@@ -129,18 +118,7 @@ class Header extends Component {
     this.clickBasket = this.clickPictogram.bind(this, 'basket');
     this.clickProfile = this.clickPictogram.bind(this, 'profile');
 
-    // this.openBasketPanel = ()=>{
-    //   this.setState({
-    //     panelView: 'basket'
-    //   });
-    // };
-    // helpers.openBasketPanel = this.openBasketPanel;
-
     this.openSearchForm = ()=>{
-      // if(this.state.isSearchOpen) {
-        // this.searchHiddenElement.value = '';
-        // this.searchFieldElement.value = '';
-      // }
       this.setState({
         isSearchOpen: !this.state.isSearchOpen
       });
@@ -221,7 +199,6 @@ class Header extends Component {
                 />
                 <i className="fa fa-search" aria-hidden="true"></i>
               </form>
-              {/*<input form='filterForm' ref={el=>this.searchHiddenElement=el} name='search' type='hidden'  />*/}
             </div>
 
           </div>

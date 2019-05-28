@@ -1,11 +1,9 @@
 //The module provides services fetch functions
 
-import helpers from './helpers';
-import temps from './temps';
 
 let services = {};
 
-// ??? Я раскидал часть элементов из файла services.js. Правильно ли так делать? Итог такой: 1) в файле services остались функции касающиеся fetch API. 2) в файле helpers.js остались функции-помощники. 3) в файле temps.js остались временные вспомогательные переменные.
+// ??? Как правильно поступить с файлом services.js - в нем вынесены функции для связи с сервером. Эти функции подложить в модули (тогда они будут дублироваться), или оставить в services.js?
 
 // https://neto-api.herokuapp.com/bosa-noga
 

@@ -10,7 +10,6 @@ import OverlookedSlider from './OverlookedSlider';
 import CatalogueItem from './CatalogueItem';
 import PropTypes from 'prop-types';
 import services from './services';
-// import helpers from './helpers';
 
 class FavoritePagination extends Component {
   constructor(props) {

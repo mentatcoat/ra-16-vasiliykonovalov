@@ -8,7 +8,6 @@ import './css/style-product-card.css';
 import products from './data/products.json';
 import PropTypes from 'prop-types';
 import services from './services';
-import helpers from './helpers';
 
 class ProductSlider extends Component {
   constructor(props) {

@@ -13,7 +13,6 @@ import SidebarItemSlider from './SidebarItemSlider';
 import SidebarItemSize from './SidebarItemSize';
 import SidebarItemHeelSize from './SidebarItemHeelSize';
 import services from './services';
-import temps from './temps';
 import PropTypes from 'prop-types';
 
 function SidebarItemDiscounted(props) {

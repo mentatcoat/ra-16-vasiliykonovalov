@@ -14,8 +14,6 @@ import AboutUs from './AboutUs';
 
 
 import services from './services';
-import helpers from './helpers';
-import temps from './temps';
 import {global} from './services';
 import Footer from './Footer';
 import Favorite from './Favorite';
@@ -105,29 +103,10 @@ class AppComponent extends Component {
 // ??? эта функция будет брошена как коллбек в ref в <Header/>, чтобы получить доступ к мигающему кружку с количеством покупок. Я правильно понимаю, что именно в таких случаях и используют ref для анимаций и подобного?
   };
 
-  componentDidMount() {
-    //??? Вот этот подход с включением-выключением статуса Прелоудера в state этого компонента сразу вызывает ошибку "Maximum update depth exceeded". Оставляю переключение через смену класса "hidden" - так работает быстро и эффективно.
-    // this.preloaderOn = ()=>{
-    //   // this.setState({isPreloader: true}); - этот подход вызывает ошибку максимума
-    //   temps.preloaderElement.classList.remove('hidden');
-    // };
-    // this.preloaderOff = ()=>{
-    //   // this.setState({isPreloader: false}); - этот подход вызывает ошибку максимума
-    //   temps.preloaderElement.classList.add('hidden');
-    // };
-    /*
-    Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
-    */
-    // helpers.preloaderOn = this.preloaderOn;
-    // helpers.preloaderOff = this.preloaderOff;
-  }
-
   render() {
 
     return (
       <div className="App">
-        {/*{this.state.isPreloader &&   - вот такой подход условного рендеринга не работоспособен
-          !!! надо  в дальнейшем заменить preloadr div на компонент с атрибутом status*/}
         <div className={`preloader_wrapper ${this.state.isPreloader ? '' : 'hidden'}`}>
           <div className="preloader">
             <hr/><hr/><hr/><hr/>

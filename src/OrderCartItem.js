@@ -5,7 +5,6 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
 import services from './services';
-import helpers from './helpers';
 import PropTypes from 'prop-types';
 
 class OrderCartItem extends Component {

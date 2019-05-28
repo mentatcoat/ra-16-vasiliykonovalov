@@ -9,8 +9,6 @@ import './css/style-new-nouislider.css';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
 import services from './services';
-import helpers from './helpers';
-import temps from './temps';
 import PropTypes from 'prop-types';
 
 class SidebarItemSlider extends Component {

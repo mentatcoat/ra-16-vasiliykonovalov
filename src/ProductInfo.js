@@ -7,7 +7,6 @@ import './css/style-order.css';
 import './css/style-product-card.css';
 import ProductInfoSizes from './ProductInfoSizes';
 import services from './services';
-import helpers from './helpers';
 import PropTypes from 'prop-types';
 
 class ProductInfo extends Component {

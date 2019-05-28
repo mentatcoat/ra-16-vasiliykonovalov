@@ -10,7 +10,6 @@ import SimilarSlider from './SimilarSlider';
 import ProductSlider from './ProductSlider';
 import ProductInfo from './ProductInfo';
 import services from './services';
-import helpers from './helpers';
 import PropTypes from 'prop-types';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 

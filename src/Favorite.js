@@ -9,7 +9,6 @@ import './css/style-catalogue.css';
 import './css/style-favorite.css';
 import PropTypes from 'prop-types';
 import services from './services';
-// import helpers from './helpers';
 import FavoriteItem from './FavoriteItem';
 import FavoritePagination from './FavoritePagination';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
@@ -17,7 +16,6 @@ import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 class Favorite extends Component {
   constructor(props) {
     super(props);
-    // this.sortingSelectElement;
 
     this.state = {
       sortBy: 'price',
@@ -45,9 +43,6 @@ class Favorite extends Component {
         currentPage: 1,
         pagesAmount: Math.ceil(filtered.length / 12)
       }
-      // ,
-      // helpers.initFavoritePagination && helpers.initFavoritePagination(1, this.state.pagesAmount)
-
     );
     };
 
@@ -56,60 +51,71 @@ class Favorite extends Component {
       let pages;
       let products = [];
       this.props.preloaderOn();
+
       services.fetchProducts(params)
         .then(data=>{
           products = data.data;
+          console.log('FAVORITES first fetch===', data);
+
           pages = data.pages;
 
           if(pages>1) {
             let promisesArray= [];
+
             for (let i = 2; i <= pages; i++) {
-              let newParams = Array.from(params);
-              newParams.push([ 'page', i]);
+              let newParams = Object.assign({}, params, {'page': i});
               promisesArray.push(services.fetchProducts(newParams));
             }
+
             Promise.all(promisesArray)
-              .then(datas=>{
+              .then(pages=>{
                 this.props.preloaderOff();
-                datas.forEach(
-                  data=>products.push(...data.data)
+                pages.forEach(
+                  page=>products.push(...page.data)
                 );
                 this.setState({
                  favoritesIds: JSON.parse(localStorage.favorites),
                  allProducts: products
-               }
-               ,
-               this.filterFavoriteFromAll
-               );
+                 }
+                 ,
+                   this.filterFavoriteFromAll
+                 );
               }
-              );
-          }
+            ); //END then
+          } // END if
+          else {
+            this.setState({
+             favoritesIds: JSON.parse(localStorage.favorites),
+             allProducts: products
+             }
+             ,
+               this.filterFavoriteFromAll
+             );
+           }
         });
     };
-
-    // helpers.initFavorite = this.initFavorite;
 
     this.initFavorite();
   }//end Constructor
 
   initFavorite = (e)=>{
     console.log('initFavorite() e===', e);
-    let paramsArray = [];
+    // let paramsArray = [];
     // if(!this.sortingSelectElement) {
       // paramsArray.push(['sortBy', 'price']);
     // } else {
       // paramsArray.push(['sortBy', this.sortingSelectElement.value]);
     // }
     if(!e) {
-      paramsArray.push(['sortBy', this.state.sortBy]);
-      this.getAllProducts(paramsArray);
+      // paramsArray.push(  ['sortBy', this.state.sortBy]);
+      this.getAllProducts({'sortBy': this.state.sortBy});
     } else {
       this.setState({
         sortBy: e.currentTarget.value
       },
       () => {
-        paramsArray.push(['sortBy', this.state.sortBy]);
-        this.getAllProducts(paramsArray);
+        // paramsArray.push(['sortBy', this.state.sortBy]);
+        this.getAllProducts({'sortBy': this.state.sortBy});
       }
       );
     }
