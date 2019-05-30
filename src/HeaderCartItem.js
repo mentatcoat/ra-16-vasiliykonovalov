@@ -21,7 +21,7 @@ class HeaderCartItem extends Component {
       services.fetchUpdateProduct(localStorage.cartId, item)
         .then(data=> {
           if(this.props.items.length === 1) delete localStorage.cartId;
-          services.resetBasketPanel();
+          this.props.resetBasketPanel();
         }
         );
     };

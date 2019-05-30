@@ -14,15 +14,17 @@ import PropTypes from 'prop-types';
 class SidebarItemSlider extends Component {
   constructor(props) {
     super(props);
-    this.slider = null;
+    this.DOMslider = null;
     this.state = {
       isShown: false,
       value: '',
       minPrice: '0',
-      maxPrice: '50 000'
+      maxPrice: '100000',
+      categoryMaxPrice: this.props.categoryMaxPrice
     };
     this.shouldCreateSlider = true;
-    this.debouncedOnChangeFilter = services.debounce( this.props.onChangeFilter, 2000);
+    this.debouncedOnChangeParamMin = debounce( this.props.onChangeParam, 2000);
+    this.debouncedOnChangeParamMax = debounce( this.props.onChangeParam, 2000);
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
@@ -36,12 +38,10 @@ class SidebarItemSlider extends Component {
         this.shouldCreateSlider = true;
         this.setState({
           isShown: !this.state.isShown,
-          minPrice : '0',
-          maxPrice: services.categoryMaxPrice.toLocaleString()
         });
       } else {
+        this.setState({isShown: !this.state.isShown});
       }
-      this.setState({isShown: !this.state.isShown});
     }
 
     this.onChangeSlider = (values)=>{
@@ -50,13 +50,17 @@ class SidebarItemSlider extends Component {
         minMax[index] = Number.parseInt(value, 10);
         return minMax[index].toLocaleString();
       });
+      // эти идут в фильтр:
       this.minPrice = minMax[0];
       this.maxPrice = minMax[1];
       this.setState({
         minPrice: values[0],
         maxPrice: values[1]
       });
-      this.debouncedOnChangeFilter();
+
+      this.debouncedOnChangeParamMin(null, 'minPrice', minMax[0]);
+      this.debouncedOnChangeParamMax(null, 'maxPrice', minMax[1]);
+
     };
 
     this.noUiSliderClasses = {
@@ -97,26 +101,34 @@ class SidebarItemSlider extends Component {
         };
   }
 
-  componentDidUpdate() {
-
+  createSlider() {
     if(this.state.isShown && this.shouldCreateSlider) {
-        this.slider = document.getElementById('priceSlider');
+        this.DOMslider = document.getElementById('priceSlider');
 
-      noUiSlider.create(this.slider, {
-          start: [0, services.categoryMaxPrice],
+      noUiSlider.create(this.DOMslider, {
+          start: [this.minPrice || 0, this.maxPrice || 1000000],
           connect: [false, true, false],
           range: {
               'min': 0,
-              'max': services.categoryMaxPrice
+              'max': this.state.categoryMaxPrice || 100000
           },
           step: 100,
           cssClasses: this.noUiSliderClasses
         }
       );
-      this.slider.noUiSlider.on('slide', this.onChangeSlider);
+      this.DOMslider.noUiSlider.on('slide', this.onChangeSlider);
       this.shouldCreateSlider = false;
     }
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.categoryMaxPrice !== prevProps.categoryMaxPrice) {
+      this.setState({
+        maxPrice: this.props.categoryMaxPrice.toLocaleString(),
+        categoryMaxPrice: this.props.categoryMaxPrice
+      }, this.createSlider);
+    }
+    this.createSlider();
   }
 
   render() {
@@ -132,15 +144,13 @@ class SidebarItemSlider extends Component {
 
           {this.state.isShown &&
             <div className="sidebar__division__noUiSlider">
-              <input name='minPrice' type="hidden" value={this.minPrice}/>
-              <input name='maxPrice' type="hidden" value={this.maxPrice}/>
               <section  id='priceSlider' >
               </section>
 
               <div className="counter">
                 <input form='123' name='minPrice' type="text" className="input-1" value={this.state.minPrice}/>
                 <div className="input-separator"></div>
-                <input form='123' name='maxPrice' type="text" className="input-2" value={this.state.maxPrice}/>
+                <input form='123' name='maxPrice' type="text" className="input-2" value={this.state.maxPrice || this.state.categoryMaxPrice}/>
               </div>
 
             </div>
@@ -154,6 +164,17 @@ class SidebarItemSlider extends Component {
 
 SidebarItemSlider.propTypes = {
   onChangeFilter: PropTypes.func.isRequired
+};
+
+function debounce(callback, delay) {
+  let timeout;
+  return (arg1, arg2, arg3) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      callback(arg1, arg2, arg3);
+    }, delay);
+  };
 };
 
 export default SidebarItemSlider;

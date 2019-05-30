@@ -3,9 +3,16 @@ import logo from './logo.svg';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { HashRouter } from 'react-router-dom';
-import Main from './Main';
+import MainPage from './MainPage';
 import Catalogue from './Catalogue';
 import Header from './Header';
+
+import Slider from './Slider';
+import NewDeals from './NewDeals';
+import Sales from './Sales';
+import AboutUs from './AboutUs';
+
+
 import services from './services';
 import {global} from './services';
 import Footer from './Footer';
@@ -15,86 +22,138 @@ import Order from './Order';
 import JSONproducts from './data/products.json';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
-// ??? Верно ли я понимаю, что когда каждый модуль имеет свои подключенные css-файлы, этот модуль в итоге передает эти стили в общий котёл, когда этот модуль импортируется в общее дерево модулей приложения. И с тем же успехом можно сразу подключить один общий файл css в корень приложения?
-
 class AppComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: null,
       catalogueParams: '',
-      products: ''
+      products: '',
+      isPreloader: false,
+      resetBasketDate: '',
+      panelView: null
     };
+
+    //??? полагаю что мигающий кружок получаемый через  ref не нужно записывать в состояние и дергать рендер?
+    this.basketTwinklePic;
+
+    this.resetBasketPanel = () => {
+      this.setState({
+        resetBasketDate: new Date()
+      });
+    }
+
+    this.changeHeaderPanel = (view) => {
+      this.setState({
+        panelView: view
+      });
+    }
 
     this.setCatalogueParams = (params)=>{
       this.setState({catalogueParams: params});
-      if(services.setStateCatalogueParams) services.setStateCatalogueParams(params);
       this.props.history.push('/catalogue');
     }
     services.fetchCategories()
       .then(data=>{
         this.setState({
           categories: data.data,
-          // ниже ставим Первую категорию, она нужна на случай reload <Catalogue/> page, чтобы экран не был без товаров
-          catalogueParams: [['categoryId', data.data[0].id]]
-        },
-        ()=>{
-          if(services.setStateCatalogueParams) services.setStateCatalogueParams(this.state.catalogueParams);
-          // без этого не будет работать каталог, когда загружаешь сразу страницу каталога
-        });
+        }
+      );
 
     });
   }
 
-  // ??? Так уж получилось что я использовал class-component. Было ли это уместно, или значительную часть компонентов можно/нужно делать с помощью functional-component?
-
-  componentDidMount() {
-    this.preloaderOn = ()=>{
-      services.preloaderElement.classList.remove('hidden');
-    };
-    this.preloaderOff = ()=>{
-      services.preloaderElement.classList.add('hidden');
-    };
-    // ??? Я изначально менял класс hidden на div.preloader. Почему-то ref не успевал прописать дом-элемент прелоадера. В итоге я сделал функцию меняюую state с целью показа прелоадера. Что лучше? И почему ref отрисовывал дом-элемент расположенный в самом верху верстки позже чем рендерился компонент из середины верстки <NewDeals/>?
-    // ??? изза множества вызовов setState для смены статуса прелоадера React выбросил исключение сообщася, что глубина апдейтов достигнута. Это как расценивать? Как признак чего в моем коде?
-    /*
-    Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
-    */
-    services.preloaderOn = this.preloaderOn;
-    services.preloaderOff = this.preloaderOff;
+  twinkleBasketPic = () => {
+    let pic = this.basketTwinklePic;
+    pic.textContent = localStorage.cartProductsAmount;
+    let twinklePicTop = pic.parentElement.getBoundingClientRect().top - 5;
+    if(twinklePicTop < 0) {
+      window.scrollTo(0,0);
+    }
+    var timerId = setInterval(function() {
+      pic.classList.toggle('basket-visible');
+    }, 300);
+    setTimeout(function() {
+      clearInterval(timerId);
+    }, 1500);
+    setTimeout(function() {
+      pic.classList.toggle('basket-visible');
+    }, 3000);
   }
+
+  preloaderOn = () => this.setState({isPreloader: true});
+  preloaderOff = () => this.setState({isPreloader: false});
+
+  getBasketTwinklePic = (domEl) => {
+    this.basketTwinklePic = domEl;
+// ??? эта функция будет брошена как коллбек в ref в <Header/>, чтобы получить доступ к мигающему кружку с количеством покупок. Я правильно понимаю, что именно в таких случаях и используют ref для анимаций и подобного?
+  };
 
   render() {
 
     return (
       <div className="App">
-        <div ref={el=>services.preloaderElement=el} className={`preloader_wrapper`}>
+        <div className={`preloader_wrapper ${this.state.isPreloader ? '' : 'hidden'}`}>
           <div className="preloader">
             <hr/><hr/><hr/><hr/>
           </div>
         </div>
-        <Header categories={this.state.categories} setCatalogueParams={this.setCatalogueParams} />
+
+        <Header
+          categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}
+          resetBasketDate={this.state.resetBasketDate}
+          panelView={this.state.panelView}
+          changeHeaderPanel={this.changeHeaderPanel}
+          getBasketTwinklePic={this.getBasketTwinklePic}
+        />
 
         <Switch>
           <Route exact path='/'>
-            <Main />
+            <MainPage >
+              <Slider />
+              <NewDeals preloaderOn={this.preloaderOn} preloaderOff={this.preloaderOff} />
+              <Sales />
+              <AboutUs />
+            </MainPage>
           </Route>
+
           <Route exact path='/catalogue' render={(props) => (
-<Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}/>)} />
+            <Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}/>)}
+          />
+
           <Route exact path='/favorite'>
-            <Favorite />
+            <Favorite
+              preloaderOn={this.preloaderOn}
+              preloaderOff={this.preloaderOff}
+            />
           </Route>
-          <Route exact path='/product-card/:id' render={(props) => (
-<ProductCard {...props}
-categories={this.state.categories}
-setCatalogueParams={this.setCatalogueParams}
+
+          <Route exact path='/product-card/:id' render={(props) =>
+            {
+              return (
+                <ProductCard {...props}
+                  categories={this.state.categories}
+                  setCatalogueParams={this.setCatalogueParams}
+                  preloaderOn={this.preloaderOn}
+                  preloaderOff={this.preloaderOff}
+                  resetBasketPanel={this.resetBasketPanel}
+                  twinkleBasketPic={this.twinkleBasketPic}
+                />
+              );}
+            }
+            />
+
+          <Route exact path='/order' render={(props) => (
+<Order
+  {...props}
+  resetBasketPanel={this.resetBasketPanel}
+  changeHeaderPanel={this.changeHeaderPanel}
 />
 )}/>
-          <Route exact path='/order' render={(props) => (
-<Order {...props} />
-)}/>
         </Switch>
+
         <Footer />
+
       </div>
     );
   }

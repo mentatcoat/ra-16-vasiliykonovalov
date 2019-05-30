@@ -21,8 +21,7 @@ class OrderForm extends Component {
         isButtonActive: e.currentTarget.checkValidity()
       });
     };
-    // ??? дайте критику по методу выше: он срабатывает при каждом изменении в элементах формы, задем вызывает дополнительно метод формы checkValidity   - возможно есть более простой способ сделать тоже самое?
-
+    
   }
 
   render() {

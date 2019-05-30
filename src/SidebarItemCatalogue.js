@@ -12,20 +12,29 @@ class SidebarItemCatalogue extends Component {
     super(props);
     this.state = {
       isShown: false,
-      value: ''
+      value: this.props.value
     };
 
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
       event.preventDefault();
-      this.setState({
-        value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      }, this.props.onChangeFilter );
+
+      if(this.state.value!==event.target.textContent) {
+        this.props.onChangeParam(null, 'type', event.target.textContent);
+      } else {
+        this.props.onChangeParam(null, 'type', '');
+      }
     }
+
     this.clickDrawer = ()=>{
       this.setState({isShown: !this.state.isShown});
     }
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.value !== prevProps.value) {
+      this.setState({value: this.props.value});
+    }
   }
 
   render() {
@@ -42,7 +51,6 @@ class SidebarItemCatalogue extends Component {
                 {this.state.isShown &&
                   <div>
 
-                  <input name='type' type='hidden' value={this.state.value} />,
                   <ul onClick={this.clickSubcategory}>
                   <li><a className={this.state.value==='Балетки' && 'chosen'} href="#">Балетки</a></li>
                   <li><a className={this.state.value==='Босоножки и сандалии' && 'chosen'} href="#">Босоножки и сандалии</a></li>
@@ -59,13 +67,14 @@ class SidebarItemCatalogue extends Component {
                 }
 
               </div>
+
             </section>
           );
   }
 }
 
 SidebarItemCatalogue.propTypes = {
-  onChangeFilter: PropTypes.func.isRequired
+  onChangeParam: PropTypes.func.isRequired
 };
 
 export default SidebarItemCatalogue;

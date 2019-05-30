@@ -12,27 +12,13 @@ import PropTypes from 'prop-types';
 class ProductInfo extends Component {
   constructor(props) {
     super(props);
-    this.product = this.props.product;
-    this.isFavorite = services.isFavorite;
     this.state= {
+      product: this.props.product,
       chosenSize: '',
       chosenAmount: 1,
-      isFavorite: this.isFavorite(),
+      isFavorite: isFavorite(this.props.product.id),
       buttonTitle: 'В корзину'
     };
-
-    // функция объявлена в конструкторе для сохранения контекста:
-    this.initProductInfo = (productInfo)=>{
-      this.product = productInfo;
-      this.setState({
-        chosenSize: '',
-        chosenAmount: 1,
-        isFavorite: this.isFavorite(),
-        buttonTitle: 'В корзину'
-      });
-    }
-
-    services.initProductInfo = this.initProductInfo;
 
     this.clickInBasket = ()=> {
       if(!this.state.chosenSize) {
@@ -40,7 +26,7 @@ class ProductInfo extends Component {
         return;
       }
       let productObj = {
-        id: this.product.id,
+        id: this.state.product.id,
         size: this.state.chosenSize,
         amount: this.state.chosenAmount
       };
@@ -49,8 +35,8 @@ class ProductInfo extends Component {
           .then(data=>{
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=data.data.products.length;
-              services.twinkleBasketPic();
-              services.resetBasketPanel();
+              this.props.twinkleBasketPic();
+              this.props.resetBasketPanel();
             }
 
           });
@@ -59,19 +45,23 @@ class ProductInfo extends Component {
           .then(data=>{
             if(data.status === 'ok') {
               localStorage.cartProductsAmount=1;
-              services.twinkleBasketPic();
-              services.resetBasketPanel();
+              this.props.twinkleBasketPic();
+              this.props.resetBasketPanel();
             }
           });
       }
     };
-    this.toggleFavorite = ()=>{
-      services.toggleFavorite(this.product.id);
-      this.setState({isFavorite: this.isFavorite()});
+
+    this.clickToggleFavorite = ()=>{
+      toggleFavorite(this.state.product.id);
+      this.setState({
+        isFavorite: isFavorite(this.state.product.id)
+      });
     };
+
     this.isAvailable = ()=> {
       let foundSize;
-      if(this.product.sizes) foundSize = this.product.sizes.find(el=>parseInt(el.size,10)===this.state.chosenSize);
+      if(this.state.product.sizes) foundSize = this.state.product.sizes.find(el=>parseInt(el.size,10)===this.state.chosenSize);
       if(!foundSize) return false;
       return foundSize.available;
     };
@@ -89,6 +79,22 @@ class ProductInfo extends Component {
     this.basketAmountMinus = this.basketAmountChange.bind(this, -1);
   }
 
+  initProductInfo = (productInfo)=>{
+    this.setState({
+      product: productInfo,
+      chosenSize: '',
+      chosenAmount: 1,
+      isFavorite: isFavorite(productInfo.id),
+      buttonTitle: 'В корзину'
+    });
+  }
+
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if(this.props.product !== prevProps.product) {
+      this.initProductInfo(this.props.product);
+    }
+  }
+
   render() {
     return (
       <div>ProductInfo Component here
@@ -97,7 +103,7 @@ class ProductInfo extends Component {
         <div className="main-screen__product-info">
 
           <div className="product-info-title">
-            <h2>{this.product.title}</h2>
+            <h2>{this.state.product.title}</h2>
             <div className="in-stock">
               {this.isAvailable() ? 'В наличии' : 'Нет в наличии'}
             </div>
@@ -107,47 +113,63 @@ class ProductInfo extends Component {
             <table className="features-table">
               <tr>
                 <td className="left-col">Артикул:</td>
-                <td className="right-col">{this.product.sku}</td>
+                <td className="right-col">{this.state.product.sku}</td>
               </tr>
                 <tr>
                   <td className="left-col">Производитель:</td>
-                  <td className="right-col"><a href="#"><span className="producer">{this.product.manufacturer}</span></a></td>
+                  <td className="right-col"><a href="#"><span className="producer">{this.state.product.manufacturer}</span></a></td>
               </tr>
                 <tr>
                   <td className="left-col">Цвет:</td>
-                  <td className="right-col">{this.product.color}</td>
+                  <td className="right-col">{this.state.product.color}</td>
               </tr>
                 <tr>
                   <td className="left-col">Материалы:</td>
-                  <td className="right-col">{this.product.material}</td>
+                  <td className="right-col">{this.state.product.material}</td>
               </tr>
                 <tr>
                   <td className="left-col">Сезон:</td>
-                  <td className="right-col">{this.product.season}</td>
+                  <td className="right-col">{this.state.product.season}</td>
               </tr>
                 <tr>
                   <td className="left-col">Повод:</td>
-                  <td className="right-col">{this.product.reason}</td>
+                  <td className="right-col">{this.state.product.reason}</td>
               </tr>
             </table>
           </div>
 
-            <ProductInfoSizes chosenSize={this.state.chosenSize} onclick={this.clickSize} sizes={this.product.sizes}/>
+            <ProductInfoSizes chosenSize={this.state.chosenSize} onclick={this.clickSize} sizes={this.state.product.sizes}/>
 
-            <a onClick={this.toggleFavorite} className="in-favourites-wrapper">
+            <a onClick={this.clickToggleFavorite} className="in-favourites-wrapper">
               <div className={`favourite ${this.state.isFavorite && 'favourite-fill'}`} href="#"></div><p className="in-favourites">{this.state.isFavorite ? 'В избранном' : 'В избранное'}</p>
             </a>
           <div className="basket-item__quantity">
             <div onClick={this.basketAmountMinus} className="basket-item__quantity-change basket-item-list__quantity-change_minus">-</div>{this.state.chosenAmount}
             <div onClick={this.basketAmountPlus} className="basket-item__quantity-change basket-item-list__quantity-change_plus">+</div>
           </div>
-          <div className="price">{(this.product.price * this.state.chosenAmount).toLocaleString()} ₽</div>
+          <div className="price">{(this.state.product.price * this.state.chosenAmount).toLocaleString()} ₽</div>
           <button onClick={this.clickInBasket} className={`in-basket in-basket-click ${!this.state.chosenSize && 'in-basket_disabled'}`}>{this.state.buttonTitle}</button>
         </div>
 
       </div>
     );
   }
+}
+
+function isFavorite(id) {
+  let favorites = JSON.parse(localStorage.favorites);
+  return favorites.includes(id);
+}
+
+function toggleFavorite(id) {
+  id = +id;
+  let favorites = JSON.parse(localStorage.favorites);
+  if(favorites.includes(id)) {
+    favorites.splice(favorites.findIndex(el=> el===id), 1);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.favorites = JSON.stringify(favorites);
 }
 
 ProductInfo.propTypes = {

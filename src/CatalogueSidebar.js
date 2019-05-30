@@ -18,59 +18,21 @@ import PropTypes from 'prop-types';
 class CatalogueSidebar extends Component {
   constructor(props) {
     super(props);
-    this.formElement;
-    this.state={reset: true};
-    this.brand;
     this.submitBrand = (e)=>{
       e.preventDefault();
-      this.brand.value = e.target.elements[0].value;
-      this.props.onChangeFilter();
-      }
-
-    this.reset = (e)=> {
-      e.preventDefault();
-      for (let elem of services.filterForm.elements) {
-        elem.value = '';
-      }
+      this.props.onChangeParam(null,'brand', e.currentTarget.elements[0].value);
     }
     }
 
   render() {
     return (
-          <form  ref={el=>services.filterForm = el}  id="filterForm" className="sidebar">
+          <form id="filterForm" className="sidebar">
 
-            <SidebarItemCatalogue onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemSlider onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemColor onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemSize onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemHeelSize onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-5"></div>
-            <SidebarItemReason onChangeFilter={this.props.onChangeFilter}/>
-            <div className="separator-150 separator-150-1"></div>
-            <SidebarItemSeason onChangeFilter={this.props.onChangeFilter}/>
-
-            <div className="separator-150 separator-150-7"></div>
+            {this.props.children}
 
             <section className="sidebar__division">
-                <input form='filterForm' ref={el=>this.brand=el} name='brand' type='hidden'  />
-                <div className="sidebar__brand">
-                  <h3>Бренд</h3>
-                  <form onSubmit={this.submitBrand}  className="brand-search">
-                    <input type="search" name='brand' className="brand-search" id="brand-search" placeholder="Поиск"/>
-                    <input type="submit" name="" value="" className="submit"/>
-                  </form>
-                </div>
-
-                  <label for='discounted' >
-                  <input onChange={this.props.onChangeFilter} id='discounted' value={true} type="checkbox" className="checkbox" name="discounted"/><span className="checkbox-discount"></span> <span className="text-discount">Со скидкой</span></label>
-
               <div className="separator-240"></div>
             </section>
-
             <section className="sidebar__division">
               <div className="drop-down">
                 <a onClick={this.props.resetFilter} ><span className="drop-down-icon"></span>Сбросить</a>

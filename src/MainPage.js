@@ -4,24 +4,19 @@ import { Switch, Route } from 'react-router-dom';
 import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
-import Slider from './Slider';
-import Sales from './Sales';
-import AboutUs from './AboutUs';
-import Footer from './Footer';
-import NewDeals from './NewDeals';
 
-class Main extends Component {
+import Footer from './Footer';
+
+class MainPage extends Component {
 
   render() {
     return (
       <div>
-        <Slider />
-        <NewDeals />
-        <Sales />
-        <AboutUs />
+        {this.props.children}
+
       </div>
     )
   }
 }
 
-export default Main;
+export default MainPage;

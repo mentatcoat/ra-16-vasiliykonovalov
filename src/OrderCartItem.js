@@ -13,13 +13,13 @@ class OrderCartItem extends Component {
     this.state = {
       amount: this.props.item.amount
     };
-    this.fetchUpdateItemAmount = services.debounce(services.fetchUpdateProduct, 1500);
+    this.fetchUpdateItemAmount = debounce(services.fetchUpdateProduct, 1500);
 
     this.changeAmount = (step)=>{
       let result = this.state.amount + step;
       if(result < 0) result = 0;
       this.setState({amount: result});
-      this.props.counter({[this.props.unique]:+this.props.product.price * +result});
+      this.props.countOrderCart({[this.props.unique]:+this.props.product.price * +result});
       this.fetchUpdateItemAmount(localStorage.cartId, {id: this.props.item.id, size: this.props.item.size, amount: +result});
     }
 
@@ -66,6 +66,17 @@ OrderCartItem.propTypes = {
   product: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   counter: PropTypes.func.isRequired
+};
+
+function debounce(callback, delay) {
+  let timeout;
+  return (arg1, arg2) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      callback(arg1, arg2);
+    }, delay);
+  };
 };
 
 export default OrderCartItem;

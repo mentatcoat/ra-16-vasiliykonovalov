@@ -15,6 +15,7 @@ class SimilarSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      product: this.props.product,
       type: this.props.product.type,
       color: this.props.product.color,
       id: this.props.product.id,
@@ -50,6 +51,25 @@ class SimilarSlider extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
+  }
+
+  initSimilarSlider = (productInfo) => {
+    this.setState({
+      product: productInfo,
+      type: productInfo.type,
+      color: productInfo.color,
+      id: productInfo.id,
+      filtered: [],
+      first: 0
+    },
+      this.getSimilarProducts
+    );
+  }
+
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if(this.props.product !== prevProps.product) {
+      this.initSimilarSlider(this.props.product);
+    }
   }
 
   render() {

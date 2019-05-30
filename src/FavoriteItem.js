@@ -13,13 +13,11 @@ import PropTypes from 'prop-types';
 class FavoriteItem extends Component {
   constructor(props) {
     super(props);
-    this.product = this.props.product;
-    this.isFavorite = services.isFavorite;
     this.state = {
-      isFavorite: this.isFavorite(),
+      isFavorite: isFavorite(this.props.product.id),
       images: this.props.product.images,
       currentImage: 0,
-      isArrows: this.product.images.length > 1
+      isArrows: this.props.product.images.length > 1
     };
     this.clickArrow = (step, e)=>{
       e.preventDefault();
@@ -31,12 +29,12 @@ class FavoriteItem extends Component {
     this.clickNext = this.clickArrow.bind(this,1);
     this.clickPrev = this.clickArrow.bind(this,-1);
 
-    this.toggleFavorite = (e)=>{
+    this.clickToggleFavorite = (e)=>{
       e.preventDefault();
-      services.toggleFavorite(this.product.id);
-      this.setState({isFavorite: this.isFavorite()});
+      toggleFavorite(this.props.product.id);
+      this.setState({isFavorite: isFavorite(this.props.product.id)});
 
-      services.initFavorite();
+      this.props.initFavorite();
     };
 
   }
@@ -44,13 +42,13 @@ class FavoriteItem extends Component {
   render() {
 
     return (
-      <Link to={`/product-card/${this.product.id}`} className="item-list__item-card item" href="product-card-desktop.html">
+      <Link to={`/product-card/${this.props.product.id}`} className="item-list__item-card item" href="product-card-desktop.html">
 
         <div className="item-pic">
 
         <img className="item-pic-view" src={this.props.product.images[this.state.currentImage]} alt={this.props.product.title}/>
 
-          <div onClick={this.toggleFavorite} className={`product-catalogue__product_favorite`}>
+          <div onClick={this.clickToggleFavorite} className={`product-catalogue__product_favorite`}>
             <p></p>
           </div>
           {this.state.isArrows && <div onClick={this.clickPrev} className="arrow arrow_left"></div>}
@@ -69,6 +67,22 @@ class FavoriteItem extends Component {
       </Link>
     );
   }
+}
+
+function isFavorite(id) {
+  let favorites = JSON.parse(localStorage.favorites);
+  return favorites.includes(id);
+}
+
+function toggleFavorite(id) {
+  id = +id;
+  let favorites = JSON.parse(localStorage.favorites);
+  if(favorites.includes(id)) {
+    favorites.splice(favorites.findIndex(el=> el===id), 1);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.favorites = JSON.stringify(favorites);
 }
 
 FavoriteItem.propTypes = {

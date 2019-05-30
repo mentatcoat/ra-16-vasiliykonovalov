@@ -17,9 +17,10 @@ class ProductCard extends Component {
   constructor(props) {
     super(props);
     this.state= {
+      product: null,
       productId: null,
       mainpic: null,
-      product: null,
+      isMainPicBig: false,
       category: null
     };
 
@@ -40,13 +41,12 @@ class ProductCard extends Component {
 
     this.initProductCard(+this.props.match.params.id);
 
-    this.mainpicElement;
     this.pushMainpic = (event)=> {
       this.setState({mainpic: event.target.src});
     }
     this.zoommer = (e)=>{
       e.preventDefault();
-      this.mainpicElement.classList.toggle('zoom-out')
+      this.setState({isMainPicBig: !this.state.isMainPicBig});
     };
 
     this.onClickBreadcrumbsCategory = ()=>{
@@ -69,38 +69,36 @@ class ProductCard extends Component {
       }
       this.props.setCatalogueParams(params);
     }
-    // ??? Я выбирал между двумя альтернативами: 1) сделать хлебные крошки так, чтобы они выводили параметры фильтра в url страниы 2) сделать хлебные крошки так, чтобы они имели onclick-слушатели и слушатели уже запускали фильтрацию на странице КАТАЛОГ. Я быврал второй вариант, т к код уже имел для этого необходимые методы. Делают ли воодще на практике так - навешивают на хлебные крошки onclick-слушатели?
 
   }
 
-  initProductCard(id) {
+  initProductCard = (id) => {
+    this.props.preloaderOn();
     services.fetchProduct(id)
       .then(productInfo=>{
+        this.props.preloaderOff();
         this.setState({
-          productId: id,
           product:productInfo,
+          productId: id,
           mainpic: productInfo.images[0],
           category: this.props.categories.find(
             el=>el.id === productInfo.categoryId
           )
         }
-        ,
-        services.initProductInfo && services.initProductInfo(productInfo)
-        ,
-        services.initProductSlider && services.initProductSlider(productInfo)
       );
       });
     this.makeProductOverlooked();
   }
 
-  render() {
-    // ??? это верный подход для перезагрузки стейта компонента?
-    if(+this.props.match.params.id !== this.state.productId) {
+  // ??? так верно перезагружать компонент? - в мануале по React говорится что этот метод идеален для отслеживания изменения props и как следствие вызова fetch:
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if(+this.props.match.params.id !== +prevProps.match.params.id) {
       this.initProductCard(+this.props.match.params.id);
-
     }
+  }
 
-    // ??? Ниже есть элемент <BreadcrumbsItem/> - это компонент-посредник, он принимает атрибудты и передает их в элемент, который будет отрендерен в качесвте хлебной-крошки-ссылки. Этот комопонент-посредник передает любые атрибуты в конечный элемент. Я передавал туда атрибут 'data-category'. Отрисованный элемент <a> получал этот дата-атрибут и показывал его в свойстве 'dataset'.  Но почему то когда я обращался к <a> как к 'event.target.dataset.category' выводилось undefined - то есть не читалось именно последнее свойство в записи - '.category'. Почему так?
+  render() {
+
     return (
       <div>
 
@@ -159,11 +157,13 @@ class ProductCard extends Component {
                       {/*class .main-screen__favourite-product-pic img*/}
 
                       <div className="main-screen__favourite-product-pic">
-                      <img ref={e=>this.mainpicElement=e} className='zoom-out' src={this.state.mainpic} alt="main pic"/>
+                      <img className={this.state.isMainPicBig ? '' : 'zoom-out'} src={this.state.mainpic} alt="main pic"/>
                       <a href="#" onClick={this.zoommer} className="main-screen__favourite-product-pic__zoom"></a>
                     </div>
 
-                    {this.state.product && <ProductInfo product={this.state.product} />}
+                    {this.state.product && <ProductInfo product={this.state.product} resetBasketPanel={this.props.resetBasketPanel}
+                    twinkleBasketPic={this.props.twinkleBasketPic}
+                     />}
 
                     {/*тут будут два слайдера */}
 

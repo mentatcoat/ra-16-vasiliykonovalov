@@ -16,9 +16,9 @@ import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 class Favorite extends Component {
   constructor(props) {
     super(props);
-    this.sortingSelectElement;
 
     this.state = {
+      sortBy: 'price',
       favoritesIds: [],
       allProducts: [],
       favoriteProducts: '',
@@ -43,15 +43,15 @@ class Favorite extends Component {
         currentPage: 1,
         pagesAmount: Math.ceil(filtered.length / 12)
       }
-      ,
-      services.initFavoritePagination && services.initFavoritePagination(1, this.state.pagesAmount)
-
     );
     };
 
+    // ??? ниже я вытаскиваю все продукты с бекэнда постранично и собираю их в одном массиве. Далее фильтрую по id избранных продуктов. Может я не заметил другой способ проще вытащить избранные с бекэнда?
     this.getAllProducts = (params)=>{
       let pages;
       let products = [];
+      this.props.preloaderOn();
+
       services.fetchProducts(params)
         .then(data=>{
           products = data.data;
@@ -59,43 +59,57 @@ class Favorite extends Component {
 
           if(pages>1) {
             let promisesArray= [];
+
             for (let i = 2; i <= pages; i++) {
-              let newParams = Array.from(params);
-              newParams.push([ 'page', i]);
+              let newParams = Object.assign({}, params, {'page': i});
               promisesArray.push(services.fetchProducts(newParams));
             }
+
             Promise.all(promisesArray)
-              .then(datas=>{
-                datas.forEach(
-                  data=>products.push(...data.data)
+              .then(pages=>{
+                this.props.preloaderOff();
+                pages.forEach(
+                  page=>products.push(...page.data)
                 );
                 this.setState({
                  favoritesIds: JSON.parse(localStorage.favorites),
                  allProducts: products
-               }
-               ,
-               this.filterFavoriteFromAll
-               );
+                 }
+                 ,
+                   this.filterFavoriteFromAll
+                 );
               }
-              );
+            );
           }
+          else {
+            this.setState({
+             favoritesIds: JSON.parse(localStorage.favorites),
+             allProducts: products
+             }
+             ,
+               this.filterFavoriteFromAll
+             );
+           }
         });
     };
 
-    this.initFavorite = ()=>{
-      let paramsArray = [];
-      if(!this.sortingSelectElement) {
-        paramsArray.push(['sortBy', 'price']);
-      } else {
-        paramsArray.push(['sortBy', this.sortingSelectElement.value]);
-      }
-
-      this.getAllProducts(paramsArray);
-    };
-    services.initFavorite = this.initFavorite;
-
     this.initFavorite();
   }
+
+  initFavorite = (e)=>{
+    if(!e) {
+      this.getAllProducts({'sortBy': this.state.sortBy});
+    } else {
+      this.setState({
+        sortBy: e.currentTarget.value
+      },
+      () => {
+        this.getAllProducts({'sortBy': this.state.sortBy});
+      }
+      );
+    }
+  };
+
 
   render() {
     let isThereFavorites = this.state.favoriteProducts && this.state.favoriteProducts.length > 0;
@@ -158,7 +172,7 @@ class Favorite extends Component {
 
                 {isThereFavorites && <div className="product-catalogue__sort-by">
                   <p className="sort-by">Сортировать</p>
-                  <select ref={el=>this.sortingSelectElement=el} onChange={this.initFavorite} form='favoriteForm' name="sortBy" id="sorting">
+                  <select onChange={this.initFavorite} form='favoriteForm' name="sortBy" id="sorting" value={this.state.sortBy}>
                     <option value="price">по цене</option>
                     <option value="popularity">по популярности</option>
                   </select>
@@ -169,7 +183,7 @@ class Favorite extends Component {
               <section className="product-catalogue__item-list product-catalogue__item-list_favorite">
 
                 {isThereFavorites && showArray.map(
-                  (product)=>product && <FavoriteItem key={product.id} product={product} />
+                  (product)=>product && <FavoriteItem key={product.id} product={product} initFavorite={this.initFavorite}/>
                 )}
 
               </section>

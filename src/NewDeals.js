@@ -10,53 +10,67 @@ class NewDeals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      featured: '',
-      categories: false,
+
+      //??? верно так? - оставил в state, только то что меняется:
       chosenCategory: '',
       first: 0,
       filtered: []
     };
+
+
+    this.featured;
+    this.categories;
     this.activeProduct;
+
+    this.props.preloaderOn();
     services.fetchFeatured()
       .then(
         (data)=>{
-          this.setState({
-            featured: data.data}
-            ,this.categoriseFeatured);
+          this.props.preloaderOff();
+
+          this.featured = data.data;
+          this.categoriseFeatured();
       });
+
     services.fetchCategories()
       .then((data)=>{
-      this.setState({categories: data.data});
-      this.setState({chosenCategory: data.data[1].id}, this.categoriseFeatured);
+        this.categories = data.data;
+        this.setState({chosenCategory: data.data[1].id});
+        this.categoriseFeatured();
     });
 
     this.clickCategory = (event)=> {
       event.preventDefault();
       this.setState({chosenCategory: event.target.dataset.id}, this.categoriseFeatured);
     };
-    this.toggleFavorite = (event)=>{
+
+    this.clickToggleFavorite = (event)=>{
       event.target.classList.toggle('new-deals__product_favorite_chosen')
-      services.toggleFavorite(event.target.dataset.id);
+      toggleFavorite(event.target.dataset.id);
 
     };
+
     this.categoriseFeatured = ()=>{
-      if(!this.state.featured) return;
-      this.setState({filtered: this.state.featured.filter(el=> el.categoryId == this.state.chosenCategory)});
+      if(!this.featured) return;
+      this.setState({filtered: this.featured.filter(el=> el.categoryId == this.state.chosenCategory)});
     };
+
     this.counter;
+
     this.clickArrow = (step)=>{
       let delta = this.state.first + step;
       if(delta > this.state.filtered.length - 1) delta = 0;
       if(delta < 0) delta = this.state.filtered.length - 1;
       this.setState({first: delta});
     }
+
     this.clickNext = this.clickArrow.bind(this,1);
     this.clickPrev = this.clickArrow.bind(this,-1);
     this.routIndex = ()=> {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  }
+  } 
 
   render() {
     let favorites = JSON.parse(localStorage.favorites);
@@ -77,7 +91,7 @@ class NewDeals extends Component {
 
         <div className="new-deals__menu">
           <ul className="new-deals__menu-items">
-            {this.state.categories && this.state.categories.map(
+            {this.categories && this.categories.map(
               category=>{
                 return <li key={category.id}  className={`new-deals__menu-item ${+this.state.chosenCategory === +category.id && 'new-deals__menu-item_active'}`}>
                   <a onClick={this.clickCategory} data-id={category.id} href="#">{category.title}</a>
@@ -99,7 +113,7 @@ class NewDeals extends Component {
                 this.activeProduct = elem;
                 return (<div key={elem.id} style={{backgroundImage: `url(${elem.images[0]})`}} className="new-deals__product new-deals__product_active">
                     <Link to={`/product-card/${elem.id}`}/>
-                    <div onClick={this.toggleFavorite} data-id={elem.id} className={`new-deals__product_favorite ${favorites.includes(elem.id) && 'new-deals__product_favorite_chosen'}`}></div>
+                    <div onClick={this.clickToggleFavorite} data-id={elem.id} className={`new-deals__product_favorite ${favorites.includes(elem.id) && 'new-deals__product_favorite_chosen'}`}></div>
                   </div>);
               } else if(i===2 || i===0) {
                 return (<div key={elem.id} style={{backgroundImage: `url(${elem.images[0]})`,backgroundSize: 'contain'}} className="new-deals__product new-deals__product_first">
@@ -126,6 +140,17 @@ class NewDeals extends Component {
       </section>
     )
   }
+}
+
+function toggleFavorite(id) {
+  id = +id;
+  let favorites = JSON.parse(localStorage.favorites);
+  if(favorites.includes(id)) {
+    favorites.splice(favorites.findIndex(el=> el===id), 1);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.favorites = JSON.stringify(favorites);
 }
 
 NewDeals.propTypes = {};

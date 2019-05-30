@@ -15,7 +15,6 @@ class FavoritePagination extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      first: 0,
       pagesAmount: this.props.pagesAmount,
       currentPage: this.props.currentPage
     };
@@ -41,15 +40,15 @@ class FavoritePagination extends Component {
     }
     this.clickNextPage = this.clickPage.bind(null,null, 1);
     this.clickPrevPage = this.clickPage.bind(null,null, -1);
+  }
 
-    this.initFavoritePagination = (page, pages)=>{
+  componentDidUpdate = (prevProps, prevState) => {
+    if(this.props.pagesAmount !== this.state.pagesAmount || this.props.currentPage !== this.state.currentPage) {
       this.setState({
-            pagesAmount: pages,
-            currentPage: page
-          });
+        pagesAmount: this.props.pagesAmount,
+        currentPage: this.props.currentPage
+      });
     }
-    services.initFavoritePagination = this.initFavoritePagination;
-
   }
 
   render() {

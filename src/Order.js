@@ -65,7 +65,6 @@ class Order extends Component {
           if(data.status === 'ok') {
             this.setState({
               isDone: true,
-              total: services.cartTotal,
               paymentType: form.paid.value,
               name: form.name.value,
               address: form.address.value,
@@ -73,7 +72,7 @@ class Order extends Component {
               email: form.email.value
             });
             delete localStorage.cartId;
-            services.resetBasketPanel();
+            this.props.resetBasketPanel();
           }
         });
     };
@@ -85,6 +84,10 @@ class Order extends Component {
         cartProductsInfo: null
       });
     };
+  }
+
+  updateOrderTotal = (summ) => {
+    this.setState({total: summ});
   }
 
   render() {
@@ -101,7 +104,6 @@ class Order extends Component {
         break;
     }
 
-// ??? В breadcrumb КОРЗИНА, ниже по коду, я использую слушатель services.openBasketPanel, чтобы просто развернуть карзину. Мне не понятно что должно произойти при клике на корзину? Так как одноименной страницы в задании не предусмотрено, то я просто открываю корзину и не ухожу с текущей страницы. А как надо было это сделать? Или это неразъясненная часть задания и разработчик сам должен сделать как считает нужным?
     return (
         <div className="wrapper order-wrapper">
 
@@ -128,7 +130,7 @@ class Order extends Component {
           <BreadcrumbsItem
            to='/order'
            className='site-path__item'
-           onClick={services.openBasketPanel}
+           onClick={()=>this.props.changeHeaderPanel('basket')}
           >
            Корзина
           </BreadcrumbsItem>
@@ -147,14 +149,25 @@ class Order extends Component {
            Заказ принят
           </BreadcrumbsItem>}
 
+{/* - - - -  state.isDone false: - - - - */}
+
+
           <section className="order-process">
             {!this.state.isDone && <h2 className="order-process__title">Оформление заказа</h2>}
 
-            {this.state.cartProductsInfo && !this.state.isDone && <OrderCart products={this.state.cartProductsInfo} items={this.state.cart.products} />}
+            {this.state.cartProductsInfo && !this.state.isDone && <OrderCart
+              total={this.state.total}
+              products={this.state.cartProductsInfo} items={this.state.cart.products}
+              updateOrderTotal={this.updateOrderTotal}
+            />}
 
-            {!this.state.isDone && <OrderForm onsubmit={this.submitCreateOrder}/>}
+            {!this.state.isDone &&
+            <OrderForm onsubmit={this.submitCreateOrder}/>}
 
             </section>
+
+{/* - - - -  state.isDone true: - - - - */}
+
 
             {this.state.isDone &&
             <section className="order-done">

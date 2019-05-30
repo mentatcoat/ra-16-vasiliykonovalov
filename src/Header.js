@@ -15,16 +15,21 @@ class Header extends Component {
     super(props);
     this.state = {
       isSearchOpen: false,
-      panelView: null,
+      panelView: this.props.panelView,
       chosenCategory: '',
       isCategoriesOpen: false,
       cartId: null,
       changer: true,
       items: null,
-      products: null
+      products: null,
+      searchField: ''
     };
-    this.searchHiddenElement;
-    this.searchFieldElement;
+
+    this.onChangeSearchField = (e) => {
+      this.setState({
+        searchField: e.currentTarget.value
+      });
+    };
 
     this.loadProducts = ()=>{
       let productsArray = [];
@@ -57,30 +62,23 @@ class Header extends Component {
 
     this.loadItems();
 
-    this.resetBasketPanel = ()=>{
-      this.loadItems();
-    };
-    services.resetBasketPanel = this.resetBasketPanel;
-
     this.onSubmitHeaderSearch = (e)=>{
       e.preventDefault();
-      this.searchHiddenElement.value = e.target.elements[0].value.trim();
-
-      let params = [[ 'search', this.searchHiddenElement.value]];
+      let params = {};
+      Object.assign(params, defaultCatalogueParams, {
+        search :this.state.searchField.trim()
+      });
       this.props.setCatalogueParams(params);
     };
-
-    // ??? Когда нажимаешь на SEARCH загружаются товары соответствующие поиску. На странице все работает, но стоит только изменииь какойнибудь фильр как загружается 0 товаров. Другие фильтры позвлят загрузить что то только если будет помимо прочего передан параметр поиска 'categoryId'. Это нормально? Могу так и оставить? Разъяснений в ТЗ по этому поводу вобще нет, страница работоспособна.
-
     this.clickSubcategory = (event)=>{
       if(event.target.tagName !== 'A') return;
-      if(services.clearFilterForm) services.clearFilterForm();
 
-      let params = [
-        ['categoryId', this.state.chosenCategory],
-        [event.currentTarget.dataset.subcategory, event.target.textContent]
-      ];
-      services.headerParam = [event.currentTarget.dataset.subcategory, event.target.textContent];
+      let params = {};
+      Object.assign(params, defaultCatalogueParams, {
+        categoryId: this.state.chosenCategory,
+        [event.currentTarget.dataset.subcategory]: event.target.textContent
+      });
+
       this.props.setCatalogueParams(params);
     }
 
@@ -99,28 +97,25 @@ class Header extends Component {
     };
 
     this.clickPictogram = (pictogram)=>{
-      this.state.panelView === pictogram ? this.setState({panelView: null}) : this.setState({panelView: pictogram});
+      this.state.panelView === pictogram ? this.props.changeHeaderPanel(null) : this.props.changeHeaderPanel(pictogram);
     };
     this.clickBasket = this.clickPictogram.bind(this, 'basket');
     this.clickProfile = this.clickPictogram.bind(this, 'profile');
 
-    this.openBasketPanel = ()=>{
-      this.setState({
-        panelView: 'basket'
-      });
-    };
-    services.openBasketPanel = this.openBasketPanel;
-
     this.openSearchForm = ()=>{
-      if(this.state.isSearchOpen) {
-        this.searchHiddenElement.value = '';
-        this.searchFieldElement.value = '';
-      }
       this.setState({
         isSearchOpen: !this.state.isSearchOpen
       });
     };
 
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if(this.props.resetBasketDate !== prevProps.resetBasketDate)
+      this.loadItems();
+      // ??? чтобы из других главныъ страниц не влохенных в Header можно было влиять на поведения Header я решил закидывать туда текущее время и действовать, если оно обновилось. React flow разве может еще как то тут помоч?
+    if(this.props.panelView !== this.state.panelView)
+      this.setState({panelView: this.props.panelView});
   }
 
   render() {
@@ -178,15 +173,16 @@ class Header extends Component {
                 </div>
                 <div className="header-main__pic_border"></div>
                 <div onClick={this.clickBasket} className="header-main__pic header-main__pic_basket">
-                  <div ref={el=> services.basketTwinklePic=el} className="header-main__pic_basket_full">1</div>
+                  <div ref={this.props.getBasketTwinklePic} className="header-main__pic_basket_full">1</div>
                   <div className={`header-main__pic_basket_menu ${this.state.panelView === 'basket' && 'header-main__pic_basket_menu_is-active'}`}></div>
                 </div>
               </div>
               <form className={`header-main__search ${this.state.isSearchOpen ? 'header-main__search_active' : ''}`} onSubmit={this.onSubmitHeaderSearch}>
-                <input ref={el=>this.searchFieldElement=el} placeholder="Поиск"/>
+                <input placeholder="Поиск" value={this.state.searchField}
+                onChange={this.onChangeSearchField}
+                />
                 <i className="fa fa-search" aria-hidden="true"></i>
               </form>
-              <input form='filterForm' ref={el=>this.searchHiddenElement=el} name='search' type='hidden'  />
             </div>
 
           </div>
@@ -206,7 +202,12 @@ class Header extends Component {
                   <div className={`basket-dropped__product-list product-list ${this.state.items.length>3 ? 'basket-dropped__product-list-scroll' : ''}`}>
 
                   {this.state.items.map((item, index)=>{
-                    return <HeaderCartItem key={`${item.id}` + `${item.size}`} item={item} product={this.state.products[index]} items={this.state.items} />;
+                    return <HeaderCartItem
+                    key={`${item.id}` + `${item.size}`}
+                    item={item}
+                    product={this.state.products[index]} items={this.state.items}
+                    resetBasketPanel={this.loadItems}
+                    />;
                   }
                   )}
                   </div>
@@ -370,6 +371,23 @@ class Header extends Component {
     );
   }
 }
+
+const defaultCatalogueParams = {
+  page: '',
+  type: '',
+  color: '',
+  size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
+  heelSize: {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false},
+  reason: '',
+  season: '',
+  brand: '',
+  minPrice: 0,
+  maxPrice: 100000,
+  discounted: false,
+  categoryId: '',
+  sortBy: 'price',
+  search: ''
+};
 
 Header.propTypes = {
   categories: PropTypes.array.isRequired,
