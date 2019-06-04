@@ -37,13 +37,21 @@ class Favorite extends Component {
       let filtered = this.state.allProducts.filter(
         product=>this.state.favoritesIds.includes(product.id)
       );
+
       this.setState({
         favoriteProducts: filtered,
         favoriteProductsAmount: filtered.length,
         currentPage: 1,
         pagesAmount: Math.ceil(filtered.length / 12)
-      }
-    );
+      });
+
+      // !!! заглушка пагинации
+      // this.setState({
+      //   favoriteProducts: filtered,
+      //   favoriteProductsAmount: filtered.length,
+      //   currentPage: 1,
+      //   pagesAmount: 99
+      // });
     };
 
     // ??? ниже я вытаскиваю все продукты с бекэнда постранично и собираю их в одном массиве. Далее фильтрую по id избранных продуктов. Может я не заметил другой способ проще вытащить избранные с бекэнда?
@@ -188,7 +196,9 @@ class Favorite extends Component {
 
               </section>
 
-              {isThereFavorites && <FavoritePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeCurrentPage={this.changeCurrentPage}/>}
+              {isThereFavorites &&
+                <FavoritePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount} onChangeCurrentPage={this.changeCurrentPage}
+                />}
 
             </main>
           </div>

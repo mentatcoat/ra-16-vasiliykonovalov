@@ -8,87 +8,27 @@ import './css/style-catalogue.css';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
 import CatalogueItem from './CatalogueItem';
+import CataloguePagination from './CataloguePagination';
 import PropTypes from 'prop-types';
 import services from './services';
 
-class FavoritePagination extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pagesAmount: this.props.pagesAmount,
-      currentPage: this.props.currentPage
-    };
-    this.counter;
-    this.routIndex = ()=> {
-      if (this.counter > this.state.pagesAmount) this.counter = 0;
-      return this.counter++;
-    };
-    this.clickPage = (e,step)=>{
-      if(!e) {
-        this.setState({
-          currentPage: this.state.currentPage+step
-        }, ()=> this.props.onChangeCurrentPage(this.state.currentPage));
-        window.scrollTo(0,0);
-        return;
-      }
-      if(e.target.tagName === 'A') {
-        this.setState({
-          currentPage: +e.target.textContent
-        }, ()=> this.props.onChangeCurrentPage(this.state.currentPage));
-        window.scrollTo(0,0);
-      }
-    }
-    this.clickNextPage = this.clickPage.bind(null,null, 1);
-    this.clickPrevPage = this.clickPage.bind(null,null, -1);
+function FavoritePagination(props) {
+  // ??? не затратно придумывать такую функцию-прослойку? Может лучше приспособить входящую функцию props.onChangeCurrentPage?
+  function onChangeParam(x, y, page) {
+    props.onChangeCurrentPage(page);
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if(this.props.pagesAmount !== this.state.pagesAmount || this.props.currentPage !== this.state.currentPage) {
-      this.setState({
-        pagesAmount: this.props.pagesAmount,
-        currentPage: this.props.currentPage
-      });
-    }
-  }
-
-  render() {
-    let toShowAmount = this.state.pagesAmount - this.state.currentPage + 1;
-    let show = [];
-    let amount = toShowAmount;
-    if(amount>5) amount = 5;
-    this.counter = this.state.currentPage;
-    for(let i = 0; i<amount; i++) {
-      show.push(this.routIndex());
-    }
-
-    return (
-      <div className="product-catalogue__pagination">
-        <div className="page-nav-wrapper">
-
-          <input form='filterForm' name='page' type='hidden' value={this.state.currentPage} />
-          {this.state.currentPage !== 1 && <div className="angle-back"><a onClick={this.clickPrevPage}></a></div>}
-          <ul onClick={this.clickPage}>
-            {show.map(
-              pageNumber=>(
-                <li key={pageNumber} className={pageNumber===this.state.currentPage ? "active" : ''}><a>{pageNumber}</a></li>
-              )
-            )
-            }
-            {toShowAmount > 5 && <li><p>...</p></li>}
-            {toShowAmount > 5 && <li><a>{this.state.pagesAmount}</a></li>}
-          </ul>
-          {this.state.currentPage !== this.state.pagesAmount && <div className="angle-forward"><a onClick={this.clickNextPage}></a></div>}
-
-        </div>
-      </div>
-
-    );
-  }
+  return <CataloguePagination
+    currentPage={props.currentPage}
+    pagesAmount={props.pagesAmount}
+    onChangeParam={onChangeParam}
+  />;
 }
 
 FavoritePagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
-  pagesAmount: PropTypes.number.isRequired, onChangeCurrentPage: PropTypes.func.isRequired
+  pagesAmount: PropTypes.number.isRequired,
+  onChangeCurrentPage: PropTypes.func.isRequired
 };
 
 export default FavoritePagination;

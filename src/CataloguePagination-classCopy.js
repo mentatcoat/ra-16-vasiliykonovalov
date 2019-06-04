@@ -13,14 +13,14 @@ import services from './services';
 
 // !!! женская категория - 39 товаров => показывает 2 страницы, вместо 3
 
-function CataloguePagination(props) {
-  // constructor(props) {
-    // super(props);
-    // this.state = {
+class CataloguePagination extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       // first: 0,
-      // pagesAmount: this.props.pagesAmount,
-      // currentPage: this.props.currentPage
-    // };
+      pagesAmount: this.props.pagesAmount,
+      currentPage: this.props.currentPage
+    };
     // this.counter;
 
     // this.clickArrow = (step)=>{
@@ -37,12 +37,12 @@ function CataloguePagination(props) {
     //   return this.counter++;
     // };
 
-    function clickPage(e,step) {
+    this.clickPage = (e,step)=>{
       if(!e) {
         // this.setState({
         //   currentPage: this.state.currentPage+step
         // });
-        props.onChangeParam(null,'page', props.currentPage+step);
+        this.props.onChangeParam(null,'page', this.state.currentPage+step);
         window.scrollTo(0,0);
         return;
       }
@@ -51,15 +51,15 @@ function CataloguePagination(props) {
         // this.setState({
         //   currentPage: +e.target.textContent
         // });
-        props.onChangeParam(null,'page', +e.target.textContent);
+        this.props.onChangeParam(null,'page', +e.target.textContent);
         // ??? ниже дергается window, а его использование как то влияет на производительность? Или не связано с DOM и можно использовать как угодно?
         window.scrollTo(0,0);
       }
     }
-    let clickNextPage = clickPage.bind(null,null, 1);
-    let clickPrevPage = clickPage.bind(null,null, -1);
+    this.clickNextPage = this.clickPage.bind(null,null, 1);
+    this.clickPrevPage = this.clickPage.bind(null,null, -1);
 
-  // }
+  }
 
   // initCataloguePagination = (page, pages)=>{
   //   this.setState({
@@ -68,16 +68,16 @@ function CataloguePagination(props) {
   //       });
   // }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if(prevProps.pagesAmount !== this.props.pagesAmount || prevProps.currentPage !== this.props.currentPage) {
-  //     this.setState({
-  //           pagesAmount: this.props.pagesAmount,
-  //           currentPage: this.props.currentPage
-  //     });
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.pagesAmount !== this.props.pagesAmount || prevProps.currentPage !== this.props.currentPage) {
+      this.setState({
+            pagesAmount: this.props.pagesAmount,
+            currentPage: this.props.currentPage
+      });
+    }
+  }
 
-  // render() {
+  render() {
     // let toShowAmount = this.state.pagesAmount - this.state.currentPage + 1;
     // let show = [];
     // let amount = toShowAmount;
@@ -87,15 +87,15 @@ function CataloguePagination(props) {
     //   show.push(this.getNextIndex());
     // }
     let pagesLimit = 5;
-    let current = props.currentPage;
-    let all = props.pagesAmount;
+    let current = this.state.currentPage;
+    let all = this.state.pagesAmount;
     if(all < pagesLimit) pagesLimit = all;
 
     let step = -1;
     let navPages = [];
     navPages.push(current);
 
-    if(props.currentPage) {
+    if(this.state.currentPage) {
       while (navPages.length < pagesLimit) {
         console.log('step===', step);
         let page = current + step;
@@ -123,17 +123,17 @@ function CataloguePagination(props) {
       <div className="product-catalogue__pagination">
         <div className="page-nav-wrapper">
 
-          {props.currentPage !== 1 &&
-            <div className="angle-back"><a onClick={clickPrevPage}></a></div>}
+          {this.state.currentPage !== 1 &&
+            <div className="angle-back"><a onClick={this.clickPrevPage}></a></div>}
 
-          <ul onClick={clickPage}>
+          <ul onClick={this.clickPage}>
 
             {firstPage && <li><a>{firstPage}</a></li>}
             {firstPage && <li><p>...</p></li>}
 
             {navPages.map(
               pageNumber=>(
-                <li key={pageNumber} className={pageNumber===props.currentPage ? "active" : ''}>
+                <li key={pageNumber} className={pageNumber===this.state.currentPage ? "active" : ''}>
                 <a>{pageNumber}</a>
                 </li>
               )
@@ -144,14 +144,14 @@ function CataloguePagination(props) {
 
           </ul>
 
-          {props.currentPage !== props.pagesAmount && <div className="angle-forward"><a onClick={clickNextPage}></a></div>}
+          {this.state.currentPage !== this.state.pagesAmount && <div className="angle-forward"><a onClick={this.clickNextPage}></a></div>}
 
         </div>
       </div>
 
     );
   }
-// }
+}
 
 CataloguePagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
