@@ -24,6 +24,9 @@ import SidebarItemBrand from './SidebarItemBrand';
 import SidebarItemDiscounted from './SidebarItemDiscounted';
 import isEqual from 'react-fast-compare';
 
+// import productsJSON from './data/productsLarge.json';
+
+
 class Catalogue extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +43,7 @@ class Catalogue extends Component {
     this.categoryId;
 
     this.getSortedProducts = (params)=>{
-
+      console.log('getSortedProducts params===', params);
       services.fetchProducts(params)
         .then(data=>{
           this.setState({
@@ -51,6 +54,20 @@ class Catalogue extends Component {
         }
       );
         });
+
+      // !!! заглушка для пагинации:
+      // services.fetchProducts(params)
+      //   .then(data=>{
+      //     this.setState({
+      //       sortedProducts: data.data || '',
+      //       sortedProductsAmount: data.goods || '',
+      //       currentPage: data.page || params.page,
+      //       pagesAmount: 99,
+      //   }
+      // );
+      //   })
+      //   .catch(err=>console.log(err));
+
     };
 
     this.getCurrentCategoryId = (catalogueParams)=>{
@@ -270,7 +287,9 @@ class Catalogue extends Component {
 
             {/*<!-- Пагинация под каталогом -->*/}
 
-            {this.state.sortedProducts && <CataloguePagination currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount}
+            {this.state.sortedProducts &&
+            <CataloguePagination
+            currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount}
             onChangeParam={this.onChangeParam}
             />}
 

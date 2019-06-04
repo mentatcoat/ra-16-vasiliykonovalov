@@ -32,6 +32,7 @@ class FavoriteItem extends Component {
     this.clickToggleFavorite = (e)=>{
       e.preventDefault();
       toggleFavorite(this.props.product.id);
+      // !!! нужен ли в этом компоненте state.isFavorite
       this.setState({isFavorite: isFavorite(this.props.product.id)});
 
       this.props.initFavorite();

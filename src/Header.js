@@ -18,7 +18,8 @@ class Header extends Component {
       panelView: this.props.panelView,
       chosenCategory: '',
       isCategoriesOpen: false,
-      cartId: null,
+      cartId: null, // !!! а это нужно?
+      // !!! что ниже такое?
       changer: true,
       items: null,
       products: null,

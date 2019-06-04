@@ -447,6 +447,10 @@ li.active {
   color: #000000;
 }
 
+.angle-forward, .angle-back {
+  margin: 0 10px 0;
+}
+
 .angle-back a,
 .angle-forward a {
   position: relative;

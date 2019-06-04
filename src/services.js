@@ -81,6 +81,7 @@ function fetchProducts(params) {
         resolve(data);
       })
       .catch((err) => {
+        console.log('fetchProducts err', err);
       });
   });
 }

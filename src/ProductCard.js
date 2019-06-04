@@ -49,6 +49,7 @@ class ProductCard extends Component {
       this.setState({isMainPicBig: !this.state.isMainPicBig});
     };
 
+    // !!! тут ошибки ниже создание params:
     this.onClickBreadcrumbsCategory = ()=>{
       let params;
       if(this.state.product) {
