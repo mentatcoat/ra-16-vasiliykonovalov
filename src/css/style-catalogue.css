@@ -188,6 +188,15 @@ select {
   cursor: pointer;
 }
 
+.break-heart.product-catalogue__product_favorite-chosen:hover::before {
+  display: none;
+}
+
+.break-heart.product-catalogue__product_favorite-chosen:hover {
+  background-image: url(../img/new-deals__product_favorite_refuse.png);
+  cursor: pointer;
+
+}
 
 /* Карточка товара в каталоге с ховером*/
 a.item-list__item-card {

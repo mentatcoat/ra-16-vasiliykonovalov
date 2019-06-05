@@ -279,7 +279,11 @@ class Catalogue extends Component {
               {/*<!-- Товары -->*/}
 
               {this.state.sortedProducts && this.state.sortedProducts.map(
-                product=><CatalogueItem key={product.id} product={product} />
+                product=>
+                <CatalogueItem
+                key={product.id}
+                product={product}
+                />
 
               )}
 

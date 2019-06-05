@@ -33,6 +33,8 @@ class CatalogueItem extends Component {
       e.preventDefault();
       toggleFavorite(this.product.id);
       this.setState({isFavorite: isFavorite(this.props.product.id)});
+
+      this.props.onToggleFavorite && this.props.onToggleFavorite();
     };
 
   }
@@ -46,7 +48,7 @@ class CatalogueItem extends Component {
 
         <img className="item-pic-view" src={this.props.product.images[this.state.currentImage]} alt={this.props.product.title}/>
 
-          <div onClick={this.clickToggleFavorite} className={`product-catalogue__product_favorite${isFavorite(this.props.product.id) ? '-chosen' : ''}`}>
+          <div onClick={this.clickToggleFavorite} className={`product-catalogue__product_favorite${isFavorite(this.props.product.id) ? '-chosen' : ''} ${this.props.breakHeart ? 'break-heart' : ''}`}>
             <p></p>
           </div>
           {this.state.isArrows && <div onClick={this.clickPrev} className="arrow arrow_left"></div>}

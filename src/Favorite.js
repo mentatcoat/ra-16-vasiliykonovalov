@@ -9,7 +9,8 @@ import './css/style-catalogue.css';
 import './css/style-favorite.css';
 import PropTypes from 'prop-types';
 import services from './services';
-import FavoriteItem from './FavoriteItem';
+// import FavoriteItem from './FavoriteItem';
+import CatalogueItem from './CatalogueItem';
 import FavoritePagination from './FavoritePagination';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
@@ -191,7 +192,12 @@ class Favorite extends Component {
               <section className="product-catalogue__item-list product-catalogue__item-list_favorite">
 
                 {isThereFavorites && showArray.map(
-                  (product)=>product && <FavoriteItem key={product.id} product={product} initFavorite={this.initFavorite}/>
+                  (product)=>product &&
+                  <CatalogueItem
+                  key={product.id}
+                  product={product} onToggleFavorite={this.initFavorite}
+                  breakHeart
+                  />
                 )}
 
               </section>
