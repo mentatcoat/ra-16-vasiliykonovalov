@@ -8,6 +8,7 @@ import './css/style.css';
 import logotype from './img/header-logo.png';
 import services from './services';
 import HeaderCartItem from './HeaderCartItem';
+import defaultCatalogueParams from './defaultCatalogueParams';
 import PropTypes from 'prop-types';
 
 class Header extends Component {
@@ -373,22 +374,22 @@ class Header extends Component {
   }
 }
 
-const defaultCatalogueParams = {
-  page: '',
-  type: '',
-  color: '',
-  size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
-  heelSize: {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false},
-  reason: '',
-  season: '',
-  brand: '',
-  minPrice: 0,
-  maxPrice: 100000,
-  discounted: false,
-  categoryId: '',
-  sortBy: 'price',
-  search: ''
-};
+// const defaultCatalogueParams = {
+//   page: '',
+//   type: '',
+//   color: '',
+//   size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
+//   heelSize: {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false},
+//   reason: '',
+//   season: '',
+//   brand: '',
+//   minPrice: 0,
+//   maxPrice: 100000,
+//   discounted: false,
+//   categoryId: '',
+//   sortBy: 'price',
+//   search: ''
+// };
 
 Header.propTypes = {
   categories: PropTypes.array.isRequired,

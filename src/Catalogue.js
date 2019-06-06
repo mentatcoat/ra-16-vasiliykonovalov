@@ -12,6 +12,7 @@ import CataloguePagination from './CataloguePagination';
 import PropTypes from 'prop-types';
 import services from './services';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
+import defaultCatalogueParams from './defaultCatalogueParams';
 
 import SidebarItemCatalogue from './SidebarItemCatalogue';
 import SidebarItemColor from './SidebarItemColor';
@@ -42,31 +43,35 @@ class Catalogue extends Component {
     this.categoryMaxPrice;
     this.categoryId;
 
+    // !!! проверить везде наличие preloaderOn
+
     this.getSortedProducts = (params)=>{
       console.log('getSortedProducts params===', params);
+      this.props.preloaderOn();
+      services.fetchProducts(params)
+        .then(data=>{
+          this.props.preloaderOff();
+          this.setState({
+            sortedProducts: data.data,
+            sortedProductsAmount: data.goods,
+            currentPage: data.page,
+            pagesAmount: data.pages,
+        }
+      );
+        });
+
+      // !!! заглушка для пагинации:
       // services.fetchProducts(params)
       //   .then(data=>{
       //     this.setState({
-      //       sortedProducts: data.data,
-      //       sortedProductsAmount: data.goods,
-      //       currentPage: data.page,
-      //       pagesAmount: data.pages,
+      //       sortedProducts: data.data || '',
+      //       sortedProductsAmount: data.goods || '',
+      //       currentPage: data.page || params.page,
+      //       pagesAmount: 99,
       //   }
       // );
-      //   });
-
-      // !!! заглушка для пагинации:
-      services.fetchProducts(params)
-        .then(data=>{
-          this.setState({
-            sortedProducts: data.data || '',
-            sortedProductsAmount: data.goods || '',
-            currentPage: data.page || params.page,
-            pagesAmount: 99,
-        }
-      );
-        })
-        .catch(err=>console.log(err));
+      //   })
+      //   .catch(err=>console.log(err));
 
     };
 
@@ -313,22 +318,22 @@ class Catalogue extends Component {
 // ??? Пожалуй не нужно в PropTypes указывать props которые придут от Route - history, location, match. Ведь с ними невозможно напутать. Или желательно их тоже указывать?
 
 // ??? в виду того, что в ТЗ не было упоминания как получать "размеры" обуви я прописал их в catalogueParams, которые напрямую определяют какие продуты отображаются на экране. Дайте критику по "установке в начальном рендере defaultCatalogueParams" в компоненте <Catalogue/>.
-const defaultCatalogueParams = {
-  page: '',
-  type: '',
-  color: '',
-  size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
-  heelSize: {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false},
-  reason: '',
-  season: '',
-  brand: '',
-  minPrice: 0,
-  maxPrice: 100000,
-  discounted: false,
-  categoryId: 12,
-  sortBy: 'price',
-  search: ''
-};
+// const defaultCatalogueParams = {
+//   page: '',
+//   type: '',
+//   color: '',
+//   size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
+//   heelSize: {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false},
+//   reason: '',
+//   season: '',
+//   brand: '',
+//   minPrice: 0,
+//   maxPrice: 100000,
+//   discounted: false,
+//   categoryId: '',
+//   sortBy: 'price',
+//   search: ''
+// };
 
 
 Catalogue.propTypes = {

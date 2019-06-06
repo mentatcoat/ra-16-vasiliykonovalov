@@ -10,6 +10,7 @@ import SimilarSlider from './SimilarSlider';
 import ProductSlider from './ProductSlider';
 import ProductInfo from './ProductInfo';
 import services from './services';
+import defaultCatalogueParams from './defaultCatalogueParams';
 import PropTypes from 'prop-types';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 
@@ -49,26 +50,38 @@ class ProductCard extends Component {
       this.setState({isMainPicBig: !this.state.isMainPicBig});
     };
 
+    // !!! defaultCatalogueParams нужно экспортить из одного файла
+
     // !!! тут ошибки ниже создание params:
     this.onClickBreadcrumbsCategory = ()=>{
-      let params;
-      if(this.state.product) {
-        params = [
-          ['categoryId', this.state.product.categoryId],
-        ];
-      }
-      this.props.setCatalogueParams(params);
+      this.props.setCatalogueParams(
+        Object.assign({}, defaultCatalogueParams, {'categoryId': this.state.product.categoryId})
+      );
+      // let params;
+      // if(this.state.product) {
+      //   params = [
+      //     ['categoryId', this.state.product.categoryId],
+      //   ];
+      // }
+      // this.props.setCatalogueParams(params);
     }
 
+    // !!! изменить:
     this.onClickBreadcrumbsType = ()=>{
-      let params;
-      if(this.state.product) {
-        params = [
-          ['categoryId', this.state.product.categoryId],
-          ['type', this.state.product.type]
-        ];
-      }
-      this.props.setCatalogueParams(params);
+      this.props.setCatalogueParams(
+        Object.assign({}, defaultCatalogueParams, {
+          'type': this.state.product.type
+        })
+      );
+
+      // let params;
+      // if(this.state.product) {
+      //   params = [
+      //     ['categoryId', this.state.product.categoryId],
+      //     ['type', this.state.product.type]
+      //   ];
+      // }
+      // this.props.setCatalogueParams(params);
     }
 
   }

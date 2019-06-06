@@ -9,6 +9,7 @@ import './css/style-order.css';
 import services from './services';
 import JSONproducts from './data/products.json';
 import { BrowserRouter } from 'react-router-dom';
+import defaultCatalogueParams from './defaultCatalogueParams';
 import PropTypes from 'prop-types';
 
 class SimilarSlider extends Component {
@@ -25,10 +26,16 @@ class SimilarSlider extends Component {
 
     // !!! wrong way making params:
     this.getSimilarProducts = ()=>{
-      let params = [
-        ['type', this.state.type],
-        ['color',this.state.color]
-      ];
+      let params = {};
+      Object.assign(params, defaultCatalogueParams, {
+        'type': this.state.type,
+        'color': this.state.color
+      });
+
+      // let params = [
+      //   ['type', this.state.type],
+      //   ['color',this.state.color]
+      // ];
 
       services.fetchProducts(params)
         .then(data=>{
