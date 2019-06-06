@@ -43,8 +43,6 @@ class Catalogue extends Component {
     this.categoryMaxPrice;
     this.categoryId;
 
-    // !!! проверить везде наличие preloaderOn
-
     this.getSortedProducts = (params)=>{
       console.log('getSortedProducts params===', params);
       this.props.preloaderOn();
@@ -59,19 +57,6 @@ class Catalogue extends Component {
         }
       );
         });
-
-      // !!! заглушка для пагинации:
-      // services.fetchProducts(params)
-      //   .then(data=>{
-      //     this.setState({
-      //       sortedProducts: data.data || '',
-      //       sortedProductsAmount: data.goods || '',
-      //       currentPage: data.page || params.page,
-      //       pagesAmount: 99,
-      //   }
-      // );
-      //   })
-      //   .catch(err=>console.log(err));
 
     };
 

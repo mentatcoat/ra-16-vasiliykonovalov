@@ -5,6 +5,7 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-order.css';
 import services from './services';
+import debounce from './debounce';
 import PropTypes from 'prop-types';
 
 class OrderCartItem extends Component {
@@ -68,15 +69,15 @@ OrderCartItem.propTypes = {
   counter: PropTypes.func.isRequired
 };
 
-function debounce(callback, delay) {
-  let timeout;
-  return (arg1, arg2) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(function() {
-      timeout = null;
-      callback(arg1, arg2);
-    }, delay);
-  };
-};
+// function debounce(callback, delay) {
+//   let timeout;
+//   return (arg1, arg2) => {
+//     clearTimeout(timeout);
+//     timeout = setTimeout(function() {
+//       timeout = null;
+//       callback(arg1, arg2);
+//     }, delay);
+//   };
+// };
 
 export default OrderCartItem;

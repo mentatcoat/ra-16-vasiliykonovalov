@@ -46,13 +46,6 @@ class Favorite extends Component {
         pagesAmount: Math.ceil(filtered.length / 12)
       });
 
-      // !!! заглушка пагинации
-      // this.setState({
-      //   favoriteProducts: filtered,
-      //   favoriteProductsAmount: filtered.length,
-      //   currentPage: 1,
-      //   pagesAmount: 99
-      // });
     };
 
     // ??? ниже я вытаскиваю все продукты с бекэнда постранично и собираю их в одном массиве. Далее фильтрую по id избранных продуктов. Может я не заметил другой способ проще вытащить избранные с бекэнда?

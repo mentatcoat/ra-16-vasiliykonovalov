@@ -28,6 +28,7 @@ class Order extends Component {
     this.cart;
 
     this.getCartProductsInfo = ()=>{
+      this.props.preloaderOn();
       const array = [];
       this.state.cart.products.forEach(
         product=>{
@@ -38,6 +39,7 @@ class Order extends Component {
       );
       Promise.all(array)
         .then(results=>{
+          this.props.preloaderOff();
           this.setState({cartProductsInfo: results});
         });
     };

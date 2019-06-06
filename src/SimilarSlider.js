@@ -24,7 +24,6 @@ class SimilarSlider extends Component {
       first: 0
     };
 
-    // !!! wrong way making params:
     this.getSimilarProducts = ()=>{
       let params = {};
       Object.assign(params, defaultCatalogueParams, {

@@ -4,6 +4,7 @@ import './css/normalize.css';
 import './css/font-awesome.min.css';
 import './css/style.css';
 import services from './services';
+import toggleFavorite from './toggleFavorite';
 import PropTypes from 'prop-types';
 
 class NewDeals extends Component {
@@ -70,7 +71,7 @@ class NewDeals extends Component {
       if (this.counter > this.state.filtered.length - 1) this.counter = 0;
       return this.counter++;
     };
-  } 
+  }
 
   render() {
     let favorites = JSON.parse(localStorage.favorites);
@@ -142,16 +143,16 @@ class NewDeals extends Component {
   }
 }
 
-function toggleFavorite(id) {
-  id = +id;
-  let favorites = JSON.parse(localStorage.favorites);
-  if(favorites.includes(id)) {
-    favorites.splice(favorites.findIndex(el=> el===id), 1);
-  } else {
-    favorites.push(id);
-  }
-  localStorage.favorites = JSON.stringify(favorites);
-}
+// function toggleFavorite(id) {
+//   id = +id;
+//   let favorites = JSON.parse(localStorage.favorites);
+//   if(favorites.includes(id)) {
+//     favorites.splice(favorites.findIndex(el=> el===id), 1);
+//   } else {
+//     favorites.push(id);
+//   }
+//   localStorage.favorites = JSON.stringify(favorites);
+// }
 
 NewDeals.propTypes = {};
 

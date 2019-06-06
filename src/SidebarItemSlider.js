@@ -8,6 +8,7 @@ import './css/style-catalogue.css';
 import './css/style-new-nouislider.css';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
+import debounce from './debounce';
 import services from './services';
 import PropTypes from 'prop-types';
 
@@ -166,15 +167,15 @@ SidebarItemSlider.propTypes = {
   onChangeFilter: PropTypes.func.isRequired
 };
 
-function debounce(callback, delay) {
-  let timeout;
-  return (arg1, arg2, arg3) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(function() {
-      timeout = null;
-      callback(arg1, arg2, arg3);
-    }, delay);
-  };
-};
+// function debounce(callback, delay) {
+//   let timeout;
+//   return (arg1, arg2, arg3) => {
+//     clearTimeout(timeout);
+//     timeout = setTimeout(function() {
+//       timeout = null;
+//       callback(arg1, arg2, arg3);
+//     }, delay);
+//   };
+// };
 
 export default SidebarItemSlider;

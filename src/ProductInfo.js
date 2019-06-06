@@ -7,6 +7,8 @@ import './css/style-order.css';
 import './css/style-product-card.css';
 import ProductInfoSizes from './ProductInfoSizes';
 import services from './services';
+import isFavorite from './isFavorite';
+import toggleFavorite from './toggleFavorite';
 import PropTypes from 'prop-types';
 
 class ProductInfo extends Component {
@@ -156,21 +158,21 @@ class ProductInfo extends Component {
   }
 }
 
-function isFavorite(id) {
-  let favorites = JSON.parse(localStorage.favorites);
-  return favorites.includes(id);
-}
+// function isFavorite(id) {
+//   let favorites = JSON.parse(localStorage.favorites);
+//   return favorites.includes(id);
+// }
 
-function toggleFavorite(id) {
-  id = +id;
-  let favorites = JSON.parse(localStorage.favorites);
-  if(favorites.includes(id)) {
-    favorites.splice(favorites.findIndex(el=> el===id), 1);
-  } else {
-    favorites.push(id);
-  }
-  localStorage.favorites = JSON.stringify(favorites);
-}
+// function toggleFavorite(id) {
+//   id = +id;
+//   let favorites = JSON.parse(localStorage.favorites);
+//   if(favorites.includes(id)) {
+//     favorites.splice(favorites.findIndex(el=> el===id), 1);
+//   } else {
+//     favorites.push(id);
+//   }
+//   localStorage.favorites = JSON.stringify(favorites);
+// }
 
 ProductInfo.propTypes = {
   product: PropTypes.object.isRequired

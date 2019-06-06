@@ -151,6 +151,8 @@ class AppComponent extends Component {
   {...props}
   resetBasketPanel={this.resetBasketPanel}
   changeHeaderPanel={this.changeHeaderPanel}
+  preloaderOn={this.preloaderOn}
+  preloaderOff={this.preloaderOff}
 />
 )}/>
         </Switch>

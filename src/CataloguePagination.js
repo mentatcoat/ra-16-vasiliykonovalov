@@ -11,8 +11,6 @@ import CatalogueItem from './CatalogueItem';
 import PropTypes from 'prop-types';
 import services from './services';
 
-// !!! женская категория - 39 товаров => показывает 2 страницы, вместо 3
-
 function CataloguePagination(props) {
   // constructor(props) {
     // super(props);

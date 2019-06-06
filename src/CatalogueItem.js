@@ -7,6 +7,8 @@ import './css/style-catalogue.css';
 import services from './services';
 import CatalogueSidebar from './CatalogueSidebar';
 import OverlookedSlider from './OverlookedSlider';
+import isFavorite from './isFavorite';
+import toggleFavorite from './toggleFavorite';
 import PropTypes from 'prop-types';
 
 class CatalogueItem extends Component {
@@ -69,21 +71,21 @@ class CatalogueItem extends Component {
   }
 }
 
-function isFavorite(id) {
-  let favorites = JSON.parse(localStorage.favorites);
-  return favorites.includes(id);
-}
+// function isFavorite(id) {
+//   let favorites = JSON.parse(localStorage.favorites);
+//   return favorites.includes(id);
+// }
 
-function toggleFavorite(id) {
-  id = +id;
-  let favorites = JSON.parse(localStorage.favorites);
-  if(favorites.includes(id)) {
-    favorites.splice(favorites.findIndex(el=> el===id), 1);
-  } else {
-    favorites.push(id);
-  }
-  localStorage.favorites = JSON.stringify(favorites);
-}
+// function toggleFavorite(id) {
+//   id = +id;
+//   let favorites = JSON.parse(localStorage.favorites);
+//   if(favorites.includes(id)) {
+//     favorites.splice(favorites.findIndex(el=> el===id), 1);
+//   } else {
+//     favorites.push(id);
+//   }
+//   localStorage.favorites = JSON.stringify(favorites);
+// }
 
 CatalogueItem.propTypes = {
   product: PropTypes.object.isRequired

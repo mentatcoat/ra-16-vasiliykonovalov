@@ -50,9 +50,6 @@ class ProductCard extends Component {
       this.setState({isMainPicBig: !this.state.isMainPicBig});
     };
 
-    // !!! defaultCatalogueParams нужно экспортить из одного файла
-
-    // !!! тут ошибки ниже создание params:
     this.onClickBreadcrumbsCategory = ()=>{
       this.props.setCatalogueParams(
         Object.assign({}, defaultCatalogueParams, {'categoryId': this.state.product.categoryId})
@@ -66,7 +63,6 @@ class ProductCard extends Component {
       // this.props.setCatalogueParams(params);
     }
 
-    // !!! изменить:
     this.onClickBreadcrumbsType = ()=>{
       this.props.setCatalogueParams(
         Object.assign({}, defaultCatalogueParams, {
