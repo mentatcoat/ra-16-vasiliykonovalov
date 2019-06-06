@@ -59,7 +59,6 @@ function fetchProducts(params) {
       } else if(param === 'size' || param === 'heelSize') {
         let sizes = params[param];
         for (let size in sizes) {
-          console.log('size===', size);
           if(sizes[size]) {
             url = url + param + '=' + size + '&';
           }

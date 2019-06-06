@@ -26,9 +26,7 @@ class OrderCartItem extends Component {
 
     this.changeAmountPlus = this.changeAmount.bind(this, 1);
     this.changeAmountMinus = this.changeAmount.bind(this, -1);
-
   }
-
 
   render() {
     return (
@@ -68,16 +66,5 @@ OrderCartItem.propTypes = {
   item: PropTypes.object.isRequired,
   counter: PropTypes.func.isRequired
 };
-
-// function debounce(callback, delay) {
-//   let timeout;
-//   return (arg1, arg2) => {
-//     clearTimeout(timeout);
-//     timeout = setTimeout(function() {
-//       timeout = null;
-//       callback(arg1, arg2);
-//     }, delay);
-//   };
-// };
 
 export default OrderCartItem;

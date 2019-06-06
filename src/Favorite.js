@@ -9,7 +9,6 @@ import './css/style-catalogue.css';
 import './css/style-favorite.css';
 import PropTypes from 'prop-types';
 import services from './services';
-// import FavoriteItem from './FavoriteItem';
 import CatalogueItem from './CatalogueItem';
 import FavoritePagination from './FavoritePagination';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';

@@ -54,13 +54,6 @@ class ProductCard extends Component {
       this.props.setCatalogueParams(
         Object.assign({}, defaultCatalogueParams, {'categoryId': this.state.product.categoryId})
       );
-      // let params;
-      // if(this.state.product) {
-      //   params = [
-      //     ['categoryId', this.state.product.categoryId],
-      //   ];
-      // }
-      // this.props.setCatalogueParams(params);
     }
 
     this.onClickBreadcrumbsType = ()=>{
@@ -69,15 +62,6 @@ class ProductCard extends Component {
           'type': this.state.product.type
         })
       );
-
-      // let params;
-      // if(this.state.product) {
-      //   params = [
-      //     ['categoryId', this.state.product.categoryId],
-      //     ['type', this.state.product.type]
-      //   ];
-      // }
-      // this.props.setCatalogueParams(params);
     }
 
   }
@@ -164,7 +148,6 @@ class ProductCard extends Component {
                       {this.state.product && <ProductSlider onclick={this.pushMainpic} product={this.state.product}  />}
 
                       {/*<!-- Изображение выбранного товара -->*/}
-                      {/*class .main-screen__favourite-product-pic img*/}
 
                       <div className="main-screen__favourite-product-pic">
                       <img className={this.state.isMainPicBig ? '' : 'zoom-out'} src={this.state.mainpic} alt="main pic"/>
@@ -174,8 +157,6 @@ class ProductCard extends Component {
                     {this.state.product && <ProductInfo product={this.state.product} resetBasketPanel={this.props.resetBasketPanel}
                     twinkleBasketPic={this.props.twinkleBasketPic}
                      />}
-
-                    {/*тут будут два слайдера */}
 
                   </section>
               </section>

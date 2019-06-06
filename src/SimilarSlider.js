@@ -31,11 +31,6 @@ class SimilarSlider extends Component {
         'color': this.state.color
       });
 
-      // let params = [
-      //   ['type', this.state.type],
-      //   ['color',this.state.color]
-      // ];
-
       services.fetchProducts(params)
         .then(data=>{
           let duplicate = data.data.findIndex(el=>el.id===this.state.id);

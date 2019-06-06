@@ -158,22 +158,6 @@ class ProductInfo extends Component {
   }
 }
 
-// function isFavorite(id) {
-//   let favorites = JSON.parse(localStorage.favorites);
-//   return favorites.includes(id);
-// }
-
-// function toggleFavorite(id) {
-//   id = +id;
-//   let favorites = JSON.parse(localStorage.favorites);
-//   if(favorites.includes(id)) {
-//     favorites.splice(favorites.findIndex(el=> el===id), 1);
-//   } else {
-//     favorites.push(id);
-//   }
-//   localStorage.favorites = JSON.stringify(favorites);
-// }
-
 ProductInfo.propTypes = {
   product: PropTypes.object.isRequired
 };

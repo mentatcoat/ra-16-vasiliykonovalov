@@ -167,15 +167,4 @@ SidebarItemSlider.propTypes = {
   onChangeFilter: PropTypes.func.isRequired
 };
 
-// function debounce(callback, delay) {
-//   let timeout;
-//   return (arg1, arg2, arg3) => {
-//     clearTimeout(timeout);
-//     timeout = setTimeout(function() {
-//       timeout = null;
-//       callback(arg1, arg2, arg3);
-//     }, delay);
-//   };
-// };
-
 export default SidebarItemSlider;

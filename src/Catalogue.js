@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import services from './services';
 import {Breadcrumbs, BreadcrumbsItem} from 'react-breadcrumbs-dynamic';
 import defaultCatalogueParams from './defaultCatalogueParams';
-
 import SidebarItemCatalogue from './SidebarItemCatalogue';
 import SidebarItemColor from './SidebarItemColor';
 import SidebarItemReason from './SidebarItemReason';
@@ -24,9 +23,7 @@ import SidebarItemHeelSize from './SidebarItemHeelSize';
 import SidebarItemBrand from './SidebarItemBrand';
 import SidebarItemDiscounted from './SidebarItemDiscounted';
 import isEqual from 'react-fast-compare';
-
 import productsJSON from './data/productsLarge.json';
-
 
 class Catalogue extends Component {
   constructor(props) {
@@ -44,7 +41,6 @@ class Catalogue extends Component {
     this.categoryId;
 
     this.getSortedProducts = (params)=>{
-      console.log('getSortedProducts params===', params);
       this.props.preloaderOn();
       services.fetchProducts(params)
         .then(data=>{
@@ -281,8 +277,7 @@ class Catalogue extends Component {
 
             {/*<!-- Пагинация под каталогом -->*/}
 
-            {/*{this.state.sortedProducts &&*/}
-            {
+            {this.state.sortedProducts &&
             <CataloguePagination
             currentPage={this.state.currentPage} pagesAmount={this.state.pagesAmount}
             onChangeParam={this.onChangeParam}
@@ -303,23 +298,6 @@ class Catalogue extends Component {
 // ??? Пожалуй не нужно в PropTypes указывать props которые придут от Route - history, location, match. Ведь с ними невозможно напутать. Или желательно их тоже указывать?
 
 // ??? в виду того, что в ТЗ не было упоминания как получать "размеры" обуви я прописал их в catalogueParams, которые напрямую определяют какие продуты отображаются на экране. Дайте критику по "установке в начальном рендере defaultCatalogueParams" в компоненте <Catalogue/>.
-// const defaultCatalogueParams = {
-//   page: '',
-//   type: '',
-//   color: '',
-//   size: {8: false, 10: false, 12: false, 14: false, 15: false, 16: false, 18: false, 20: false},
-//   heelSize: {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false},
-//   reason: '',
-//   season: '',
-//   brand: '',
-//   minPrice: 0,
-//   maxPrice: 100000,
-//   discounted: false,
-//   categoryId: '',
-//   sortBy: 'price',
-//   search: ''
-// };
-
 
 Catalogue.propTypes = {
   catalogueParams : PropTypes.array.isRequired,

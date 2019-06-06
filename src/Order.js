@@ -153,7 +153,6 @@ class Order extends Component {
 
 {/* - - - -  state.isDone false: - - - - */}
 
-
           <section className="order-process">
             {!this.state.isDone && <h2 className="order-process__title">Оформление заказа</h2>}
 
@@ -169,7 +168,6 @@ class Order extends Component {
             </section>
 
 {/* - - - -  state.isDone true: - - - - */}
-
 
             {this.state.isDone &&
             <section className="order-done">

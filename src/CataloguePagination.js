@@ -12,43 +12,15 @@ import PropTypes from 'prop-types';
 import services from './services';
 
 function CataloguePagination(props) {
-  // constructor(props) {
-    // super(props);
-    // this.state = {
-      // first: 0,
-      // pagesAmount: this.props.pagesAmount,
-      // currentPage: this.props.currentPage
-    // };
-    // this.counter;
-
-    // this.clickArrow = (step)=>{
-    //   let delta = this.state.first + step;
-    //   if(delta > this.state.filtered.length - 1) delta = 0;
-    //   if(delta < 0) delta = this.state.filtered.length - 1;
-    //   this.setState({first: delta});
-    // }
-    // this.clickNext = this.clickArrow.bind(this,1);
-    // this.clickPrev = this.clickArrow.bind(this,-1);
-
-    // this.getNextIndex = ()=> {
-    //   if (this.counter > this.state.pagesAmount) this.counter = 0;
-    //   return this.counter++;
-    // };
 
     function clickPage(e,step) {
       if(!e) {
-        // this.setState({
-        //   currentPage: this.state.currentPage+step
-        // });
         props.onChangeParam(null,'page', props.currentPage+step);
         window.scrollTo(0,0);
         return;
       }
 
       if(e.target.tagName === 'A') {
-        // this.setState({
-        //   currentPage: +e.target.textContent
-        // });
         props.onChangeParam(null,'page', +e.target.textContent);
         // ??? ниже дергается window, а его использование как то влияет на производительность? Или не связано с DOM и можно использовать как угодно?
         window.scrollTo(0,0);
@@ -56,34 +28,6 @@ function CataloguePagination(props) {
     }
     let clickNextPage = clickPage.bind(null,null, 1);
     let clickPrevPage = clickPage.bind(null,null, -1);
-
-  // }
-
-  // initCataloguePagination = (page, pages)=>{
-  //   this.setState({
-  //         pagesAmount: pages,
-  //         currentPage: page
-  //       });
-  // }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if(prevProps.pagesAmount !== this.props.pagesAmount || prevProps.currentPage !== this.props.currentPage) {
-  //     this.setState({
-  //           pagesAmount: this.props.pagesAmount,
-  //           currentPage: this.props.currentPage
-  //     });
-  //   }
-  // }
-
-  // render() {
-    // let toShowAmount = this.state.pagesAmount - this.state.currentPage + 1;
-    // let show = [];
-    // let amount = toShowAmount;
-    // if(amount>5) amount = 5;
-    // this.counter = this.state.currentPage;
-    // for(let i = 0; i<amount; i++) {
-    //   show.push(this.getNextIndex());
-    // }
     let pagesLimit = 5;
     let current = props.currentPage;
     let all = props.pagesAmount;
@@ -95,20 +39,14 @@ function CataloguePagination(props) {
 
     if(props.currentPage) {
       while (navPages.length < pagesLimit) {
-        console.log('step===', step);
         let page = current + step;
         if(step > 0) ++step;
         step = -step;
         if(page > 0 && page <= all) navPages.push(page);
-        console.log('navPages page===', page);
-        console.log('step===', step);
-        console.log('navPages length===', navPages.length);
-        console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       }
       navPages.sort(function(a,b) {
         return a - b;
       });
-      console.log('final navPages-===', navPages);
     }
 
     let firstPage;
@@ -149,7 +87,6 @@ function CataloguePagination(props) {
 
     );
   }
-// }
 
 CataloguePagination.propTypes = {
   currentPage: PropTypes.number.isRequired,

@@ -11,13 +11,11 @@ class NewDeals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
       //??? верно так? - оставил в state, только то что меняется:
       chosenCategory: '',
       first: 0,
       filtered: []
     };
-
 
     this.featured;
     this.categories;
@@ -142,17 +140,6 @@ class NewDeals extends Component {
     )
   }
 }
-
-// function toggleFavorite(id) {
-//   id = +id;
-//   let favorites = JSON.parse(localStorage.favorites);
-//   if(favorites.includes(id)) {
-//     favorites.splice(favorites.findIndex(el=> el===id), 1);
-//   } else {
-//     favorites.push(id);
-//   }
-//   localStorage.favorites = JSON.stringify(favorites);
-// }
 
 NewDeals.propTypes = {};
 

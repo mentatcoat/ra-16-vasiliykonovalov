@@ -6,13 +6,10 @@ import { HashRouter } from 'react-router-dom';
 import MainPage from './MainPage';
 import Catalogue from './Catalogue';
 import Header from './Header';
-
 import Slider from './Slider';
 import NewDeals from './NewDeals';
 import Sales from './Sales';
 import AboutUs from './AboutUs';
-
-
 import services from './services';
 import {global} from './services';
 import Footer from './Footer';
@@ -90,7 +87,6 @@ class AppComponent extends Component {
   };
 
   render() {
-
     return (
       <div className="App">
         <div className={`preloader_wrapper ${this.state.isPreloader ? '' : 'hidden'}`}>
@@ -147,14 +143,14 @@ class AppComponent extends Component {
             />
 
           <Route exact path='/order' render={(props) => (
-<Order
-  {...props}
-  resetBasketPanel={this.resetBasketPanel}
-  changeHeaderPanel={this.changeHeaderPanel}
-  preloaderOn={this.preloaderOn}
-  preloaderOff={this.preloaderOff}
-/>
-)}/>
+            <Order
+              {...props}
+              resetBasketPanel={this.resetBasketPanel}
+              changeHeaderPanel={this.changeHeaderPanel}
+              preloaderOn={this.preloaderOn}
+              preloaderOff={this.preloaderOff}
+            />
+            )}/>
         </Switch>
 
         <Footer />
