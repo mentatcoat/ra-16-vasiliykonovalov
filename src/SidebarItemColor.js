@@ -6,6 +6,7 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
 import PropTypes from 'prop-types';
+import SidebarListItem from './SidebarListItem';
 
 class SidebarItemColor extends Component {
   constructor(props) {
@@ -59,16 +60,13 @@ class SidebarItemColor extends Component {
             {/*!!!нужен подкомпонент li*/}
             {/*!!!нужен цветовой класс в  li*/}
               {items.map(
-                elem=>(
-                  <li key={elem}>
-                  <a className={this.state.value===elem && 'chosen'} href="#">
-                    <div className="color beige"></div>
-                    <span className="color-name">{elem}</span>
-                  </a>
-                  </li>
-                )
-              )
-              }
+                elem=>
+                <SidebarListItem
+                key={elem}
+                elem={elem}
+                chosen={elem === this.state.value ? true: false}
+                />
+              )}
 
               {/*<li>
               <a className={this.state.value==='Бежевый' && 'chosen'} href="#">
