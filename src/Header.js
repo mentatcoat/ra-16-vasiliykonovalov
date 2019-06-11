@@ -21,7 +21,10 @@ class Header extends Component {
       isCategoriesOpen: false,
       searchField: '',
       items: null,
-      products: null
+      products: null,
+      reasons: '',
+      types: '',
+      brands: ''
     };
 
     this.onChangeSearchField = (e) => {
@@ -61,6 +64,54 @@ class Header extends Component {
 
     this.loadItems();
 
+    services.fetchAllProducts({'sortBy': this.state.sortBy})
+      .then(products=>{
+        const ids = products.map(product=>product.id);
+
+        const promisesArray = [];
+        ids.forEach(
+          id=> promisesArray.push(services.fetchProduct(id))
+        );
+        Promise.all(promisesArray)
+          .then(infos => {
+            console.log('Header got ProductInfo array===', infos);
+
+            const reasons = [];
+            const types = [];
+            const brands = [];
+
+            infos.forEach(
+              info=>{
+                if(!reasons.includes(info.reason)) reasons.push(info.reason);
+                if(!types.includes(info.type)) types.push(info.type);
+                if(!brands.includes(info.brand)) brands.push(info.brand);
+              }
+            );
+            console.log('Header got arrays');
+            console.log(reasons);
+            console.log(types);
+            console.log(brands);
+
+            this.setState({
+              reasons: reasons,
+              types: types,
+              brands: brands
+            });
+
+          }
+          );
+
+
+
+
+
+
+
+
+      });
+
+
+
     this.onSubmitHeaderSearch = (e)=>{
       e.preventDefault();
       let params = {};
@@ -75,7 +126,9 @@ class Header extends Component {
       let params = {};
       Object.assign(params, defaultCatalogueParams, {
         categoryId: this.state.chosenCategory,
-        [event.currentTarget.dataset.subcategory]: event.target.textContent
+        [event.currentTarget.dataset.subcategory]: event.target.textContent === 'Все'
+        ? ''
+        : event.target.textContent
       });
 
       this.props.setCatalogueParams(params);
@@ -118,6 +171,9 @@ class Header extends Component {
   }
 
   render() {
+    console.log('Header render() state===', this.state);
+
+
     if(!this.props.categories) return null;
     let isItemsShown = false;
     if(this.state.items && this.state.products) {
@@ -241,10 +297,20 @@ class Header extends Component {
         </nav>
         <div className={`dropped-menu ${this.state.isCategoriesOpen && 'dropped-menu_visible'}`}>
           <div className="wrapper">
-            <div className="dropped-menu__lists dropped-menu__lists_women">
+            <div className="dropped-menu__lists">
               <h3 className="dropped-menu__list-title">Повод:</h3>
               <ul onClick={this.clickSubcategory} data-subcategory='reason' className="dropped-menu__list">
-                <li className="dropped-menu__item">
+
+                {this.state.reasons && this.state.reasons.map(
+                  elem=>(
+                    <li key={elem} className="dropped-menu__item">
+                      <a href="#">{elem}</a>
+                    </li>
+                  )
+                )}
+
+
+                {/*<li className="dropped-menu__item">
                   <a href="#">Офис</a>
                 </li>
                 <li className="dropped-menu__item">
@@ -264,13 +330,21 @@ class Header extends Component {
                 </li>
                 <li className="dropped-menu__item">
                   <a href="#">Повседневное</a>
-                </li>
+                </li>*/}
               </ul>
             </div>
-            <div className="dropped-menu__lists dropped-menu__lists_three-coloumns">
+            <div className="dropped-menu__lists">
               <h3 className="dropped-menu__list-title">Категории:</h3>
               <ul onClick={this.clickSubcategory} data-subcategory='type' className="dropped-menu__list">
-                <li className="dropped-menu__item">
+              {this.state.types && this.state.types.map(
+                elem=>(
+                  <li key={elem} className="dropped-menu__item">
+                    <a href="#">{elem}</a>
+                  </li>
+                )
+              )}
+
+                {/*<li className="dropped-menu__item">
                   <a href="#">Балетки</a>
                 </li>
                 <li className="dropped-menu__item">
@@ -317,7 +391,7 @@ class Header extends Component {
                 </li>
                 <li className="dropped-menu__item">
                   <a href="#">Шлёпанцы и вьетнамки</a>
-                </li>
+                </li>*/}
               </ul>
             </div>
             <div className="dropped-menu__lists">
@@ -340,7 +414,20 @@ class Header extends Component {
             <div className="dropped-menu__lists">
               <h3 className="dropped-menu__list-title">Бренды:</h3>
               <ul onClick={this.clickSubcategory} data-subcategory='brand' className="dropped-menu__list">
+                {this.state.brands && this.state.brands.slice(0, 8).map(
+                  elem=>(
+                    <li key={elem} className="dropped-menu__item">
+                      <a href="#">{elem}</a>
+                    </li>
+                  )
+                )}
+
                 <li className="dropped-menu__item">
+                  <a href="#">Все</a>
+                </li>
+
+
+                {/*<li className="dropped-menu__item">
                   <a href="#">Albano</a>
                 </li>
                 <li className="dropped-menu__item">
@@ -360,7 +447,7 @@ class Header extends Component {
                 </li>
                 <li className="dropped-menu__item">
                   <a href="#">Все</a>
-                </li>
+                </li>*/}
               </ul>
             </div>
 

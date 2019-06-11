@@ -77,6 +77,7 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
+        console.log('got all products===', data);
         resolve(data);
       })
       .catch((err) => {
@@ -217,6 +218,70 @@ function fetchCreateOrder(info) {
   }
 }
 
+function fetchAllProducts(params) {
+  return new Promise((resolve, reject) => {
+
+  let pages;
+  let products = [];
+  // this.props.preloaderOn();
+
+  services.fetchProducts(params)
+    .then(data=>{
+      products = data.data;
+      pages = data.pages;
+
+      console.log('services.fetchAllProducts() first products===', products);
+
+      if(pages>1) {
+        let promisesArray= [];
+
+        for (let i = 2; i <= pages; i++) {
+          let newParams = Object.assign({}, params, {'page': i});
+          promisesArray.push(services.fetchProducts(newParams));
+        }
+
+        Promise.all(promisesArray)
+          .then(pages=>{
+            // this.props.preloaderOff();
+            pages.forEach(
+              page=>products.push(...page.data)
+            );
+
+
+
+            // this.setState({
+            //  favoritesIds: JSON.parse(localStorage.favorites),
+            //  allProducts: products
+            //  }
+            //  ,
+            //    this.filterFavoriteFromAll
+            //  );
+            resolve(products);
+          }
+
+        );
+
+      }
+      else {
+
+        // this.setState({
+        //  favoritesIds: JSON.parse(localStorage.favorites),
+        //  allProducts: products
+        //  }
+        //  ,
+        //    this.filterFavoriteFromAll
+        //  );
+        resolve(products);
+
+       }
+
+
+
+    });
+  });
+};
+
+services.fetchAllProducts = fetchAllProducts;
 services.fetchCategories = fetchCategories;
 services.fetchProducts = fetchProducts;
 services.fetchFeatured = fetchFeatured;

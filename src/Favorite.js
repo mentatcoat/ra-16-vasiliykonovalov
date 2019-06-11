@@ -48,41 +48,108 @@ class Favorite extends Component {
     };
 
     // ??? ниже я вытаскиваю все продукты с бекэнда постранично и собираю их в одном массиве. Далее фильтрую по id избранных продуктов. Может я не заметил другой способ проще вытащить избранные с бекэнда?
-    this.getAllProducts = (params)=>{
-      let pages;
-      let products = [];
-      this.props.preloaderOn();
 
-      services.fetchProducts(params)
-        .then(data=>{
-          products = data.data;
-          pages = data.pages;
+    // this.getAllProducts = (params)=>{
+    //   let pages;
+    //   let products = [];
+    //   this.props.preloaderOn();
+    //
+    //   services.fetchProducts(params)
+    //     .then(data=>{
+    //       products = data.data;
+    //       pages = data.pages;
+    //
+    //       if(pages>1) {
+    //         let promisesArray= [];
+    //
+    //         for (let i = 2; i <= pages; i++) {
+    //           let newParams = Object.assign({}, params, {'page': i});
+    //           promisesArray.push(services.fetchProducts(newParams));
+    //         }
+    //
+    //         Promise.all(promisesArray)
+    //           .then(pages=>{
+    //             this.props.preloaderOff();
+    //             pages.forEach(
+    //               page=>products.push(...page.data)
+    //             );
+    //             this.setState({
+    //              favoritesIds: JSON.parse(localStorage.favorites),
+    //              allProducts: products
+    //              }
+    //              ,
+    //                this.filterFavoriteFromAll
+    //              );
+    //           }
+    //         );
+    //       }
+    //       else {
+    //         this.setState({
+    //          favoritesIds: JSON.parse(localStorage.favorites),
+    //          allProducts: products
+    //          }
+    //          ,
+    //            this.filterFavoriteFromAll
+    //          );
+    //        }
+    //     });
+    // };
 
-          if(pages>1) {
-            let promisesArray= [];
+    this.initFavorite();
 
-            for (let i = 2; i <= pages; i++) {
-              let newParams = Object.assign({}, params, {'page': i});
-              promisesArray.push(services.fetchProducts(newParams));
-            }
 
-            Promise.all(promisesArray)
-              .then(pages=>{
-                this.props.preloaderOff();
-                pages.forEach(
-                  page=>products.push(...page.data)
-                );
-                this.setState({
-                 favoritesIds: JSON.parse(localStorage.favorites),
-                 allProducts: products
-                 }
-                 ,
-                   this.filterFavoriteFromAll
-                 );
-              }
-            );
-          }
-          else {
+
+    // services.fetchAllProducts()
+    //   .then(products=>{
+    //     console.log('Favorite fetchAllProducts data===', products);
+    //
+    //     this.setState({
+    //      favoritesIds: JSON.parse(localStorage.favorites),
+    //      allProducts: products
+    //      }
+    //      ,
+    //        this.filterFavoriteFromAll
+    //      );
+    //
+    //   });
+
+
+  }// END constructor
+
+
+
+
+  initFavorite = (e)=>{
+    if(!e) {
+      // this.getAllProducts({'sortBy': this.state.sortBy});
+
+      services.fetchAllProducts({'sortBy': this.state.sortBy})
+        .then(products=>{
+          console.log('Favorite fetchAllProducts data===', products);
+
+          this.setState({
+           favoritesIds: JSON.parse(localStorage.favorites),
+           allProducts: products
+           }
+           ,
+             this.filterFavoriteFromAll
+           );
+
+        });
+
+
+
+    } else {
+      this.setState({
+        sortBy: e.currentTarget.value
+      },
+      () => {
+        // this.getAllProducts({'sortBy': this.state.sortBy});
+
+        services.fetchAllProducts({'sortBy': this.state.sortBy})
+          .then(products=>{
+            console.log('Favorite fetchAllProducts data===', products);
+
             this.setState({
              favoritesIds: JSON.parse(localStorage.favorites),
              allProducts: products
@@ -90,22 +157,12 @@ class Favorite extends Component {
              ,
                this.filterFavoriteFromAll
              );
-           }
-        });
-    };
 
-    this.initFavorite();
-  }
+          });
 
-  initFavorite = (e)=>{
-    if(!e) {
-      this.getAllProducts({'sortBy': this.state.sortBy});
-    } else {
-      this.setState({
-        sortBy: e.currentTarget.value
-      },
-      () => {
-        this.getAllProducts({'sortBy': this.state.sortBy});
+
+
+
       }
       );
     }

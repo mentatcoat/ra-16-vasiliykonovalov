@@ -320,9 +320,11 @@ li a:hover {
   max-width: 1120px;
 }
 .dropped-menu__lists {
-  flex: 1;
+  /* flex: 1; */
   height: 100%;
   color: #333333;
+  flex-grow: 3;
+
 }
 .dropped-menu__lists_three-coloumns {
   flex: 4;
