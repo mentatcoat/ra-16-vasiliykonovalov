@@ -6,6 +6,7 @@ import './css/font-awesome.min.css';
 import './css/style.css';
 import './css/style-catalogue.css';
 import PropTypes from 'prop-types';
+import SidebarListItem from './SidebarListItem';
 
 class SidebarItemReason extends Component {
   constructor(props) {
@@ -58,11 +59,11 @@ class SidebarItemReason extends Component {
 
             {items.map(
               elem=>(
-
-                <li key={elem}>
-                <a className={this.state.value===elem && 'chosen'} href="#">{elem}</a>
-                </li>
-
+                <SidebarListItem
+                key={elem}
+                elem={elem}
+                chosen={elem === this.state.value ? true: false}
+                />
               )
             )
             }

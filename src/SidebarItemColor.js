@@ -17,7 +17,7 @@ class SidebarItemColor extends Component {
     };
 
     this.clickSubcategory = (event)=>{
-      if(event.target.tagName !== 'SPAN') return;
+      if(event.target.tagName !== 'A') return;
       event.preventDefault();
 
       if(this.state.value!==event.target.textContent) {
@@ -65,6 +65,7 @@ class SidebarItemColor extends Component {
                 key={elem}
                 elem={elem}
                 chosen={elem === this.state.value ? true: false}
+                showColor
                 />
               )}
 

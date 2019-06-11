@@ -41,6 +41,7 @@ class Catalogue extends Component {
     this.categoryId;
 
     this.getSortedProducts = (params)=>{
+      console.log('Catalogue getSortedProducts() params===', params);
       this.props.preloaderOn();
       services.fetchProducts(params)
         .then(data=>{
@@ -80,6 +81,9 @@ class Catalogue extends Component {
     };
 
     this.onChangeParam = (e, paramName, paramValue) => {
+      console.log('Catalogue onChangeParam() ===', e);
+      console.log('Catalogue onChangeParam() ===', paramName);
+      console.log('Catalogue onChangeParam() ===', paramValue);
       if(paramName || paramValue) {
 
         let params = Object.assign(
@@ -88,7 +92,7 @@ class Catalogue extends Component {
           {[paramName]: paramValue} );
         this.setState({
           catalogueParams: params
-        });
+        }, this.initCatalogue);
       } else {
         let params = Object.assign(
           {},
@@ -96,7 +100,7 @@ class Catalogue extends Component {
           {[e.currentTarget.name]: e.currentTarget.value} );
         this.setState({
           catalogueParams: params
-        });
+        }, this.initCatalogue);
       }
 
     }
@@ -118,6 +122,7 @@ class Catalogue extends Component {
   }
 
   initCatalogue() {
+    console.log('Catalogue initCatalogue()');
     if(this.state.catalogueParams) {
       this.getSortedProducts(this.state.catalogueParams);
       this.getCategoryMaxPrice(this.state.catalogueParams.categoryId);
@@ -130,9 +135,10 @@ class Catalogue extends Component {
       () => this.initCatalogue()
       );
     }
-    if(!isEqual(this.state.catalogueParams, prevState.catalogueParams)) {
-      this.initCatalogue();
-    }
+    // ниже не устанавливает смену min max price
+    // if(!isEqual(this.state.catalogueParams, prevState.catalogueParams)) {
+      // this.initCatalogue();
+    // }
   }
 
   render() {

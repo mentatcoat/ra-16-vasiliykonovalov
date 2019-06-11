@@ -11,13 +11,16 @@ import PropTypes from 'prop-types';
   // background: #E5DBC5;
 // }
 
-function SidebarListItem({elem, chosen}) {
+function SidebarListItem({elem, chosen, showColor}) {
 
   return (
     <li>
       <a className={chosen ? 'chosen' : ''} href="#">
-        <div style={{background: getHexByColor(elem) }} className="color"></div>
-        <span className="color-name">{elem}</span>
+        {showColor
+          ?   [<div style={{background: getHexByColor(elem) }} className="color"></div>,
+            <a className={chosen ? 'color-name chosen' : 'color-name'}>{elem}</a>]
+          : elem
+        }
       </a>
     </li>
   );

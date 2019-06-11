@@ -59,6 +59,7 @@ class SidebarItemSlider extends Component {
         maxPrice: values[1]
       });
 
+      console.log('onChangeSlider() out minMax===', minMax);
       this.debouncedOnChangeParamMin(null, 'minPrice', minMax[0]);
       this.debouncedOnChangeParamMax(null, 'maxPrice', minMax[1]);
 

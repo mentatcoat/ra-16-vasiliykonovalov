@@ -837,7 +837,7 @@ li.active {
   padding-top: 8px;
 }
 
-span.color-name {
+a.color-name {
   display: inline-block;
   padding-top: 5px;
   padding-left: 10px;
