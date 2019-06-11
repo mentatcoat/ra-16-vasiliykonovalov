@@ -21,10 +21,7 @@ class Header extends Component {
       isCategoriesOpen: false,
       searchField: '',
       items: null,
-      products: null,
-      reasons: '',
-      types: '',
-      brands: ''
+      products: null
     };
 
     this.onChangeSearchField = (e) => {
@@ -64,51 +61,51 @@ class Header extends Component {
 
     this.loadItems();
 
-    services.fetchAllProducts({'sortBy': this.state.sortBy})
-      .then(products=>{
-        const ids = products.map(product=>product.id);
-
-        const promisesArray = [];
-        ids.forEach(
-          id=> promisesArray.push(services.fetchProduct(id))
-        );
-        Promise.all(promisesArray)
-          .then(infos => {
-            console.log('Header got ProductInfo array===', infos);
-
-            const reasons = [];
-            const types = [];
-            const brands = [];
-
-            infos.forEach(
-              info=>{
-                if(!reasons.includes(info.reason)) reasons.push(info.reason);
-                if(!types.includes(info.type)) types.push(info.type);
-                if(!brands.includes(info.brand)) brands.push(info.brand);
-              }
-            );
-            console.log('Header got arrays');
-            console.log(reasons);
-            console.log(types);
-            console.log(brands);
-
-            this.setState({
-              reasons: reasons,
-              types: types,
-              brands: brands
-            });
-
-          }
-          );
-
-
-
-
-
-
-
-
-      });
+    // services.fetchAllProducts({'sortBy': this.state.sortBy})
+    //   .then(products=>{
+    //     const ids = products.map(product=>product.id);
+    //
+    //     const promisesArray = [];
+    //     ids.forEach(
+    //       id=> promisesArray.push(services.fetchProduct(id))
+    //     );
+    //     Promise.all(promisesArray)
+    //       .then(infos => {
+    //         console.log('Header got ProductInfo array===', infos);
+    //
+    //         const reasons = [];
+    //         const types = [];
+    //         const brands = [];
+    //
+    //         infos.forEach(
+    //           info=>{
+    //             if(!reasons.includes(info.reason)) reasons.push(info.reason);
+    //             if(!types.includes(info.type)) types.push(info.type);
+    //             if(!brands.includes(info.brand)) brands.push(info.brand);
+    //           }
+    //         );
+    //         console.log('Header got arrays');
+    //         console.log(reasons);
+    //         console.log(types);
+    //         console.log(brands);
+    //
+    //         this.setState({
+    //           reasons: reasons,
+    //           types: types,
+    //           brands: brands
+    //         });
+    //
+    //       }
+    //       );
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //   });
 
 
 
@@ -179,6 +176,10 @@ class Header extends Component {
     if(this.state.items && this.state.products) {
       if (this.state.items.length === this.state.products.length) isItemsShown = true;
     }
+
+    let {reasons} = this.props;
+    let {types} = this.props;
+    let {brands} = this.props;
 
     return (
       <header className="header">
@@ -301,7 +302,7 @@ class Header extends Component {
               <h3 className="dropped-menu__list-title">Повод:</h3>
               <ul onClick={this.clickSubcategory} data-subcategory='reason' className="dropped-menu__list">
 
-                {this.state.reasons && this.state.reasons.map(
+                {reasons && reasons.map(
                   elem=>(
                     <li key={elem} className="dropped-menu__item">
                       <a href="#">{elem}</a>
@@ -336,7 +337,7 @@ class Header extends Component {
             <div className="dropped-menu__lists">
               <h3 className="dropped-menu__list-title">Категории:</h3>
               <ul onClick={this.clickSubcategory} data-subcategory='type' className="dropped-menu__list">
-              {this.state.types && this.state.types.map(
+              {types && types.map(
                 elem=>(
                   <li key={elem} className="dropped-menu__item">
                     <a href="#">{elem}</a>
@@ -414,7 +415,7 @@ class Header extends Component {
             <div className="dropped-menu__lists">
               <h3 className="dropped-menu__list-title">Бренды:</h3>
               <ul onClick={this.clickSubcategory} data-subcategory='brand' className="dropped-menu__list">
-                {this.state.brands && this.state.brands.slice(0, 8).map(
+                {brands && brands.slice(0, 8).map(
                   elem=>(
                     <li key={elem} className="dropped-menu__item">
                       <a href="#">{elem}</a>

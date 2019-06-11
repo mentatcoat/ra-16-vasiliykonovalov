@@ -38,6 +38,9 @@ class SidebarItemReason extends Component {
   }
 
   render() {
+    let {items} = this.props;
+    if(!items) return null;
+
     return (
       <section className="sidebar__division">
         <div className="sidebar__occasion">
@@ -52,14 +55,26 @@ class SidebarItemReason extends Component {
             <div>
 
             <ul onClick={this.clickSubcategory}>
-            <li><a className={this.state.value==='Офис' && 'chosen'} href="#">Офис</a></li>
-            <li><a className={this.state.value==='Вечеринка' && 'chosen'} href="#">Вечеринка</a></li>
+
+            {items.map(
+              elem=>(
+
+                <li key={elem}>
+                <a className={this.state.value===elem && 'chosen'} href="#">{elem}</a>
+                </li>
+
+              )
+            )
+            }
+
+            {/*<li><a className={this.state.value==='Вечеринка' && 'chosen'} href="#">Вечеринка</a></li>
             <li><a className={this.state.value==='Свадьба' && 'chosen'} href="#">Свадьба</a></li>
             <li><a className={this.state.value==='Спорт' && 'chosen'} href="#">Спорт</a></li>
             <li><a className={this.state.value==='Путешествие' && 'chosen'} href="#">Путешествие</a></li>
             <li><a className={this.state.value==='Свидание' && 'chosen'} href="#">Свидание</a></li>
             <li><a className={this.state.value==='Дома' && 'chosen'} href="#">Дома</a></li>
-            <li><a className={this.state.value==='Произвести впечатление' && 'chosen'} href="#">Произвести впечатление</a></li>
+            <li><a className={this.state.value==='Произвести впечатление' && 'chosen'} href="#">Произвести впечатление</a></li>*/}
+
           </ul>
 
           </div>

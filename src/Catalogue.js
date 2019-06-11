@@ -136,6 +136,7 @@ class Catalogue extends Component {
   }
 
   render() {
+    console.log('Catalogue render()');
     let categoryIdPair, categoryTitle;
     categoryTitle = 'Категория не задана';
 
@@ -197,6 +198,7 @@ class Catalogue extends Component {
           <SidebarItemCatalogue
           value={this.state.catalogueParams.type}
           onChangeParam={this.onChangeParam}
+          items={this.props.types}
            />
           <div className="separator-150 separator-150-1"></div>
 
@@ -208,6 +210,7 @@ class Catalogue extends Component {
 
           <SidebarItemColor     value={this.state.catalogueParams.color}
           onChangeParam={this.onChangeParam}
+          items={this.props.colors}
           />
           <div className="separator-150 separator-150-1"></div>
 
@@ -224,6 +227,7 @@ class Catalogue extends Component {
           <SidebarItemReason
           value={this.state.catalogueParams.reason}
           onChangeParam={this.onChangeParam}
+          items={this.props.reasons}
           />
           <div className="separator-150 separator-150-1"></div>
 

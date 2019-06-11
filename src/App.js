@@ -28,7 +28,11 @@ class AppComponent extends Component {
       products: '',
       isPreloader: false,
       resetBasketDate: '',
-      panelView: null
+      panelView: null,
+      reasons: '',
+      types: '',
+      brands: '',
+      colors: ''
     };
 
     //??? полагаю что мигающий кружок получаемый через  ref не нужно записывать в состояние и дергать рендер?
@@ -58,7 +62,75 @@ class AppComponent extends Component {
       );
 
     });
-  }
+
+    services.fetchAllProducts({'sortBy': this.state.sortBy})
+      .then(products=>{
+        this.preloaderOn();
+        const ids = products.map(product=>product.id);
+
+        const promisesArray = [];
+        ids.forEach(
+          id=> promisesArray.push(services.fetchProduct(id))
+        );
+        Promise.all(promisesArray)
+          .then(infos => {
+            console.log('App got ProductInfo array===', infos);
+
+            const reasons = [];
+            const types = [];
+            const brands = [];
+            const colors = [];
+
+            infos.forEach(
+              info=>{
+                if(!reasons.includes(info.reason)) reasons.push(info.reason);
+                if(!types.includes(info.type)) types.push(info.type);
+                if(!brands.includes(info.brand)) brands.push(info.brand);
+                if(!colors.includes(info.color)) colors.push(info.color);
+              }
+            );
+            reasons.sort();
+            types.sort();
+            brands.sort();
+            colors.sort();
+
+            console.log('App got arrays');
+            console.log(reasons);
+            console.log(types);
+            console.log(brands);
+            console.log(colors);
+
+            this.preloaderOff();
+            this.setState({
+              reasons: reasons,
+              types: types,
+              brands: brands,
+              colors: colors
+            });
+
+          }
+          );
+
+      });
+
+
+
+
+
+
+
+  }// END constructor
+
+
+
+
+
+
+
+
+
+
+
 
   twinkleBasketPic = () => {
     let pic = this.basketTwinklePic;
@@ -87,6 +159,7 @@ class AppComponent extends Component {
   };
 
   render() {
+    console.log('App render()');
     return (
       <div className="App">
         <div className={`preloader_wrapper ${this.state.isPreloader ? '' : 'hidden'}`}>
@@ -101,6 +174,9 @@ class AppComponent extends Component {
           panelView={this.state.panelView}
           changeHeaderPanel={this.changeHeaderPanel}
           getBasketTwinklePic={this.getBasketTwinklePic}
+          reasons={this.state.reasons}
+          types={this.state.types}
+          brands={this.state.brands}
         />
 
         <Switch>
@@ -117,6 +193,9 @@ class AppComponent extends Component {
             <Catalogue {...props} catalogueParams={this.state.catalogueParams} categories={this.state.categories} setCatalogueParams={this.setCatalogueParams}
             preloaderOn={this.preloaderOn}
             preloaderOff={this.preloaderOff}
+            types={this.state.types}
+            colors={this.state.colors}
+            reasons={this.state.reasons}
             />)}
           />
 
