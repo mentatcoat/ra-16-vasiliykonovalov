@@ -68,14 +68,6 @@ class SidebarItemReason extends Component {
             )
             }
 
-            {/*<li><a className={this.state.value==='Вечеринка' && 'chosen'} href="#">Вечеринка</a></li>
-            <li><a className={this.state.value==='Свадьба' && 'chosen'} href="#">Свадьба</a></li>
-            <li><a className={this.state.value==='Спорт' && 'chosen'} href="#">Спорт</a></li>
-            <li><a className={this.state.value==='Путешествие' && 'chosen'} href="#">Путешествие</a></li>
-            <li><a className={this.state.value==='Свидание' && 'chosen'} href="#">Свидание</a></li>
-            <li><a className={this.state.value==='Дома' && 'chosen'} href="#">Дома</a></li>
-            <li><a className={this.state.value==='Произвести впечатление' && 'chosen'} href="#">Произвести впечатление</a></li>*/}
-
           </ul>
 
           </div>

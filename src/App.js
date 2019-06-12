@@ -74,8 +74,7 @@ class AppComponent extends Component {
         );
         Promise.all(promisesArray)
           .then(infos => {
-            console.log('App got ProductInfo array===', infos);
-
+// ??? В ТЗ не было предоставлено механизма по загрузке таких данных как массивы ниже. Я их в этой функции собираю пробегаясь по всем товарам. Механизма для подгрзуки этих характеристик товаров не было создано, чтобы не нагружать сервер лишней логикой? Или я его не заметил? 
             const reasons = [];
             const types = [];
             const brands = [];
@@ -94,12 +93,6 @@ class AppComponent extends Component {
             brands.sort();
             colors.sort();
 
-            console.log('App got arrays');
-            console.log(reasons);
-            console.log(types);
-            console.log(brands);
-            console.log(colors);
-
             this.preloaderOff();
             this.setState({
               reasons: reasons,
@@ -113,24 +106,7 @@ class AppComponent extends Component {
 
       });
 
-
-
-
-
-
-
-  }// END constructor
-
-
-
-
-
-
-
-
-
-
-
+  }
 
   twinkleBasketPic = () => {
     let pic = this.basketTwinklePic;
@@ -159,7 +135,6 @@ class AppComponent extends Component {
   };
 
   render() {
-    console.log('App render()');
     return (
       <div className="App">
         <div className={`preloader_wrapper ${this.state.isPreloader ? '' : 'hidden'}`}>

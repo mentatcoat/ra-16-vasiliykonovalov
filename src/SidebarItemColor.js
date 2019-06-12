@@ -57,8 +57,6 @@ class SidebarItemColor extends Component {
 
             <ul onClick={this.clickSubcategory}>
 
-            {/*!!!нужен подкомпонент li*/}
-            {/*!!!нужен цветовой класс в  li*/}
               {items.map(
                 elem=>
                 <SidebarListItem
@@ -68,20 +66,6 @@ class SidebarItemColor extends Component {
                 showColor
                 />
               )}
-
-              {/*<li>
-              <a className={this.state.value==='Бежевый' && 'chosen'} href="#">
-              <div className="color beige"></div>
-              <span className="color-name">Бежевый</span>
-              </a>
-              </li>
-
-              <li><a className={this.state.value==='Белый' && 'chosen'} href="#"><div className="color whitesnake"></div><span className="color-name">Белый</span></a></li>
-              <li><a className={this.state.value==='Голубой' && 'chosen'} href="#"><div className="color shocking-blue"></div><span className="color-name">Голубой</span></a></li>
-              <li><a className={this.state.value==='Жёлтый' && 'chosen'} href="#"><div className="color yellow"></div><span className="color-name">Жёлтый</span></a></li>
-              <li><a className={this.state.value==='Алый' && 'chosen'} href="#"><div className="color king-crimson"></div><span className="color-name">Алый</span></a></li>
-              <li><a className={this.state.value==='Фиолетовый' && 'chosen'} href="#"><div className="color deep-purple"></div><span className="color-name">Фиолетовый</span></a></li>
-              <li><a className={this.state.value==='Чёрный' && 'chosen'} href="#"><div className="color black-sabbath"></div><span className="color-name">Чёрный</span></a></li>*/}
 
             </ul>
 

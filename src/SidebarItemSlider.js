@@ -54,7 +54,6 @@ class SidebarItemSlider extends Component {
         maxPrice: valuesStrings[1]
       });
 
-      console.log('onChangeSlider() out minMax===', minMax);
       this.debouncedOnChangeParamMin(null, 'minPrice', minMax[0]);
       this.debouncedOnChangeParamMax(null, 'maxPrice', minMax[1]);
 
@@ -99,7 +98,6 @@ class SidebarItemSlider extends Component {
   }
 
   createSlider() {
-    console.log('createSlider() this.state===', this.state);
     if(this.state.isShown && this.shouldCreateSlider) {
         this.DOMslider = document.getElementById('priceSlider');
 

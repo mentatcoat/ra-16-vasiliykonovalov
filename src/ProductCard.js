@@ -140,26 +140,26 @@ class ProductCard extends Component {
 
 
         <main className="product-card">
-              <section className="product-card-content">
-                  <h2 className="product-card_section-name">{this.state.product && this.state.product.title}</h2>
-                  <section className="product-card-content__main-screen">
+          <section className="product-card-content">
+              <h2 className="product-card_section-name">{this.state.product && this.state.product.title}</h2>
+              <section className="product-card-content__main-screen">
 
-                      {/*<!-- Слайдер выбранного товара -->*/}
-                      {this.state.product && <ProductSlider onclick={this.pushMainpic} product={this.state.product}  />}
+                  {/*<!-- Слайдер выбранного товара -->*/}
+                  {this.state.product && <ProductSlider onclick={this.pushMainpic} product={this.state.product}  />}
 
-                      {/*<!-- Изображение выбранного товара -->*/}
+                  {/*<!-- Изображение выбранного товара -->*/}
 
-                      <div className="main-screen__favourite-product-pic">
-                      <img className={this.state.isMainPicBig ? '' : 'zoom-out'} src={this.state.mainpic} alt="main pic"/>
-                      <a href="#" onClick={this.zoommer} className="main-screen__favourite-product-pic__zoom"></a>
-                    </div>
+                  <div className="main-screen__favourite-product-pic">
+                  <img className={this.state.isMainPicBig ? '' : 'zoom-out'} src={this.state.mainpic} alt="main pic"/>
+                  <a href="#" onClick={this.zoommer} className="main-screen__favourite-product-pic__zoom"></a>
+                </div>
 
-                    {this.state.product && <ProductInfo product={this.state.product} resetBasketPanel={this.props.resetBasketPanel}
-                    twinkleBasketPic={this.props.twinkleBasketPic}
-                     />}
+                {this.state.product && <ProductInfo product={this.state.product} resetBasketPanel={this.props.resetBasketPanel}
+                twinkleBasketPic={this.props.twinkleBasketPic}
+                 />}
 
-                  </section>
               </section>
+          </section>
         </main>
 
         <OverlookedSlider match={this.props.match} />

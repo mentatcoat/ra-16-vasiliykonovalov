@@ -1,5 +1,3 @@
-//Слайдер
-
 window.requestAnimationFrame = (function () { // для поддержки requestAnimationFrame всеми браузерами
     return window.requestAnimationFrame ||
         function (callback) {

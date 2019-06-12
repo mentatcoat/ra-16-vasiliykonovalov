@@ -11,7 +11,6 @@ class NewDeals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //??? верно так? - оставил в state, только то что меняется:
       chosenCategory: '',
       first: 0,
       filtered: []

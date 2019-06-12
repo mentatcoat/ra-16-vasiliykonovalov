@@ -45,7 +45,6 @@ class OrderCart extends Component {
     )
   }
 
-
   render() {
     let cartItems = [];
 

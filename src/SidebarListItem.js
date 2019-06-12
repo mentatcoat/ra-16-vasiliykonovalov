@@ -7,10 +7,6 @@ import './css/style.css';
 import './css/style-catalogue.css';
 import PropTypes from 'prop-types';
 
-// .beige {
-  // background: #E5DBC5;
-// }
-
 function SidebarListItem({elem, chosen, showColor}) {
 
   return (

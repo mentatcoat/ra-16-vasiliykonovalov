@@ -38,7 +38,6 @@ class CatalogueItem extends Component {
 
       this.props.onToggleFavorite && this.props.onToggleFavorite();
     };
-
   }
 
   render() {

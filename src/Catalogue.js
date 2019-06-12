@@ -41,7 +41,6 @@ class Catalogue extends Component {
     this.categoryId;
 
     this.getSortedProducts = (params)=>{
-      console.log('Catalogue getSortedProducts() params===', params);
       this.props.preloaderOn();
       services.fetchProducts(params)
         .then(data=>{
@@ -76,14 +75,7 @@ class Catalogue extends Component {
       });
     };
 
-    this.clearFilterForm = ()=>{
-      this.setState({isShownSidebar: !this.state.isShownSidebar},()=>this.setState({isShownSidebar: !this.state.isShownSidebar}));
-    };
-
     this.onChangeParam = (e, paramName, paramValue) => {
-      console.log('Catalogue onChangeParam() ===', e);
-      console.log('Catalogue onChangeParam() ===', paramName);
-      console.log('Catalogue onChangeParam() ===', paramValue);
       if(paramName || paramValue) {
 
         let params = Object.assign(
@@ -122,7 +114,6 @@ class Catalogue extends Component {
   }
 
   initCatalogue() {
-    console.log('Catalogue initCatalogue()');
     if(this.state.catalogueParams) {
       this.getSortedProducts(this.state.catalogueParams);
       this.getCategoryMaxPrice(this.state.catalogueParams.categoryId);
@@ -135,14 +126,12 @@ class Catalogue extends Component {
       () => this.initCatalogue()
       );
     }
-    // ниже не устанавливает смену min max price
-    // if(!isEqual(this.state.catalogueParams, prevState.catalogueParams)) {
-      // this.initCatalogue();
-    // }
+    if(!isEqual(this.state.catalogueParams, prevState.catalogueParams)) {
+      this.initCatalogue();
+    }
   }
 
   render() {
-    console.log('Catalogue render()');
     let categoryIdPair, categoryTitle;
     categoryTitle = 'Категория не задана';
 

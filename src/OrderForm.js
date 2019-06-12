@@ -21,7 +21,6 @@ class OrderForm extends Component {
         isButtonActive: e.currentTarget.checkValidity()
       });
     };
-    
   }
 
   render() {

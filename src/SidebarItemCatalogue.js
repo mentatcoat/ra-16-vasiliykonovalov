@@ -68,19 +68,6 @@ class SidebarItemCatalogue extends Component {
                   )
                   }
 
-
-
-                  {/*<li><a className={this.state.value==='Балетки' && 'chosen'} href="#">Балетки</a></li>
-                  <li><a className={this.state.value==='Босоножки и сандалии' && 'chosen'} href="#">Босоножки и сандалии</a></li>
-                  <li><a className={this.state.value==='Ботильоны' && 'chosen'} href="#">Ботильоны</a></li>
-                  <li><a className={this.state.value==='Ботинки' && 'chosen'} href="#">Ботинки</a></li>
-                  <li><a className={this.state.value==='Ботфорты' && 'chosen'} href="#">Ботфорты</a></li>
-                  <li><a className={this.state.value==='Галоши' && 'chosen'} href="#">Галоши</a></li>
-                  <li><a className={this.state.value==='Тапочки' && 'chosen'} href="#">Тапочки</a></li>
-                  <li><a className={this.state.value==='Туфли' && 'chosen'} href="#">Туфли</a></li>
-                  <li><a className={this.state.value==='Сапоги' && 'chosen'} href="#">Сапоги</a></li>*/}
-
-
                 </ul>
 
                 </div>

@@ -77,7 +77,6 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
-        console.log('services.fetchProducts() products===', data);
         resolve(data);
       })
       .catch((err) => {
@@ -223,14 +222,11 @@ function fetchAllProducts(params) {
 
   let pages;
   let products = [];
-  // this.props.preloaderOn();
 
   services.fetchProducts(params)
     .then(data=>{
       products = data.data;
       pages = data.pages;
-
-      console.log('services.fetchAllProducts() first products===', products);
 
       if(pages>1) {
         let promisesArray= [];
@@ -242,20 +238,10 @@ function fetchAllProducts(params) {
 
         Promise.all(promisesArray)
           .then(pages=>{
-            // this.props.preloaderOff();
             pages.forEach(
               page=>products.push(...page.data)
             );
 
-
-
-            // this.setState({
-            //  favoritesIds: JSON.parse(localStorage.favorites),
-            //  allProducts: products
-            //  }
-            //  ,
-            //    this.filterFavoriteFromAll
-            //  );
             resolve(products);
           }
 
@@ -263,19 +249,8 @@ function fetchAllProducts(params) {
 
       }
       else {
-
-        // this.setState({
-        //  favoritesIds: JSON.parse(localStorage.favorites),
-        //  allProducts: products
-        //  }
-        //  ,
-        //    this.filterFavoriteFromAll
-        //  );
         resolve(products);
-
        }
-
-
 
     });
   });

@@ -61,54 +61,6 @@ class Header extends Component {
 
     this.loadItems();
 
-    // services.fetchAllProducts({'sortBy': this.state.sortBy})
-    //   .then(products=>{
-    //     const ids = products.map(product=>product.id);
-    //
-    //     const promisesArray = [];
-    //     ids.forEach(
-    //       id=> promisesArray.push(services.fetchProduct(id))
-    //     );
-    //     Promise.all(promisesArray)
-    //       .then(infos => {
-    //         console.log('Header got ProductInfo array===', infos);
-    //
-    //         const reasons = [];
-    //         const types = [];
-    //         const brands = [];
-    //
-    //         infos.forEach(
-    //           info=>{
-    //             if(!reasons.includes(info.reason)) reasons.push(info.reason);
-    //             if(!types.includes(info.type)) types.push(info.type);
-    //             if(!brands.includes(info.brand)) brands.push(info.brand);
-    //           }
-    //         );
-    //         console.log('Header got arrays');
-    //         console.log(reasons);
-    //         console.log(types);
-    //         console.log(brands);
-    //
-    //         this.setState({
-    //           reasons: reasons,
-    //           types: types,
-    //           brands: brands
-    //         });
-    //
-    //       }
-    //       );
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //   });
-
-
-
     this.onSubmitHeaderSearch = (e)=>{
       e.preventDefault();
       let params = {};
@@ -168,8 +120,6 @@ class Header extends Component {
   }
 
   render() {
-    // console.log('Header render() state===', this.state);
-
 
     if(!this.props.categories) return null;
     let isItemsShown = false;
@@ -310,28 +260,6 @@ class Header extends Component {
                   )
                 )}
 
-
-                {/*<li className="dropped-menu__item">
-                  <a href="#">Офис</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Вечеринка</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Свадьба</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Спорт</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Море</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Дом</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Повседневное</a>
-                </li>*/}
               </ul>
             </div>
             <div className="dropped-menu__lists">
@@ -344,55 +272,6 @@ class Header extends Component {
                   </li>
                 )
               )}
-
-                {/*<li className="dropped-menu__item">
-                  <a href="#">Балетки</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Босоножки</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Ботильоны</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Ботинки</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Ботфорты</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Галоши</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Кеды и кроссовки</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Мокасины</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Полусапоги</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Резиновые сапоги</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Сабо</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Сапоги</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Сникерсы</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Тапочки</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Туфли</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Шлёпанцы и вьетнамки</a>
-                </li>*/}
               </ul>
             </div>
             <div className="dropped-menu__lists">
@@ -427,28 +306,6 @@ class Header extends Component {
                   <a href="#">Все</a>
                 </li>
 
-
-                {/*<li className="dropped-menu__item">
-                  <a href="#">Albano</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Ballin</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Baldinini</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Damlax</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Pegia</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Renzi</a>
-                </li>
-                <li className="dropped-menu__item">
-                  <a href="#">Все</a>
-                </li>*/}
               </ul>
             </div>
 
