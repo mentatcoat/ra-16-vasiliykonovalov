@@ -1,10 +1,10 @@
 function debounce(callback, delay) {
   let timeout;
-  return (arg1, arg2) => {
+  return (...rest) => {
     clearTimeout(timeout);
     timeout = setTimeout(function() {
       timeout = null;
-      callback(arg1, arg2);
+      callback(...rest);
     }, delay);
   };
 };

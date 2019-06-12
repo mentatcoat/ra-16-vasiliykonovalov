@@ -168,7 +168,7 @@ class Header extends Component {
   }
 
   render() {
-    console.log('Header render() state===', this.state);
+    // console.log('Header render() state===', this.state);
 
 
     if(!this.props.categories) return null;

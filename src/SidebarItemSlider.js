@@ -20,20 +20,14 @@ class SidebarItemSlider extends Component {
       isShown: false,
       value: '',
       minPrice: '0',
-      maxPrice: '100000',
+      maxPrice: '100 000',
       categoryMaxPrice: this.props.categoryMaxPrice
     };
     this.shouldCreateSlider = true;
+
     this.debouncedOnChangeParamMin = debounce( this.props.onChangeParam, 2000);
     this.debouncedOnChangeParamMax = debounce( this.props.onChangeParam, 2000);
 
-    this.clickSubcategory = (event)=>{
-      if(event.target.tagName !== 'A') return;
-      event.preventDefault();
-      this.setState({
-        value: this.state.value!==event.target.textContent ? event.target.textContent : ''
-      });
-    }
     this.clickDrawer = ()=>{
       if (!this.state.isShown) {
         this.shouldCreateSlider = true;
@@ -47,16 +41,17 @@ class SidebarItemSlider extends Component {
 
     this.onChangeSlider = (values)=>{
       let minMax = [];
-      values = values.map((value, index)=>{
+      let valuesStrings = values.map((value, index)=>{
         minMax[index] = Number.parseInt(value, 10);
         return minMax[index].toLocaleString();
       });
       // эти идут в фильтр:
       this.minPrice = minMax[0];
       this.maxPrice = minMax[1];
+      // эти идут в представление:
       this.setState({
-        minPrice: values[0],
-        maxPrice: values[1]
+        minPrice: valuesStrings[0],
+        maxPrice: valuesStrings[1]
       });
 
       console.log('onChangeSlider() out minMax===', minMax);
@@ -104,10 +99,12 @@ class SidebarItemSlider extends Component {
   }
 
   createSlider() {
+    console.log('createSlider() this.state===', this.state);
     if(this.state.isShown && this.shouldCreateSlider) {
         this.DOMslider = document.getElementById('priceSlider');
 
-      noUiSlider.create(this.DOMslider, {
+      noUiSlider.create(this.DOMslider,
+        {
           start: [this.minPrice || 0, this.maxPrice || 1000000],
           connect: [false, true, false],
           range: {
@@ -118,6 +115,7 @@ class SidebarItemSlider extends Component {
           cssClasses: this.noUiSliderClasses
         }
       );
+
       this.DOMslider.noUiSlider.on('slide', this.onChangeSlider);
       this.shouldCreateSlider = false;
     }
@@ -125,12 +123,17 @@ class SidebarItemSlider extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if(this.props.categoryMaxPrice !== prevProps.categoryMaxPrice) {
+      this.minPrice = null;
+      this.maxPrice = null;
       this.setState({
+        isShown: false,
+        minPrice: '0',
         maxPrice: this.props.categoryMaxPrice.toLocaleString(),
         categoryMaxPrice: this.props.categoryMaxPrice
       }, this.createSlider);
-    }
+    } else {
     this.createSlider();
+    }
   }
 
   render() {
@@ -152,7 +155,7 @@ class SidebarItemSlider extends Component {
               <div className="counter">
                 <input form='123' name='minPrice' type="text" className="input-1" value={this.state.minPrice}/>
                 <div className="input-separator"></div>
-                <input form='123' name='maxPrice' type="text" className="input-2" value={this.state.maxPrice || this.state.categoryMaxPrice}/>
+                <input form='123' name='maxPrice' type="text" className="input-2" value={this.state.maxPrice}/>
               </div>
 
             </div>

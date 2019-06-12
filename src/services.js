@@ -77,7 +77,7 @@ function fetchProducts(params) {
         return res.json();
       })
       .then(data=> {
-        console.log('got all products===', data);
+        console.log('services.fetchProducts() products===', data);
         resolve(data);
       })
       .catch((err) => {
